@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is My Leadership Style? — Metisfy</title>
+<style>
+:root {
+  --purple-dark:  #3B2678;
+  --purple-mid:   #5A3EA0;
+  --purple-soft:  #7B5EC8;
+  --purple-light: #EDE8F7;
+  --purple-pale:  #F7F5FC;
+  --teal:         #1D7A6E;
+  --teal-light:   #E5F5F3;
+  --amber:        #B86A00;
+  --amber-light:  #FFF6E8;
+  --coral:        #C44B30;
+  --coral-light:  #FDF0ED;
+  --slate:        #2E4A6B;
+  --slate-light:  #EAF0F7;
+  --sage:         #4A7C59;
+  --sage-light:   #EAF4EE;
+  --blue:         #6B9FD4;
+  --blue-light:   #EAF3FC;
+  --grey-dark:    #3D3B4F;
+  --grey-mid:     #7A7890;
+  --grey-border:  #D4CFF0;
+  --white:        #FFFFFF;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --shadow: 0 2px 16px rgba(58,38,120,0.08),0 1px 4px rgba(58,38,120,0.05);
+  --shadow-lg: 0 8px 32px rgba(58,38,120,0.13),0 2px 8px rgba(58,38,120,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri','Calibri Light',sans-serif;background:#fff;color:var(--grey-dark);line-height:1.6;}
+.shell{max-width:760px;margin:0 auto;padding:0 24px 100px;}
+.site-header{padding:28px 0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--grey-border);margin-bottom:48px;}
+.logo img{height:38px;width:auto;display:block;}
+.header-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);}
+.hero{margin-bottom:44px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.hero-title{font-size:clamp(24px,5vw,40px);font-weight:700;color:var(--purple-dark);line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;}
+.hero-body{font-size:16px;color:var(--grey-mid);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-pill{display:flex;align-items:center;gap:6px;background:var(--purple-pale);border:1px solid var(--grey-border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--grey-dark);font-weight:500;}
+.hero-pill svg{width:13px;height:13px;color:var(--purple-mid);flex-shrink:0;}
+.philosophy-section{margin-bottom:40px;}
+.philosophy-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.principle-card{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow);}
+.principle-num{width:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff;}
+.principle-body{flex:1;padding:16px 18px;}
+.principle-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.principle-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+.start-card{background:#fff;border:1px solid var(--grey-border);border-radius:24px;padding:32px;box-shadow:var(--shadow);margin-bottom:20px;}
+.start-card-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.dims-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+.dim-start-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:var(--purple-pale);border-radius:10px;font-size:13px;font-weight:500;color:var(--purple-dark);line-height:1.35;}
+.dim-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.scale-preview{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:24px;}
+.scale-pip{text-align:center;padding:8px 4px;border-radius:8px;border:1px solid var(--grey-border);cursor:default;position:relative;}
+.scale-pip-num{font-size:20px;font-weight:700;line-height:1;margin-bottom:2px;}
+.scale-pip-lbl{font-size:11px;color:var(--grey-mid);}
+.scale-pip-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:12px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;}
+.scale-pip-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--purple-dark);}
+.scale-pip:hover .scale-pip-tooltip{display:block;}
+.start-note{font-size:14px;color:var(--grey-mid);line-height:1.65;margin-bottom:24px;}
+.start-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:var(--purple-dark);color:#fff;border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);}
+.start-btn:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.25);}
+.progress-wrap{margin-bottom:32px;}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:8px;}
+.progress-dim{font-size:13px;font-weight:600;color:var(--purple-mid);}
+.progress-frac{font-size:12px;color:var(--grey-mid);}
+.progress-track{height:5px;background:var(--grey-border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple-mid),var(--purple-soft));transition:width 0.4s var(--ease);width:0%;}
+.dim-chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:6px;}
+.dim-subtitle{font-size:14px;font-style:italic;color:var(--grey-mid);margin-bottom:20px;}
+.question-card{background:#fff;border:1px solid var(--grey-border);border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);transition:box-shadow 0.2s var(--ease);}
+.question-card:hover{box-shadow:var(--shadow-lg);}
+.q-top{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 14px;border-bottom:1px solid var(--purple-pale);}
+.q-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.q-text{font-size:16px;font-weight:600;color:var(--purple-dark);line-height:1.45;}
+.freq-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 14px;}
+.freq-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--grey-border);border-radius:10px;background:#fff;cursor:pointer;font-family:inherit;transition:all 0.18s var(--ease);position:relative;}
+.freq-btn:hover{border-color:var(--purple-mid);background:var(--purple-pale);}
+.freq-btn.selected{border-color:var(--purple-mid);background:var(--purple-light);}
+.f-num{font-size:20px;font-weight:700;color:var(--grey-mid);line-height:1;transition:color 0.18s;}
+.f-lbl{font-size:10px;color:var(--grey-mid);text-align:center;line-height:1.3;}
+.f-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;pointer-events:none;}
+.f-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--purple-dark);}
+.freq-btn:hover .f-tooltip{display:block;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:100px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);border:none;}
+.btn-ghost{background:transparent;color:var(--grey-mid);border:1.5px solid var(--grey-border);}
+.btn-ghost:hover{border-color:var(--purple-mid);color:var(--purple-mid);}
+.btn-primary{background:var(--purple-dark);color:#fff;}
+.btn-primary:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.22);}
+.btn-primary:disabled{background:var(--grey-border);color:var(--grey-mid);cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-teal:hover{background:#155f55;transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,122,110,0.3);}
+.btn svg{width:15px;height:15px;}
+.results-hero{text-align:center;padding:44px 0 32px;}
+.results-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:8px;}
+.results-title{font-size:32px;font-weight:700;color:var(--purple-dark);margin-bottom:10px;letter-spacing:-0.3px;}
+.results-sub{font-size:15px;color:var(--grey-mid);max-width:480px;margin:0 auto;line-height:1.7;}
+.section-heading{font-size:20px;font-weight:700;color:var(--purple-dark);margin-bottom:4px;letter-spacing:-0.2px;}
+.section-sub{font-size:14px;color:var(--grey-mid);margin-bottom:20px;}
+.divider{height:1px;background:var(--grey-border);margin:36px 0;}
+.score-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.score-label{font-size:12px;font-weight:600;width:170px;flex-shrink:0;line-height:1.3;}
+.score-track{flex:1;height:10px;background:var(--grey-border);border-radius:5px;overflow:hidden;}
+.score-bar{height:100%;border-radius:5px;transition:width 1s var(--ease);width:0%;}
+.score-right{width:130px;flex-shrink:0;display:flex;align-items:center;gap:5px;justify-content:flex-end;}
+.score-num{font-size:13px;font-weight:700;}
+.band-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;}
+.overuse-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;background:#FDF0ED;color:#C44B30;white-space:nowrap;}
+.profile-group{margin-bottom:28px;}
+.profile-dim-header{padding:14px 18px;border-radius:12px;margin-bottom:12px;}
+.profile-dim-name{font-size:16px;font-weight:700;color:#fff;line-height:1.3;}
+.profile-dim-sub{font-size:12px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:3px;}
+.profile-card{background:#fff;border:1px solid var(--grey-border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px;}
+.overuse-card{background:#fff;border:1px solid #F0C4B8;border-left:3px solid var(--coral);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px;}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid var(--purple-pale);}
+.overuse-header{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid #FDE8E0;background:#FFF8F6;}
+.profile-level{font-size:16px;font-weight:700;color:var(--purple-dark);}
+.overuse-level{font-size:16px;font-weight:700;color:var(--coral);}
+.profile-badge{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;}
+.profile-body{padding:14px 18px;}
+.profile-desc{font-size:14px;color:var(--grey-dark);line-height:1.65;margin-bottom:12px;}
+.watch-box{display:flex;gap:8px;background:var(--amber-light);border:1px solid #F0DEBC;border-left:3px solid var(--amber);border-radius:6px;padding:10px 13px;}
+.watch-label{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:13px;color:#4A3800;line-height:1.6;}
+.pattern-section{background:var(--purple-pale);border-radius:20px;padding:28px;margin-bottom:32px;}
+.pattern-intro{font-size:14px;color:var(--grey-mid);line-height:1.65;margin-bottom:20px;}
+.pattern-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:12px;}
+.pattern-header{display:flex;align-items:stretch;border-radius:14px 14px 0 0;overflow:hidden;}
+.pattern-stripe{width:8px;flex-shrink:0;}
+.pattern-header-body{flex:1;padding:14px 18px 12px;border-bottom:1px solid var(--purple-pale);}
+.pattern-name{font-size:17px;font-weight:700;margin-bottom:4px;}
+.pattern-signal{font-size:12px;font-style:italic;color:var(--grey-mid);}
+.pattern-body{padding:14px 18px;}
+.pattern-desc{font-size:14px;color:var(--grey-dark);line-height:1.65;margin-bottom:12px;}
+.pattern-signs{list-style:none;margin-bottom:12px;display:flex;flex-direction:column;gap:6px;}
+.pattern-signs li{display:flex;gap:8px;font-size:13px;color:var(--grey-mid);line-height:1.5;align-items:flex-start;}
+.p-dot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+.connection-box{display:flex;gap:8px;background:var(--teal-light);border:1px solid #B8DDD8;border-left:3px solid var(--teal);border-radius:6px;padding:10px 13px;margin-top:8px;}
+.connection-label{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap;padding-top:2px;}
+.connection-text{font-size:13px;color:#1A4A44;line-height:1.6;}
+.no-pattern{background:var(--purple-light);border-radius:10px;padding:16px 20px;font-size:14px;color:var(--slate);line-height:1.65;font-style:italic;}
+.reflection-box{background:var(--purple-pale);border-left:3px solid var(--purple-mid);border-radius:8px;padding:18px 22px;margin-bottom:32px;}
+.reflection-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.reflection-text{font-size:15px;font-style:italic;color:var(--purple-dark);line-height:1.7;}
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.next-card{border:1px solid var(--grey-border);border-radius:14px;padding:18px;transition:all 0.2s var(--ease);text-decoration:none;display:block;}
+.next-card:hover:not(.coming-soon){box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:var(--purple-mid);}
+.next-card.coming-soon{opacity:0.6;cursor:default;}
+.next-card-flag{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+.next-card-title{font-size:15px;font-weight:700;color:var(--purple-dark);margin-bottom:5px;line-height:1.3;}
+.next-card-why{font-size:13px;color:var(--grey-mid);line-height:1.5;}
+.next-card-arrow{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;margin-top:10px;}
+.next-card-arrow svg{width:14px;height:14px;}
+.kb-slot{background:var(--purple-pale);border:1px dashed var(--grey-border);border-radius:14px;padding:20px 22px;margin-top:16px;}
+.kb-slot-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:6px;}
+.kb-slot-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+.results-footer{text-align:center;padding-top:28px;border-top:1px solid var(--grey-border);margin-top:36px;}
+.results-footer p{font-size:13px;color:var(--grey-mid);margin-bottom:14px;}
+.footer-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.38s var(--ease) both;}
+.fade-up:nth-child(1){animation-delay:0.04s;}
+.fade-up:nth-child(2){animation-delay:0.09s;}
+.fade-up:nth-child(3){animation-delay:0.14s;}
+.fade-up:nth-child(4){animation-delay:0.19s;}
+.fade-up:nth-child(5){animation-delay:0.24s;}
+@media(max-width:540px){
+  .dims-grid{grid-template-columns:1fr;}
+  .next-grid{grid-template-columns:1fr;}
+  .score-label{width:120px;font-size:11px;}
+  .f-lbl{display:none;}
+}
+@media print{
+  .site-header,.hero,.philosophy-section,#start-screen,#quiz-screen,.results-footer,.progress-wrap,.nav-row{display:none!important;}
+  body{font-size:12px;}
+  .shell{max-width:100%;padding:0 16px;}
+  .profile-card,.pattern-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;}
+  .score-bar,.band-pill,.profile-badge,.watch-box,.reflection-box,.profile-dim-header,.principle-num,.pattern-stripe,.overuse-card{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="site-header">
+  <a href="#" class="logo"><img src="data:image/jpeg;base64,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" alt="Metisfy"></a>
+  <span class="header-label">Leadership Self-Assessment</span>
+</header>
+
+<div id="start-screen">
+  <div class="hero fade-up">
+    <p class="eyebrow">My Leadership Shift</p>
+    <h1 class="hero-title">What Is My Leadership Style?</h1>
+    <p class="hero-body">Effective leaders don’t rely on one style — they read the situation and flex. This assessment explores the six styles of leadership influence, how strongly you draw on each, and where your range may have gaps that are costing the people you lead.</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg>8–10 minutes</span>
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 7h6M5 10h4"/></svg>30 statements</span>
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l2 4 4.5.5-3.2 3.1.8 4.4L8 12l-4.1 2 .8-4.4L1.5 6.5 6 6z"/></svg>6 styles + pattern profile</span>
+    </div>
+  </div>
+
+  <div class="philosophy-section fade-up">
+    <p class="philosophy-title">The leadership styles philosophy</p>
+    <div id="philosophy-cards"></div>
+  </div>
+
+  <div class="start-card fade-up">
+    <p class="start-card-title">Six leadership styles</p>
+    <div class="dims-grid">
+      <div class="dim-start-item"><span class="dim-dot" style="background:#5A3EA0"></span>Transformational</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#1D7A6E"></span>Coaching</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#4A7C59"></span>Servant</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#2E4A6B"></span>Democratic</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#C44B30"></span>Directive</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#B86A00"></span>Affiliative</div>
+    </div>
+    <p class="start-card-title">How frequently is this true of me?</p>
+    <div class="scale-preview">
+      <div class="scale-pip" style="background:#FDF0ED;border-color:#F0C4B8"><div class="scale-pip-num" style="color:#C44B30">1</div><div class="scale-pip-lbl">Never</div><span class="scale-pip-tooltip">Never</span></div>
+      <div class="scale-pip" style="background:#FFF6E8;border-color:#F0DEBC"><div class="scale-pip-num" style="color:#B86A00">2</div><div class="scale-pip-lbl">Rarely</div><span class="scale-pip-tooltip">Rarely</span></div>
+      <div class="scale-pip" style="background:#F7F5FC;border-color:#D4CFF0"><div class="scale-pip-num" style="color:#7A7890">3</div><div class="scale-pip-lbl">Sometimes</div><span class="scale-pip-tooltip">Sometimes</span></div>
+      <div class="scale-pip" style="background:#E5F5F3;border-color:#B8DDD8"><div class="scale-pip-num" style="color:#1D7A6E">4</div><div class="scale-pip-lbl">Often</div><span class="scale-pip-tooltip">Often</span></div>
+      <div class="scale-pip" style="background:#EDE8F7;border-color:#C0B0E8"><div class="scale-pip-num" style="color:#5A3EA0">5</div><div class="scale-pip-lbl">Always</div><span class="scale-pip-tooltip">Always</span></div>
+    </div>
+    <p class="start-note">Think about how you actually lead right now, not how you would like to. This assessment uses a frequency scale — how often each statement is true of you. Hover or tap any number to see the full label.</p>
+    <button class="start-btn" onclick="startAssessment()">
+      Begin assessment
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="quiz-screen" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-dim" id="prog-label">Transformational</span>
+      <span class="progress-frac" id="prog-frac">0 / 30 answered</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="questions-area"></div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" id="btn-back" onclick="goBack()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 8H3M7 4L3 8l4 4"/></svg>Back
+    </button>
+    <button class="btn btn-primary" id="btn-next" onclick="goNext()" disabled>
+      Next<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="results-screen" style="display:none"></div>
+</div>
+
+<script>
+const FREQ_LABELS = ['Never','Rarely','Sometimes','Often','Always'];
+const FREQ_SHORT  = ['Never','Rarely','Sometimes','Often','Always'];
+const FREQ_COLORS = ['#C44B30','#B86A00','#7A7890','#1D7A6E','#5A3EA0'];
+
+const philosophy = [
+  { num:'1', title:'Leadership style is not personality. It is a choice.', text:'Most leaders have a default style — one shaped by experience, temperament and what got rewarded in the past. The most effective leaders understand their default, develop their range, and make conscious choices about how to lead in each situation rather than simply repeating what feels natural.', color:'#5A3EA0', bg:'#F7F5FC' },
+  { num:'2', title:'Every style has a cost when overused.', text:'There is no single best leadership style. Each of the six styles is powerful in the right context and damaging when over-applied. The Directive style that cuts through a crisis becomes the control that kills initiative. The Affiliative style that rebuilds trust becomes the warmth that avoids honest feedback. Range matters more than strength in any one style.', color:'#1D7A6E', bg:'#E5F5F3' },
+  { num:'3', title:'Your gaps cost the people you lead.', text:'A leader who can only inspire but never direct leaves their team without clarity. A leader who can only direct but never coach leaves their team without growth. The styles you underuse are not neutral absences — they are situations where the people around you are not getting what they need from you.', color:'#C44B30', bg:'#FDF0ED' },
+];
+
+const pc = document.getElementById('philosophy-cards');
+philosophy.forEach(p => {
+  pc.innerHTML += `<div class="principle-card" style="background:${p.bg}">
+    <div class="principle-num" style="background:${p.color}">${p.num}</div>
+    <div class="principle-body">
+      <div class="principle-title" style="color:${p.color}">${p.title}</div>
+      <div class="principle-text">${p.text}</div>
+    </div>
+  </div>`;
+});
+
+const dims = [
+  { id:'transformational', title:'Transformational', subtitle:'How you influence through vision and meaning', color:'#5A3EA0', bg:'#F7F5FC',
+    qs:['I connect the work my team does to a purpose that is bigger than the immediate task.','I help people see possibilities in situations where others mainly see problems or obstacles.','I regularly challenge my team to think differently about how they work and what they are trying to achieve.','When things get difficult, I remind people why the work matters rather than just refocusing on the task.','People around me would say I genuinely believe in what we are trying to build — it comes through in how I show up.'] },
+  { id:'coaching', title:'Coaching', subtitle:'How you influence through questions and development', color:'#1D7A6E', bg:'#E5F5F3',
+    qs:['When someone comes to me with a problem, my first instinct is to ask questions rather than provide the answer.','I invest time in understanding what each person I lead is trying to grow towards — not just what they need to deliver.','I hold back from solving things myself when letting someone else work it through would develop them more.','I give feedback in a way that helps people understand themselves better, not just correct what went wrong.','I am genuinely patient with someone working something out slowly when I could resolve it faster myself.'] },
+  { id:'servant', title:'Servant', subtitle:'How you influence by putting others’ needs first', color:'#4A7C59', bg:'#EAF4EE',
+    qs:['I regularly ask myself what I can remove or change to make it easier for my team to do their best work.','When there is a difficult or unwanted task, I am willing to take it on myself rather than passing it down.','The people I lead would say that my role is to serve their success, not the other way around.','When my team succeeds, I make sure credit goes to them rather than to me.','I am willing to make myself less visible or less important so that the people I lead can step forward.'] },
+  { id:'democratic', title:'Democratic', subtitle:'How you influence through inclusion and shared ownership', color:'#2E4A6B', bg:'#EAF0F7',
+    qs:['I involve the people affected by a decision in making it, even when I could make it faster on my own.','I actively seek out perspectives that challenge or differ from my own before deciding.','People on my team would say they feel genuine ownership over how the work gets done.','When I ask for input and then make a different decision, I explain my reasoning honestly to the people involved.','People on my team feel safe enough to tell me when they think I am wrong.'] },
+  { id:'directive', title:'Directive', subtitle:'How you influence through clarity and decisive action', color:'#C44B30', bg:'#FDF0ED',
+    qs:['When a situation is unclear or uncertain, I step in and give people a clear direction to follow.','I set non-negotiable standards and follow through consistently when they are not met.','In a crisis I take charge quickly and decisively rather than consulting or waiting for consensus.','I know when a situation calls for me to step back and not take charge, even when it would feel more comfortable to do so.','When I set a standard or expectation I follow up on it — I do not let things slide.'] },
+  { id:'affiliative', title:'Affiliative', subtitle:'How you influence through relationship and emotional connection', color:'#B86A00', bg:'#FFF6E8',
+    qs:['I pay attention to the emotional state of my team and adjust how I lead based on what I notice.','I prioritise repairing a relationship or rebuilding trust before focusing on the task at hand.','People on my team would describe me as someone who genuinely cares about them as people, not just as performers.','I notice when someone on my team is not themselves and I find a way to check in with them.','When I need to address someone’s performance, I find a way to do it that preserves the relationship rather than choosing one over the other.'] },
+];
+
+const profiles = {
+  transformational: {
+    overuse: 'At this level, watch whether the vision is connecting clearly enough to the concrete, day-to-day work people are actually doing. Inspiration that floats too far above operational reality can create enthusiasm without traction — and quietly frustrate people who need clarity as much as they need meaning.',
+    strong: { subtitle:'You lead with vision, energy and a genuine sense of purpose.', desc:'Your team understands not just what they are doing but why it matters. You help people find meaning in their work and you keep that connection alive, especially when things are hard. This is one of the most powerful and sustaining forms of leadership influence.', watch:'Inspiration without enough grounding in day-to-day reality can leave people energised but unclear about what to actually do next. Make sure your vision connects explicitly to the specific work in front of your team right now.' },
+    moderate: { subtitle:'You draw on vision and purpose without making it your dominant approach.', desc:'You connect your team to meaning when it matters and you believe in what you are building — but this isn’t consistently the primary lens through which you lead. Your team gets enough direction and purpose to function well.', watch:'The moments when people most need to hear why the work matters are often the most pressured ones — precisely when leaders tend to drop the narrative and focus on tasks. Build the habit of reconnecting people to purpose in difficult moments, not just good ones.' },
+    light: { subtitle:'Vision and meaning-making are not yet a strong feature of your influence.', desc:'You may be focusing primarily on delivery, relationships or process. These matter. But without a compelling sense of purpose, teams can become technically competent and quietly disengaged at the same time.', watch:'You don’t need grand speeches. Start with one honest conversation about why the work your team does genuinely matters — to the people you serve, not just the organisation. That is the foundation of transformational influence.' }
+  },
+  coaching: {
+    overuse: 'At this level, watch for moments that need direct leadership — a clear decision, a firm standard, a straight answer — that you may be redirecting into a coaching conversation instead. Not everything is a development opportunity. Sometimes people need you to lead, not coach, and recognising the difference is itself a mark of excellent leadership.',
+    strong: { subtitle:'You develop people through questions, patience and a belief in their potential.', desc:'Your team grows under your leadership in ways they may not fully recognise yet. You resist the pull to solve, direct and fix — and that restraint is one of the rarest and most valuable things a leader can offer. People leave conversations with you more capable than when they arrived.', watch:'There are moments that genuinely need a direct answer, a clear decision or firm direction — and turning those into coaching conversations can frustrate people who need to move. Know when to set the questions aside and simply lead.' },
+    moderate: { subtitle:'You coach when the opportunity arises but it isn’t your default mode.', desc:'You care about developing your people and you create space for them to think. But the coaching instinct isn’t yet reliably your first response — especially under pressure, when the pull to solve is strongest.', watch:'The highest-leverage coaching moments are often the busiest ones — when someone brings you a problem and you have ten things to do. Building the habit of asking one good question before offering any answer costs almost nothing and compounds significantly over time.' },
+    light: { subtitle:'Coaching and development are not yet a strong feature of how you influence.', desc:'You may be influencing primarily through direction, relationships or vision. Your team is getting things done. But if people don’t feel they are being developed, they will eventually stop bringing you their real problems — and start looking elsewhere for growth.', watch:'Start with one question you could ask instead of an answer you could give. “What have you already tried?” or “What do you think the options are?” takes thirty seconds and sends a message that you believe in the other person’s ability to work things out.' }
+  },
+  servant: {
+    overuse: 'At this level, watch whether your commitment to serving others is coming at the cost of your own authority, visibility and leadership presence. Teams need leaders who are willing to take up space, make difficult calls and be accountable for direction — not just remove obstacles. Selflessness is a strength. Invisibility is a gap.',
+    strong: { subtitle:'You lead by clearing the path and putting your team’s success before your own.', desc:'You create the conditions for others to thrive. Your team trusts you because they know your agenda is their success, not your own advancement. This is an increasingly rare form of leadership and it builds a quality of loyalty and commitment that directive styles simply cannot.', watch:'Servant leadership at its strongest can sometimes tip into under-investing in your own authority, visibility and voice as a leader. The people around you need you to be present and powerful, not just selfless. Make sure you are not disappearing in the service of others.' },
+    moderate: { subtitle:'You put others first without losing sight of your own role and authority.', desc:'You are genuinely invested in your team’s success and you remove obstacles when you see them. But serving others isn’t yet the organising principle of how you lead — it’s one element of a broader approach.', watch:'Consider whether there are moments where your team is blocked by something you have the authority to fix — and you haven’t moved on it yet. Servant leadership is often most visible in the small, fast acts of removing friction.' },
+    light: { subtitle:'Serving others’ success is not yet a strong driver of how you influence.', desc:'Your influence may flow primarily through vision, direction or relationship. These are legitimate. But a team that doesn’t feel their leader is working in service of them will eventually stop working fully in service of the mission.', watch:'Ask your team directly: “What is getting in the way of you doing your best work?” Then act on at least one answer. That single gesture, repeated consistently, will shift how your leadership lands more than almost anything else you can do.' }
+  },
+  democratic: {
+    overuse: 'At this level, watch whether the commitment to inclusion is slowing decisions that need to move, or creating confusion about who is ultimately accountable. Consensus is a means to better outcomes, not an end in itself. The most effective democratic leaders know when to bring people in and when to make the call — and they are clear with their teams about which mode they are in.',
+    strong: { subtitle:'You build genuine ownership by sharing power and including others in decisions.', desc:'Your team has real agency, not just the appearance of it. You create decisions that stick because the people who have to implement them helped shape them. You are also genuinely willing to be wrong — and that psychological safety is one of the most powerful gifts a leader can give.', watch:'Inclusive decision-making has a cost in time and pace. At high scores, watch whether the need for consensus is slowing decisions that need to be made, or creating ambiguity about who is ultimately accountable when things don’t go to plan.' },
+    moderate: { subtitle:'You include others without letting process dominate your leadership.', desc:'You consult when it matters and you take different perspectives seriously. But inclusion isn’t your default for every decision — which is appropriate. The skill is knowing which decisions genuinely benefit from shared ownership and which ones just need to be made.', watch:'When you do ask for input, be deliberate about what you do with it. People disengage faster from a consultation that felt performative than from one they were never asked to join.' },
+    light: { subtitle:'Inclusion and shared ownership are not yet a strong feature of how you lead.', desc:'Your influence may flow primarily through direction, vision or structure. Decisions may get made quickly and clearly. But teams that rarely have real input into how work gets done often deliver compliance rather than commitment — and that gap widens over time.', watch:'You don’t need to consult on everything. But identifying one or two decisions in the next month where involving your team would improve the outcome — and then genuinely acting on what you hear — will shift the ownership dynamic more than any announcement about values.' }
+  },
+  directive: {
+    overuse: 'At this level, your decisiveness is a genuine strength — and it may be working against you. People who are consistently directed rather than developed, consulted or trusted will eventually stop bringing initiative and start waiting to be told. The question to sit with is this: are the people you lead becoming more capable and more confident under your leadership, or are they becoming more dependent on you for direction?',
+    strong: { subtitle:'You lead with clarity, decisiveness and the courage to hold standards.', desc:'Your team knows where they stand. You provide the kind of unambiguous direction that prevents the drift, confusion and wasted effort that unclear leadership creates. In a crisis, people look to you — and you show up. That reliability is genuinely valuable.', watch:'Directive leadership used consistently across all situations can leave people feeling bypassed, under-trusted or dependent. The strength of this style is its precision — deploy it where it’s needed and flex into other styles everywhere else.' },
+    moderate: { subtitle:'You are decisive when needed without making direction your default mode.', desc:'You can take charge when a situation calls for it and hold standards when they matter — but this isn’t the primary lens through which you lead. You read the room and adjust, which makes your direction more credible when you do use it.', watch:'Watch for situations where ambiguity is quietly costing your team — unclear expectations, unaddressed performance, decisions that keep getting deferred. Moderate directive scores can sometimes mean that the moments that most need a firm call get avoided.' },
+    light: { subtitle:'Clarity and decisive direction are not yet a consistent feature of your leadership.', desc:'You may be prioritising inclusion, relationships or development over clear direction. In many situations this serves your team well. But without enough directive clarity, teams can find themselves navigating ambiguity that you have the authority and information to resolve.', watch:'Leadership that avoids direction in the name of empowerment can inadvertently abdicate responsibility. Your team needs you to be clear about what is expected, what the standards are, and what happens when they aren’t met. That clarity is a form of care, not control.' }
+  },
+  affiliative: {
+    overuse: 'At this level, watch whether the commitment to harmony and relationship is making it harder to have the honest conversations your team needs. The most caring leaders are also the most honest ones — because they care enough about the people they lead to tell them the truth. Warmth that protects people from difficult feedback is not kindness; it is a form of avoidance that ultimately fails them.',
+    strong: { subtitle:'You lead with genuine warmth, emotional attentiveness and relational care.', desc:'People feel genuinely valued by you — not just as contributors but as human beings. You notice when something is wrong and you do something about it. This creates a quality of trust and loyalty that is extremely difficult to build through any other means, and it is particularly powerful in moments of change, conflict or personal difficulty.', watch:'Strong affiliative leadership can make it genuinely harder to have the honest, uncomfortable conversations that a team needs. Warmth and directness are not opposites — but at high scores, watch whether care for the relationship is becoming a reason to avoid truth.' },
+    moderate: { subtitle:'You bring real warmth and relational awareness without it dominating your approach.', desc:'People feel cared for by you and you notice when the emotional temperature in your team shifts. But relationship isn’t the overriding organising principle of your leadership — you balance it with other priorities.', watch:'The moments that most test affiliative leadership are the ones where a relationship and a standard are in tension — where someone you care about is underperforming or behaving badly. Practice holding both: the warmth and the honesty.' },
+    light: { subtitle:'Emotional connection and relational care are not yet a strong feature of your influence.', desc:'You may be focusing primarily on delivery, direction or development. Your team is probably getting clear expectations and good structure. But if people don’t feel genuinely cared for, they will deliver what is required of them — and not much more.', watch:'You don’t need to become someone you’re not. But noticing when someone is struggling and saying something — even briefly — is one of the highest-leverage leadership behaviours there is. It costs almost nothing and its absence is felt acutely.' }
+  }
+};
+
+const patterns = [
+  { name:'The Pacesetter', stripe:'#E85D04', labelColor:'#E85D04',
+    signal:'Directive Strong (20+) + Coaching Light (below 13) + Servant Light (below 13)',
+    match: s => s.directive>=20 && s.coaching<13 && s.servant<13,
+    desc:'You lead by example and expect others to match your pace and standard. This is the most common pattern among high-achieving leaders who were promoted because of their individual performance. The pattern is self-reinforcing: the harder you work and the more you correct, the more your team learns to wait for you rather than act on their own judgment.',
+    signs:['You often find it faster to do things yourself than to explain them','Delegated work frequently comes back needing significant correction','Your team may be technically competent but rarely shows initiative','You are the most indispensable person in your own team'],
+    watch:'The team you have right now may have been trained by your leadership to stop trying. When everything gets corrected or taken back, people learn that their ownership is nominal. The frustration you feel about their performance may be a direct product of how you lead them.',
+    connection:'Your Delegation assessment will show you exactly where the letting-go breaks down. Your Teams assessment will show you what it is costing the collective.' },
+  { name:'The Harmony Avoider', stripe:'#0277BD', labelColor:'#0277BD',
+    signal:'Affiliative Strong (20+) + Directive Light (below 13) + Democratic Light (below 13)',
+    match: s => s.affiliative>=20 && s.directive<13 && s.democratic<13,
+    desc:'You care deeply about the people you lead and you work hard to maintain warmth and positive relationships. But the cost of that care may be that difficult conversations are being avoided, underperformance is going unaddressed, and your team is missing the clarity and honest feedback it needs.',
+    signs:['Performance issues tend to get managed around rather than addressed directly','Your team likes you but may not fully respect the standards you hold','You find it genuinely hard to say something that might upset someone','Conflict in the team sometimes gets smoothed over rather than resolved'],
+    watch:'Warmth that protects people from honest feedback is not kindness — it is a form of avoidance that ultimately fails them. The most caring leaders are also the most honest ones, because they care too much about the people they lead to let important things go unsaid.',
+    connection:'Your Conflict assessment will show you where the avoidance pattern shows up most strongly and what it is costing the team.' },
+  { name:'The Inspirer Who Does Not Land', stripe:'#6A1B9A', labelColor:'#6A1B9A',
+    signal:'Transformational Strong (20+) + Servant Light (below 13) + Coaching Light (below 13)',
+    match: s => s.transformational>=20 && s.servant<13 && s.coaching<13,
+    desc:'You are genuinely compelling when it comes to vision, purpose and big-picture thinking. But inspiration without practical follow-through can leave people energised and unclear — motivated by the destination but unsupported in the journey.',
+    signs:['Your team gets fired up in a big conversation but struggles to translate it into daily action','People feel inspired by you but do not always feel developed or equipped by you','The obstacles your team faces day-to-day may not be getting enough of your attention','Your impact is strongest in meetings and weakest in the months between them'],
+    watch:'Vision is the starting point of leadership, not the destination. Leaders who combine inspiring purpose with genuine investment in people and the day-to-day work create something that sustains. Vision alone creates enthusiasm that slowly turns into disappointment.',
+    connection:null },
+  { name:'The Reluctant Director', stripe:'#2E7D32', labelColor:'#2E7D32',
+    signal:'Democratic Strong (20+) + Directive Light (below 13) + Transformational Light (below 13)',
+    match: s => s.democratic>=20 && s.directive<13 && s.transformational<13,
+    desc:'You are genuinely inclusive and you create real ownership in your team. But without enough directive clarity or a compelling sense of direction, inclusion can drift into ambiguity. Your team has a voice but may not always know where they are going or what is non-negotiable.',
+    signs:['Decisions sometimes take longer than they should and accountability can feel diffuse','Your team feels heard but may lack a clear sense of where you are all heading','Standards and expectations may be inconsistently applied','In a crisis your team may look to you for direction and find more process than leadership'],
+    watch:'Inclusion without direction is not empowerment — it is ambiguity with good intentions. Your team needs to know which decisions are genuinely theirs and which ones you will make. Being clear about that boundary is what makes the inclusion trustworthy.',
+    connection:null },
+  { name:'The Developer', stripe:'#00695C', labelColor:'#00695C',
+    signal:'Coaching Strong (20+) + Servant Strong (20+) + Directive Light (below 13)',
+    match: s => s.coaching>=20 && s.servant>=20 && s.directive<13,
+    desc:'You are genuinely invested in the growth of the people around you and you lead in service of their success. This is a rare and powerful combination. People feel both developed and cared for under your leadership. The gap is likely in the moments that need clear direction, firm standards or decisive action.',
+    signs:['Your team is growing in capability and they know you are part of the reason','You may struggle to hold the line when a standard is being missed','Crisis moments or underperformance conversations may feel uncomfortable','Your team respects you deeply but may occasionally test where the limits are'],
+    watch:'Development without accountability creates a team that grows in capability but not in standards. The most powerful developers are also willing to be clear about what is not acceptable. Holding that line is not a contradiction of caring — it is the fullest expression of it.',
+    connection:null },
+  { name:'The Controller', stripe:'#C62828', labelColor:'#C62828',
+    signal:'Directive Strong (20+) + Democratic Light (below 13) + Affiliative Light (below 13)',
+    match: s => s.directive>=20 && s.democratic<13 && s.affiliative<13,
+    desc:'You provide clear direction and you hold standards consistently. But without enough inclusion or relational warmth, the clarity can land as control. Your team probably delivers what is required — but discretionary effort, initiative and genuine commitment may be harder to find.',
+    signs:['Your team executes well but rarely brings ideas you did not ask for','People may be cautious around you or careful with what they say','Decisions move quickly but implementation often needs more pushing than it should','Talented people on your team may be quietly looking for environments with more autonomy'],
+    watch:'A team that delivers compliance is not the same as a team that delivers commitment. The difference is almost entirely in how much ownership, warmth and genuine inclusion people feel from the person leading them.',
+    connection:'Your Teams assessment — particularly Making all voices count and Building collective ownership — will show you where the control pattern has the most impact.' },
+  { name:'The Founder Pattern', stripe:'#E65100', labelColor:'#E65100',
+    signal:'Transformational Strong (20+) + Directive Strong (20+) + Affiliative Light (below 13)',
+    match: s => s.transformational>=20 && s.directive>=20 && s.affiliative<13,
+    desc:'You combine compelling vision with decisive action — a powerful combination that builds organisations and drives change. This is the classic founder or turnaround leader profile. The gap is almost always in the relational dimension — the care for people as individuals rather than as contributors to a mission.',
+    signs:['People are inspired by you and deliver for you — but may not feel fully seen by you','Your team grows in capability through challenge rather than through care','Talented people may stay for the mission and leave because of the relationship','You are more comfortable with vision and strategy than with individual emotional needs'],
+    watch:'The mission matters. And so do the people delivering it. At the point where the human cost becomes visible — in attrition, in burnout, in the quiet exit of your best people — the relational gap will be the explanation. Investing in it now is significantly cheaper than addressing it then.',
+    connection:null },
+  { name:'The Absent Centre', stripe:'#4527A0', labelColor:'#4527A0',
+    signal:'Directive Light (below 13) + Transformational Light (below 13) + Affiliative or Coaching Strong (20+)',
+    match: s => s.directive<13 && s.transformational<13 && (s.affiliative>=20||s.coaching>=20),
+    desc:'You are warm, supportive and genuinely invested in your people. But without clear direction or a compelling sense of purpose, the team may lack the anchor it needs. People feel cared for and developed but may not know where they are heading or what is ultimately expected of them.',
+    signs:['Your team has strong relationships but sometimes lacks clarity about priorities','You are more comfortable developing and supporting than directing and deciding','In ambiguous situations your team may look for clearer leadership than you provide','Your own uncertainty about direction may be quietly absorbed by the team'],
+    watch:'Care and development without direction creates a team that feels supported but lacks traction. Your team needs you to provide an anchor — a clear sense of where you are all heading and what matters most. That clarity is not a constraint on care. It is what makes care purposeful.',
+    connection:null },
+  { name:'The Balanced Leader', stripe:'#1565C0', labelColor:'#1565C0',
+    signal:'All six styles in the Moderate range (13–19)',
+    match: s => Object.values(s).every(v=>v>=13&&v<=19),
+    desc:'You have a genuinely flexible approach. No single style dominates and you adapt across different situations. This is associated with strong effectiveness in the research. The question is whether the flexibility is intentional — a conscious choice about what each situation needs — or habitual, a tendency to stay in the middle ground.',
+    signs:['You are comfortable in a wide range of leadership situations','You rarely cause the kind of damage that comes from overusing a single style','People around you experience you differently depending on context','You may occasionally lack a clear, recognisable leadership signature'],
+    watch:'Balanced is not the same as versatile. Versatility means you can move fully into any style when a situation demands it. Balance can sometimes mean you stay comfortably in the middle and never bring the full force of what any style can offer. Know which one yours is.',
+    connection:null },
+  { name:'The Full Range Leader', stripe:'#00838F', labelColor:'#00838F',
+    signal:'Three or more styles Strong (20+) with no overuse flags (all below 22)',
+    match: s => Object.values(s).filter(v=>v>=20).length>=3 && Object.values(s).every(v=>v<22),
+    desc:'You have a genuinely broad leadership repertoire and you deploy it without overusing any single style. This is the profile the research consistently associates with the highest leadership effectiveness. You can inspire, develop, include, serve, direct and connect — and you read the situation to know which is needed.',
+    signs:['Different people on your team experience your leadership differently — and all feel well led','You are as comfortable in a coaching conversation as in a crisis','You move between styles fluidly without it feeling inconsistent','The people around you are growing, engaged, clear and committed'],
+    watch:'The risk at this level is subtle — it is the assumption that breadth means you always know which style to use. The leaders who sustain this profile are the ones who remain curious about whether their style choice was actually right, not just available.',
+    connection:null },
+];
+
+function getBand(s) { return s>=20?'strong':s>=13?'moderate':'light'; }
+function bandLabel(b) { return {strong:'Strong',moderate:'Moderate',light:'Light'}[b]; }
+function bandColors(b, dimColor) {
+  if(b==='strong') return {bg:dimColor+'18',color:dimColor};
+  if(b==='moderate') return {bg:'#EAF3FC',color:'#6B9FD4'};
+  return {bg:'#F5F4F9',color:'#9B97B2'};
+}
+
+let currentSection = 0;
+let answers = {};
+function getGI(si,qi){return si*5+qi;}
+
+function renderSection(){
+  const dim = dims[currentSection];
+  const area = document.getElementById('questions-area');
+  area.innerHTML='';
+  const chip=document.createElement('div');
+  chip.className='dim-chip';
+  chip.style.cssText=`background:${dim.color}20;color:${dim.color}`;
+  chip.textContent=dim.title;
+  area.appendChild(chip);
+  const sub=document.createElement('p');
+  sub.className='dim-subtitle';
+  sub.textContent=dim.subtitle;
+  area.appendChild(sub);
+  dim.qs.forEach((q,qi)=>{
+    const gi=getGI(currentSection,qi);
+    const card=document.createElement('div');
+    card.className='question-card fade-up';
+    card.style.animationDelay=(0.05+qi*0.06)+'s';
+    const btns=[1,2,3,4,5].map(n=>{
+      const sel=answers[gi]===n;
+      return `<button class="freq-btn${sel?' selected':''}" onclick="rate(${gi},${n})">
+        <span class="f-num" style="color:${sel?dim.color:FREQ_COLORS[n-1]}">${n}</span>
+        <span class="f-lbl">${FREQ_SHORT[n-1]}</span>
+        <span class="f-tooltip">${FREQ_LABELS[n-1]}</span>
+      </button>`;
+    }).join('');
+    card.innerHTML=`<div class="q-top">
+      <div class="q-num" style="background:${dim.color}20;color:${dim.color}">${gi+1}</div>
+      <div class="q-text">${q}</div>
+    </div><div class="freq-row">${btns}</div>`;
+    area.appendChild(card);
+  });
+  updateNav(); updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rate(gi,val){
+  answers[gi]=val;
+  const dim=dims[currentSection];
+  const localIdx=gi-currentSection*5;
+  const cards=document.querySelectorAll('#questions-area .question-card');
+  if(cards[localIdx]){
+    cards[localIdx].querySelectorAll('.freq-btn').forEach((btn,i)=>{
+      const v=i+1;
+      btn.classList.toggle('selected',v===val);
+      btn.querySelector('.f-num').style.color=v===val?dim.color:FREQ_COLORS[v-1];
+    });
+  }
+  updateNav(); updateProgress();
+}
+
+function sectionDone(){
+  return dims[currentSection].qs.every((_,qi)=>answers[getGI(currentSection,qi)]!==undefined);
+}
+
+function updateNav(){
+  document.getElementById('btn-back').disabled=currentSection===0;
+  const btn=document.getElementById('btn-next');
+  const isLast=currentSection===dims.length-1;
+  btn.disabled=!sectionDone();
+  btn.innerHTML=isLast
+    ?'See my results <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
+    :'Next <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+}
+
+function updateProgress(){
+  const n=Object.keys(answers).length;
+  document.getElementById('prog-fill').style.width=(n/30*100)+'%';
+  document.getElementById('prog-frac').textContent=n+' / 30 answered';
+  document.getElementById('prog-label').textContent=dims[currentSection].title;
+}
+
+function goNext(){
+  if(currentSection<dims.length-1){currentSection++;renderSection();}
+  else showResults();
+}
+function goBack(){
+  if(currentSection>0){currentSection--;renderSection();}
+}
+function startAssessment(){
+  document.getElementById('start-screen').style.display='none';
+  document.getElementById('quiz-screen').style.display='block';
+  renderSection();
+}
+
+function showResults(){
+  document.getElementById('quiz-screen').style.display='none';
+  const rs=document.getElementById('results-screen');
+  rs.style.display='block';
+
+  const scores={};
+  dims.forEach((d,si)=>{
+    scores[d.id]=[0,1,2,3,4].reduce((sum,qi)=>sum+(answers[getGI(si,qi)]||0),0);
+  });
+
+  // Score bars
+  const barsHtml=dims.map(d=>{
+    const total=scores[d.id];
+    const band=getBand(total);
+    const pct=Math.round(total/25*100);
+    const bc=bandColors(band,d.color);
+    const overuse=total>=22;
+    return `<div class="score-row">
+      <span class="score-label" style="color:${d.color}">${d.title}</span>
+      <div class="score-track"><div class="score-bar" data-pct="${pct}" style="width:0%;background:${d.color}"></div></div>
+      <div class="score-right">
+        <span class="score-num" style="color:${d.color}">${total}/25</span>
+        <span class="band-pill" style="background:${bc.bg};color:${bc.color}">${bandLabel(band)}</span>
+        ${overuse?'<span class="overuse-pill">⚠ Overuse</span>':''}
+      </div>
+    </div>`;
+  }).join('');
+
+  // Flex range table
+  const flexRows=dims.map(d=>{
+    const total=scores[d.id];
+    const band=getBand(total);
+    const bc=bandColors(band,d.color);
+    const when={
+      transformational:'People need to reconnect with purpose, or you are leading through significant change.',
+      coaching:'Someone has the capability but needs to build their own confidence or problem-solving skill.',
+      servant:'Your team is blocked by obstacles you have the authority or ability to remove.',
+      democratic:'The decision requires genuine buy-in and the people affected have relevant insight.',
+      directive:'In a crisis, with a new team member who needs clarity, or when a standard is at risk.',
+      affiliative:'Trust has broken down, someone is struggling, or the team needs to feel safe before they can perform.'
+    };
+    return `<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--grey-border)">
+      <span style="width:120px;flex-shrink:0;font-size:12px;font-weight:700;color:${d.color}">${d.title}</span>
+      <span class="band-pill" style="background:${bc.bg};color:${bc.color};flex-shrink:0;margin-top:1px">${bandLabel(band)}</span>
+      <span style="font-size:12px;color:var(--grey-mid);line-height:1.5;flex:1">${when[d.id]}</span>
+    </div>`;
+  }).join('');
+
+  // Individual dimension profiles
+  const profilesHtml=dims.map(d=>{
+    const total=scores[d.id];
+    const band=getBand(total);
+    const p=profiles[d.id][band];
+    const bc=bandColors(band,d.color);
+    const overuse=total>=22;
+    let overuseHtml='';
+    if(overuse){
+      overuseHtml=`<div class="overuse-card">
+        <div class="overuse-header">
+          <div>
+            <div class="overuse-level">⚠ Overuse flag <span style="font-size:13px;font-weight:400;color:#7A7890">(score ${total})</span></div>
+            <div style="font-size:13px;font-style:italic;color:#7A7890;margin-top:2px">Your score is in the overuse range (22+)</div>
+          </div>
+          <span class="band-pill" style="background:#FDF0ED;color:#C44B30">Overuse</span>
+        </div>
+        <div class="profile-body">
+          <p class="profile-desc" style="color:var(--coral)">${profiles[d.id].overuse}</p>
+        </div>
+      </div>`;
+    }
+    return `<div class="profile-group fade-up">
+      <div class="profile-dim-header" style="background:${d.color}">
+        <div class="profile-dim-name">${d.title}</div>
+        <div class="profile-dim-sub">${d.subtitle}</div>
+      </div>
+      ${overuseHtml}
+      <div class="profile-card">
+        <div class="profile-header">
+          <div>
+            <div class="profile-level">${bandLabel(band)} <span style="font-size:13px;font-weight:400;color:#7A7890">(${total}/25)</span></div>
+            <div style="font-size:13px;font-style:italic;color:#7A7890;margin-top:2px">${p.subtitle}</div>
+          </div>
+          <span class="profile-badge" style="background:${bc.bg};color:${bc.color}">${bandLabel(band)}</span>
+        </div>
+        <div class="profile-body">
+          <p class="profile-desc">${p.desc}</p>
+          <div class="watch-box"><span class="watch-label">Watch for</span><span class="watch-text">${p.watch}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Pattern detection
+  const matchedPatterns=patterns.filter(p=>p.match(scores));
+  let patternHtml='';
+  if(matchedPatterns.length===0){
+    patternHtml=`<div class="no-pattern">Your profile is genuinely mixed across the six styles — no single pattern dominates. Your individual dimension profiles above are your most useful guide. Look at your highest and lowest scores together and ask what combination they create in the people around you.</div>`;
+  } else {
+    patternHtml=matchedPatterns.map(p=>{
+      const signsHtml=p.signs.map(s=>`<li><span class="p-dot" style="background:${p.stripe}"></span>${s}</li>`).join('');
+      const connectionHtml=p.connection?`<div class="connection-box"><span class="connection-label">Metisfy</span><span class="connection-text">${p.connection}</span></div>`:'';
+      return `<div class="pattern-card">
+        <div class="pattern-header">
+          <div class="pattern-stripe" style="background:${p.stripe}"></div>
+          <div class="pattern-header-body">
+            <div class="pattern-name" style="color:${p.labelColor}">${p.name}</div>
+            <div class="pattern-signal">${p.signal}</div>
+          </div>
+        </div>
+        <div class="pattern-body">
+          <p class="pattern-desc">${p.desc}</p>
+          <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--grey-mid);margin-bottom:8px">What it looks like</p>
+          <ul class="pattern-signs">${signsHtml}</ul>
+          <div class="watch-box"><span class="watch-label">Watch for</span><span class="watch-text">${p.watch}</span></div>
+          ${connectionHtml}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  const nextRecs=[
+    {title:'How Do I Lead and Work with Teams?',why:'Your leadership style directly shapes your collective impact. The Teams assessment will show you how your style combination lands in practice.',color:'#5A3EA0',bg:'#F7F5FC',href:'1__How_Do_I_Lead_Teams.html',live:true},
+    {title:'How Comfortable Am I with Delegation?',why:'If your Directive score is high or your Coaching score is low, the Delegation assessment will show you exactly what that pattern is costing your team.',color:'#1D7A6E',bg:'#E5F5F3',href:'2__How_Compforatable_am_I_WIth_Delegation.html',live:true},
+    {title:'How Do I Handle Conflict?',why:'Your Affiliative and Directive scores together predict a great deal about how you show up in conflict. See the full picture.',color:'#C44B30',bg:'#FDF0ED',href:'3__How_Do_I_Handle_Conflict.html',live:true},
+  ];
+
+  const nextHtml=nextRecs.map(r=>`<a class="next-card" href="${r.href}" style="background:${r.bg};border-color:${r.color}40">
+    <p class="next-card-flag" style="color:${r.color}">Next assessment</p>
+    <p class="next-card-title">${r.title}</p>
+    <p class="next-card-why">${r.why}</p>
+    <div class="next-card-arrow" style="color:${r.color}">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+  </a>`).join('');
+
+  rs.innerHTML=`
+    <div class="results-hero fade-up">
+      <p class="results-eyebrow">Your results</p>
+      <h2 class="results-title">What Is My Leadership Style?</h2>
+      <p class="results-sub">Your leadership influence profile across all six styles, with overuse flags, coaching notes, and your pattern profile.</p>
+    </div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Scores at a glance</h3>
+      <p class="section-sub">20–25 = Strong  •  13–19 = Moderate  •  5–12 = Light  •  22+ = ⚠ Overuse flag</p>
+      ${barsHtml}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your flexing range</h3>
+      <p class="section-sub">Your active repertoire — what you have available and when each style is most powerful.</p>
+      <div style="border:1px solid var(--grey-border);border-radius:14px;padding:4px 16px;background:#fff">
+        ${flexRows}
+        <div style="height:10px"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your dimension profiles</h3>
+      <p class="section-sub">Full coaching notes for each style based on your score. Overuse flags appear first where relevant.</p>
+      ${profilesHtml}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your leadership pattern</h3>
+      <p class="section-sub" style="margin-bottom:16px">What your scores look like in combination — the patterns that single-dimension scores cannot reveal on their own.</p>
+      <div class="pattern-section">
+        <p class="pattern-intro">Your individual style scores show how strongly you draw on each approach. Your pattern looks across them together to identify something more specific — a recognisable leadership profile, what it produces in the people around you, and where your most important opportunity lies.</p>
+        ${patternHtml}
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Where to go next</h3>
+      <p class="section-sub">The assessments most directly connected to your leadership style profile.</p>
+      <div class="next-grid">${nextHtml}</div>
+      <div class="kb-slot">
+        <p class="kb-slot-label">From the Metisfy knowledge base</p>
+        <p class="kb-slot-text">Personalised resources matched to your leadership style profile will appear here once the knowledge base connection is live.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="reflection-box fade-up">
+      <p class="reflection-label">Reflection prompt</p>
+      <p class="reflection-text">Look at your six scores together. Which style or styles are you leading through most strongly? Which are Light — and what situations in your current role most need that style? Is there a style you are overusing that might be limiting the people around you?</p>
+    </div>
+
+    <div class="results-footer fade-up">
+      <p>Download your results or retake the assessment.</p>
+      <div class="footer-btns">
+        <button class="btn btn-teal" onclick="printResults()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M3 13h10"/></svg>
+          Download results
+        </button>
+        <button class="btn btn-ghost" onclick="restartAssessment()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8a6 6 0 1 0 1-3.2"/><path d="M2 2v4h4"/></svg>
+          Retake assessment
+        </button>
+      </div>
+    </div>`;
+
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{
+    document.querySelectorAll('.score-bar[data-pct]').forEach(b=>{b.style.width=b.dataset.pct+'%';});
+  },150);
+}
+
+function printResults(){
+  const rs=document.getElementById('results-screen');
+  const logoSrc=document.querySelector('.logo img').src;
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<title>What Is My Leadership Style? — Metisfy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri',sans-serif;color:#3D3B4F;line-height:1.6;padding:28px 36px;max-width:820px;margin:0 auto;font-size:13px;}
+.print-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:2px solid #5A3EA0;margin-bottom:24px;}
+.print-header img{height:34px;}
+.print-header-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A7890;}
+.results-footer,.footer-btns,.next-grid,.kb-slot{display:none!important;}
+.results-hero{text-align:center;padding:14px 0 20px;}
+.results-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#7B5EC8;margin-bottom:5px;}
+.results-title{font-size:22px;font-weight:700;color:#3B2678;margin-bottom:6px;}
+.results-sub{font-size:12px;color:#7A7890;max-width:480px;margin:0 auto;}
+.section-heading{font-size:16px;font-weight:700;color:#3B2678;margin-bottom:3px;}
+.section-sub{font-size:11px;color:#7A7890;margin-bottom:12px;}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.score-label{font-size:11px;font-weight:600;width:120px;flex-shrink:0;}
+.score-track{flex:1;height:7px;background:#D4CFF0;border-radius:3px;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.score-bar{height:100%;border-radius:3px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.score-right{width:140px;flex-shrink:0;display:flex;align-items:center;gap:4px;justify-content:flex-end;font-size:11px;font-weight:700;}
+.band-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.overuse-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;background:#FDF0ED;color:#C44B30;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.divider{height:1px;background:#D4CFF0;margin:18px 0;}
+.profile-group{margin-bottom:14px;page-break-inside:avoid;}
+.profile-dim-header{padding:10px 14px;border-radius:8px;margin-bottom:9px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.profile-dim-name{font-size:14px;font-weight:700;color:#fff;}
+.profile-dim-sub{font-size:11px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:2px;}
+.overuse-card{border:1px solid #F0C4B8;border-left:3px solid #C44B30;border-radius:10px;overflow:hidden;margin-bottom:8px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.overuse-header{padding:10px 14px 8px;border-bottom:1px solid #FDE8E0;background:#FFF8F6;}
+.overuse-level{font-size:13px;font-weight:700;color:#C44B30;}
+.profile-card{border:1px solid #D4CFF0;border-radius:10px;overflow:hidden;margin-bottom:8px;}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 14px 8px;border-bottom:1px solid #EDE8F7;}
+.profile-level{font-size:13px;font-weight:700;color:#3B2678;}
+.profile-badge{padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.profile-body{padding:10px 14px;}
+.profile-desc{font-size:12px;line-height:1.6;margin-bottom:8px;color:#3D3B4F;}
+.watch-box{display:flex;gap:7px;background:#FFF6E8;border-left:3px solid #B86A00;border-radius:4px;padding:8px 10px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.watch-label{font-size:10px;font-weight:700;color:#B86A00;text-transform:uppercase;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:12px;color:#4A3800;line-height:1.5;}
+.pattern-section{background:#F7F5FC;border-radius:12px;padding:16px;margin-bottom:16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pattern-card{background:#fff;border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid #D4CFF0;page-break-inside:avoid;}
+.pattern-header{display:flex;align-items:stretch;}
+.pattern-stripe{width:6px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.pattern-header-body{flex:1;padding:10px 14px 8px;border-bottom:1px solid #EDE8F7;}
+.pattern-name{font-size:14px;font-weight:700;margin-bottom:3px;}
+.pattern-signal{font-size:11px;font-style:italic;color:#7A7890;}
+.pattern-body{padding:10px 14px;}
+.pattern-desc{font-size:12px;color:#3D3B4F;line-height:1.6;margin-bottom:8px;}
+.pattern-signs{list-style:none;margin-bottom:8px;}
+.pattern-signs li{display:flex;gap:6px;font-size:11px;color:#7A7890;line-height:1.5;margin-bottom:4px;align-items:flex-start;}
+.p-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.connection-box{display:flex;gap:7px;background:#E5F5F3;border-left:3px solid #1D7A6E;border-radius:4px;padding:8px 10px;margin-top:6px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.connection-label{font-size:10px;font-weight:700;color:#1D7A6E;text-transform:uppercase;white-space:nowrap;padding-top:2px;}
+.connection-text{font-size:11px;color:#1A4A44;line-height:1.5;}
+.reflection-box{background:#F7F5FC;border-left:3px solid #5A3EA0;border-radius:6px;padding:12px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.reflection-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A3EA0;margin-bottom:5px;}
+.reflection-text{font-size:13px;font-style:italic;color:#3B2678;line-height:1.7;}
+.print-footer{text-align:center;padding-top:16px;margin-top:24px;border-top:1px solid #D4CFF0;font-size:11px;color:#7A7890;}
+@media print{body{padding:16px 20px;}}
+</style></head><body>
+<div class="print-header">
+  <img src="${logoSrc}" alt="Metisfy">
+  <span class="print-header-label">Leadership Self-Assessment — What Is My Leadership Style?</span>
+</div>
+${rs.innerHTML}
+<div class="print-footer">© Metisfy. All rights reserved.</div>
+<script>window.onload=function(){window.print();}<\/script>
+</body></html>`);
+  win.document.close();
+}
+
+function restartAssessment(){
+  answers={};currentSection=0;
+  document.getElementById('results-screen').innerHTML='';
+  document.getElementById('results-screen').style.display='none';
+  document.getElementById('start-screen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
