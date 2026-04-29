@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Do I Handle Conflict? — Metisfy</title>
+<style>
+:root {
+  --purple-dark:  #3B2678;
+  --purple-mid:   #5A3EA0;
+  --purple-soft:  #7B5EC8;
+  --purple-light: #EDE8F7;
+  --purple-pale:  #F7F5FC;
+  --teal:         #1D7A6E;
+  --teal-light:   #E5F5F3;
+  --amber:        #B86A00;
+  --amber-light:  #FFF6E8;
+  --coral:        #C44B30;
+  --coral-light:  #FDF0ED;
+  --slate:        #2E4A6B;
+  --slate-light:  #EAF0F7;
+  --sage:         #4A7C59;
+  --sage-light:   #EAF4EE;
+  --blue:         #6B9FD4;
+  --blue-light:   #EAF3FC;
+  --grey-dark:    #3D3B4F;
+  --grey-mid:     #7A7890;
+  --grey-border:  #D4CFF0;
+  --white:        #FFFFFF;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --shadow: 0 2px 16px rgba(58,38,120,0.08),0 1px 4px rgba(58,38,120,0.05);
+  --shadow-lg: 0 8px 32px rgba(58,38,120,0.13),0 2px 8px rgba(58,38,120,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri','Calibri Light',sans-serif;background:#fff;color:var(--grey-dark);line-height:1.6;}
+.shell{max-width:760px;margin:0 auto;padding:0 24px 100px;}
+.site-header{padding:28px 0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--grey-border);margin-bottom:48px;}
+.logo img{height:38px;width:auto;display:block;}
+.header-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);}
+.hero{margin-bottom:44px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.hero-title{font-size:clamp(24px,5vw,40px);font-weight:700;color:var(--purple-dark);line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;}
+.hero-body{font-size:16px;color:var(--grey-mid);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-pill{display:flex;align-items:center;gap:6px;background:var(--purple-pale);border:1px solid var(--grey-border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--grey-dark);font-weight:500;}
+.hero-pill svg{width:13px;height:13px;color:var(--purple-mid);flex-shrink:0;}
+.philosophy-section{margin-bottom:40px;}
+.philosophy-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.principle-card{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow);}
+.principle-num{width:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--white);}
+.principle-body{flex:1;padding:16px 18px;}
+.principle-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.principle-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+.start-card{background:var(--white);border:1px solid var(--grey-border);border-radius:24px;padding:32px;box-shadow:var(--shadow);margin-bottom:20px;}
+.start-card-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.dims-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+.dim-start-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:var(--purple-pale);border-radius:10px;font-size:13px;font-weight:500;color:var(--purple-dark);line-height:1.35;}
+.dim-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.scale-preview{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:24px;}
+.scale-pip{text-align:center;padding:8px 4px;border-radius:8px;border:1px solid var(--grey-border);cursor:default;position:relative;}
+.scale-pip-num{font-size:20px;font-weight:700;line-height:1;margin-bottom:2px;}
+.scale-pip-lbl{font-size:11px;color:var(--grey-mid);}
+.scale-pip-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:12px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;}
+.scale-pip-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--purple-dark);}
+.scale-pip:hover .scale-pip-tooltip{display:block;}
+.start-note{font-size:14px;color:var(--grey-mid);line-height:1.65;margin-bottom:24px;}
+.start-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:var(--purple-dark);color:var(--white);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);}
+.start-btn:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.25);}
+.progress-wrap{margin-bottom:32px;}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:8px;}
+.progress-dim{font-size:13px;font-weight:600;color:var(--purple-mid);}
+.progress-frac{font-size:12px;color:var(--grey-mid);}
+.progress-track{height:5px;background:var(--grey-border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple-mid),var(--purple-soft));transition:width 0.4s var(--ease);width:0%;}
+.dim-chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:6px;}
+.dim-subtitle{font-size:14px;font-style:italic;color:var(--grey-mid);margin-bottom:20px;}
+.question-card{background:var(--white);border:1px solid var(--grey-border);border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);transition:box-shadow 0.2s var(--ease);}
+.question-card:hover{box-shadow:var(--shadow-lg);}
+.q-top{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 14px;border-bottom:1px solid var(--purple-pale);}
+.q-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.q-text{font-size:16px;font-weight:600;color:var(--purple-dark);line-height:1.45;}
+.freq-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 14px;}
+.freq-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--grey-border);border-radius:10px;background:var(--white);cursor:pointer;font-family:inherit;transition:all 0.18s var(--ease);position:relative;}
+.freq-btn:hover{border-color:var(--purple-mid);background:var(--purple-pale);}
+.freq-btn.selected{border-color:var(--purple-mid);background:var(--purple-light);}
+.f-num{font-size:20px;font-weight:700;color:var(--grey-mid);line-height:1;transition:color 0.18s;}
+.f-lbl{font-size:10px;color:var(--grey-mid);text-align:center;line-height:1.3;}
+.f-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;pointer-events:none;}
+.f-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--purple-dark);}
+.freq-btn:hover .f-tooltip{display:block;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:100px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);border:none;}
+.btn-ghost{background:transparent;color:var(--grey-mid);border:1.5px solid var(--grey-border);}
+.btn-ghost:hover{border-color:var(--purple-mid);color:var(--purple-mid);}
+.btn-primary{background:var(--purple-dark);color:var(--white);}
+.btn-primary:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.22);}
+.btn-primary:disabled{background:var(--grey-border);color:var(--grey-mid);cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-teal{background:var(--teal);color:var(--white);}
+.btn-teal:hover{background:#155f55;transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,122,110,0.3);}
+.btn svg{width:15px;height:15px;}
+.results-hero{text-align:center;padding:44px 0 32px;}
+.results-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:8px;}
+.results-title{font-size:32px;font-weight:700;color:var(--purple-dark);margin-bottom:10px;letter-spacing:-0.3px;}
+.results-sub{font-size:15px;color:var(--grey-mid);max-width:480px;margin:0 auto;line-height:1.7;}
+.section-heading{font-size:20px;font-weight:700;color:var(--purple-dark);margin-bottom:4px;letter-spacing:-0.2px;}
+.section-sub{font-size:14px;color:var(--grey-mid);margin-bottom:20px;}
+.divider{height:1px;background:var(--grey-border);margin:36px 0;}
+.score-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.score-label{font-size:12px;font-weight:600;width:200px;flex-shrink:0;line-height:1.3;}
+.score-track{flex:1;height:10px;background:var(--grey-border);border-radius:5px;overflow:hidden;}
+.score-bar{height:100%;border-radius:5px;transition:width 1s var(--ease);width:0%;}
+.score-right{width:120px;flex-shrink:0;display:flex;align-items:center;gap:5px;justify-content:flex-end;}
+.score-num{font-size:13px;font-weight:700;}
+.band-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;}
+.summary-card{background:var(--white);border:1px solid var(--grey-border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:14px;}
+.summary-header{padding:22px 26px 18px;border-bottom:1px solid var(--purple-pale);background:linear-gradient(135deg,var(--purple-pale) 0%,var(--coral-light) 100%);}
+.summary-headline{font-size:22px;font-weight:700;color:var(--purple-dark);margin-bottom:8px;letter-spacing:-0.3px;}
+.summary-tagline{font-size:15px;color:var(--grey-dark);line-height:1.65;}
+.summary-body{padding:22px 26px;}
+.summary-block{margin-bottom:22px;}
+.summary-block-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.summary-block-label.bringing{color:var(--teal);}
+.summary-block-label.experiencing{color:var(--amber);}
+.summary-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.summary-list li{display:flex;gap:10px;font-size:14px;line-height:1.6;color:var(--grey-dark);align-items:flex-start;}
+.s-dot{width:7px;height:7px;border-radius:50%;margin-top:7px;flex-shrink:0;}
+.s-dot.bring{background:var(--teal);}
+.s-dot.exp{background:var(--amber);}
+.focus-box{background:var(--purple-pale);border-left:3px solid var(--purple-mid);border-radius:8px;padding:16px 20px;}
+.focus-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:6px;}
+.focus-text{font-size:15px;font-style:italic;color:var(--purple-dark);line-height:1.7;}
+.profile-group{margin-bottom:28px;}
+.profile-dim-header{padding:14px 18px;border-radius:12px;margin-bottom:12px;}
+.profile-dim-name{font-size:16px;font-weight:700;color:var(--white);line-height:1.3;}
+.profile-dim-sub{font-size:12px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:3px;}
+.profile-card{background:var(--white);border:1px solid var(--grey-border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid var(--purple-pale);}
+.profile-level{font-size:16px;font-weight:700;color:var(--purple-dark);}
+.profile-badge{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;}
+.profile-body{padding:14px 18px;}
+.profile-desc{font-size:14px;color:var(--grey-dark);line-height:1.65;margin-bottom:12px;}
+.watch-box{display:flex;gap:8px;background:var(--amber-light);border:1px solid #F0DEBC;border-left:3px solid var(--amber);border-radius:6px;padding:10px 13px;}
+.watch-label{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:13px;color:#4A3800;line-height:1.6;}
+.reflection-box{background:var(--purple-pale);border-left:3px solid var(--purple-mid);border-radius:8px;padding:18px 22px;margin-bottom:32px;}
+.reflection-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.reflection-text{font-size:15px;font-style:italic;color:var(--purple-dark);line-height:1.7;}
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.next-card{border:1px solid var(--grey-border);border-radius:14px;padding:18px;transition:all 0.2s var(--ease);text-decoration:none;display:block;}
+.next-card:hover:not(.coming-soon){box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:var(--purple-mid);}
+.next-card.coming-soon{opacity:0.6;cursor:default;}
+.next-card-flag{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+.next-card-title{font-size:15px;font-weight:700;color:var(--purple-dark);margin-bottom:5px;line-height:1.3;}
+.next-card-why{font-size:13px;color:var(--grey-mid);line-height:1.5;}
+.next-card-arrow{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;margin-top:10px;}
+.next-card-arrow svg{width:14px;height:14px;}
+.kb-slot{background:var(--purple-pale);border:1px dashed var(--grey-border);border-radius:14px;padding:20px 22px;margin-top:16px;}
+.kb-slot-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:6px;}
+.kb-slot-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+.results-footer{text-align:center;padding-top:28px;border-top:1px solid var(--grey-border);margin-top:36px;}
+.results-footer p{font-size:13px;color:var(--grey-mid);margin-bottom:14px;}
+.footer-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.38s var(--ease) both;}
+.fade-up:nth-child(1){animation-delay:0.04s;}
+.fade-up:nth-child(2){animation-delay:0.09s;}
+.fade-up:nth-child(3){animation-delay:0.14s;}
+.fade-up:nth-child(4){animation-delay:0.19s;}
+.fade-up:nth-child(5){animation-delay:0.24s;}
+@media(max-width:540px){
+  .dims-grid{grid-template-columns:1fr;}
+  .next-grid{grid-template-columns:1fr;}
+  .score-label{width:140px;font-size:11px;}
+  .f-lbl{display:none;}
+}
+@media print{
+  .site-header,.hero,.philosophy-section,#start-screen,#quiz-screen,.results-footer,.progress-wrap,.nav-row{display:none!important;}
+  body{font-size:12px;}
+  .shell{max-width:100%;padding:0 16px;}
+  .profile-card,.summary-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;}
+  .score-bar,.band-pill,.profile-badge,.s-dot,.watch-box,.focus-box,.reflection-box,.summary-header,.profile-dim-header,.principle-num{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="site-header">
+  <a href="#" class="logo"><img src="data:image/jpeg;base64,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" alt="Metisfy"></a>
+  <span class="header-label">The Power of the Collective</span>
+</header>
+
+<div id="start-screen">
+  <div class="hero fade-up">
+    <p class="eyebrow">The Power of the Collective</p>
+    <h1 class="hero-title">How Do I Handle Conflict?</h1>
+    <p class="hero-body">Conflict is not the problem. How a leader handles it is. This assessment explores how you show up in conflict across five dimensions that together determine whether difficult conversations deplete or strengthen the relationships and teams around you.</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg>5–7 minutes</span>
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 7h6M5 10h4"/></svg>20 statements</span>
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l2 4 4.5.5-3.2 3.1.8 4.4L8 12l-4.1 2 .8-4.4L1.5 6.5 6 6z"/></svg>5 dimensions + tailored summary</span>
+    </div>
+  </div>
+
+  <div class="philosophy-section fade-up">
+    <p class="philosophy-title">The philosophy behind this assessment</p>
+    <div id="philosophy-cards"></div>
+  </div>
+
+  <div class="start-card fade-up">
+    <p class="start-card-title">Five dimensions</p>
+    <div class="dims-grid">
+      <div class="dim-start-item"><span class="dim-dot" style="background:#5A3EA0"></span>Do I name it and face it?</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#1D7A6E"></span>Do I stay curious rather than certain?</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#2E4A6B"></span>Do I separate people from the problem?</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#C44B30"></span>Do I look for solutions that work for both of us?</div>
+      <div class="dim-start-item" style="grid-column:span 2"><span class="dim-dot" style="background:#4A7C59"></span>Do I repair and move forward?</div>
+    </div>
+    <p class="start-card-title">How true is this of me?</p>
+    <div class="scale-preview">
+      <div class="scale-pip" style="background:#FDF0ED;border-color:#F0C4B8"><div class="scale-pip-num" style="color:#C44B30">1</div><div class="scale-pip-lbl">Not me</div><span class="scale-pip-tooltip">Not at all like me</span></div>
+      <div class="scale-pip" style="background:#FFF6E8;border-color:#F0DEBC"><div class="scale-pip-num" style="color:#B86A00">2</div><div class="scale-pip-lbl">A little</div><span class="scale-pip-tooltip">A little like me</span></div>
+      <div class="scale-pip" style="background:#F7F5FC;border-color:#D4CFF0"><div class="scale-pip-num" style="color:#7A7890">3</div><div class="scale-pip-lbl">Sometimes</div><span class="scale-pip-tooltip">Sometimes like me</span></div>
+      <div class="scale-pip" style="background:#E5F5F3;border-color:#B8DDD8"><div class="scale-pip-num" style="color:#1D7A6E">4</div><div class="scale-pip-lbl">Mostly</div><span class="scale-pip-tooltip">Mostly like me</span></div>
+      <div class="scale-pip" style="background:#EDE8F7;border-color:#C0B0E8"><div class="scale-pip-num" style="color:#5A3EA0">5</div><div class="scale-pip-lbl">Exactly me</div><span class="scale-pip-tooltip">This is exactly me</span></div>
+    </div>
+    <p class="start-note">Think about how you actually show up in conflict right now, not how you would like to. Hover or tap any number to see the full label.</p>
+    <button class="start-btn" onclick="startAssessment()">
+      Begin assessment
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="quiz-screen" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-dim" id="prog-label">Do I name it and face it?</span>
+      <span class="progress-frac" id="prog-frac">0 / 20 answered</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="questions-area"></div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" id="btn-back" onclick="goBack()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 8H3M7 4L3 8l4 4"/></svg>Back
+    </button>
+    <button class="btn btn-primary" id="btn-next" onclick="goNext()" disabled>
+      Next<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="results-screen" style="display:none"></div>
+</div>
+
+<script>
+const FREQ_LABELS = ['Not at all like me','A little like me','Sometimes like me','Mostly like me','This is exactly me'];
+const FREQ_SHORT  = ['Not me','A little','Sometimes','Mostly','Exactly me'];
+const FREQ_COLORS = ['#C44B30','#B86A00','#7A7890','#1D7A6E','#5A3EA0'];
+
+const philosophy = [
+  { num:'1', title:'Conflict is information.', text:'Where there is tension, there is something important trying to surface. The instinct to smooth it over, push through it, or simply endure it is understandable — but it is costly. The leader who can stay with discomfort long enough to understand it is the one who learns fastest and builds the deepest trust.', color:'#5A3EA0', bg:'#F7F5FC' },
+  { num:'2', title:'You can be direct and kind at the same time.', text:'The most common mistake in conflict is treating it as a binary: either you say the hard thing and damage the relationship, or you protect the relationship and leave the issue unspoken. This is a false choice. Directness, delivered with respect and genuine curiosity, is one of the most caring things a leader can offer.', color:'#1D7A6E', bg:'#E5F5F3' },
+  { num:'3', title:'The goal is understanding, not winning.', text:'Leaders who approach conflict as a problem to solve together — rather than a contest to win — consistently reach better outcomes. They surface the real issue. They hear what the other person actually needs. And they build something more durable than agreement: they build trust.', color:'#C44B30', bg:'#FDF0ED' },
+  { num:'4', title:'Repair is part of the work.', text:'How a conflict ends matters as much as how it is handled in the moment. The leader who follows through, checks in, and closes the loop properly transforms conflict from something that depletes a team into something that strengthens it.', color:'#4A7C59', bg:'#EAF4EE' },
+  { num:'5', title:'Your pattern is your starting point.', text:'Most of us have a default response to conflict — one shaped by experience, culture, and temperament. This assessment is not about judging that default. It is about seeing it clearly, so you can choose how you respond rather than simply react.', color:'#2E4A6B', bg:'#EAF0F7' },
+];
+
+const pc = document.getElementById('philosophy-cards');
+philosophy.forEach(p => {
+  pc.innerHTML += `<div class="principle-card" style="background:${p.bg}">
+    <div class="principle-num" style="background:${p.color}">${p.num}</div>
+    <div class="principle-body">
+      <div class="principle-title" style="color:${p.color}">${p.title}</div>
+      <div class="principle-text">${p.text}</div>
+    </div>
+  </div>`;
+});
+
+const dims = [
+  { id:'name', title:'Do I name it and face it?', subtitle:'Willingness to raise conflict directly rather than avoid or defer it', color:'#5A3EA0', bg:'#F7F5FC',
+    qs:['When something is not working in a relationship or on a team, I raise it rather than wait for someone else to.','I address difficult conversations promptly, even when the timing feels uncomfortable.','I can say what needs to be said clearly and calmly, even when the other person may not want to hear it.','I treat unresolved tension as something worth addressing, not something to manage around.'] },
+  { id:'curious', title:'Do I stay curious rather than certain?', subtitle:'Openness to the other person’s perspective when under pressure or in disagreement', color:'#1D7A6E', bg:'#E5F5F3',
+    qs:['When I am in conflict with someone, I genuinely try to understand what is driving their position.','I can hold my own view and still be open to the possibility that the other person has a point.','I ask questions in conflict conversations rather than moving straight to making my case.','I notice when I have become fixed in my position and I am able to loosen my grip on it.'] },
+  { id:'separate', title:'Do I separate people from the problem?', subtitle:'Protecting the relationship while engaging fully with the issue', color:'#2E4A6B', bg:'#EAF0F7',
+    qs:['I can disagree with someone strongly without letting it become personal.','I focus on the issue at hand rather than bringing in past grievances or patterns.','I am able to challenge someone’s thinking while still signalling respect for them as a person.','After a difficult conversation, the relationship between us is no worse — and often stronger.'] },
+  { id:'solutions', title:'Do I look for solutions that work for both of us?', subtitle:'Orientation toward collaborative resolution rather than winning or avoiding', color:'#C44B30', bg:'#FDF0ED',
+    qs:['I look for outcomes in conflict that genuinely meet both parties’ core needs, not just my own.','I resist the pull to win an argument at the expense of a workable outcome.','I am willing to revisit my own assumptions when the other person offers a different perspective.','I see conflict as something to work through together, not a contest with a winner and a loser.'] },
+  { id:'repair', title:'Do I repair and move forward?', subtitle:'Follow-through on resolution and restoration of the working relationship', color:'#4A7C59', bg:'#EAF4EE',
+    qs:['Once a conflict is resolved, I do not hold onto it or let it colour future interactions.','I check in after a difficult conversation to make sure we are genuinely aligned and the air is clear.','If I have handled a conflict poorly, I acknowledge it and make it right.','I follow through on any commitments I make during or after a conflict conversation.'] },
+];
+
+const profiles = {
+  name: {
+    strong: { subtitle:'You face conflict directly and your team trusts you for it.', desc:'You do not let things fester. When tension arises, you raise it. When something is not working, you say so. This is rarer than it sounds and it is one of the most important things a leader can do for the health of a team. People around you do not have to wonder whether difficult things will be addressed — they know they will.', watch:'Naming conflict clearly is only the first step. Make sure you are entering these conversations with as much curiosity as clarity. The leader who raises things well but then argues rather than listens can create as much damage as the one who avoids altogether.' },
+    developing: { subtitle:'You are building the habit of naming what needs to be named.', desc:'You have the instinct to address conflict rather than avoid it, and you act on it in many situations. There will be moments — particularly when the relationship matters a lot, or when you are not sure of your ground — where the pull to let it go is strong. The opportunity is to build a lower threshold for raising things, even when it feels risky.', watch:'Watch for the conversations you keep having in your head but not out loud. Those are the ones that need to happen. The longer a difficult thing goes unspoken, the heavier it becomes for everyone — including you.' },
+    early: { subtitle:'Learning to name it is your most important growth edge here.', desc:'Most conflict that damages teams is not dramatic. It is the accumulation of small things left unaddressed — the comment that stung, the decision that felt unfair, the tension that was noticed but not named. The leader who can break that pattern, who can say the thing early and calmly, changes the entire culture of a team.', watch:'Choose one thing that is currently unspoken in a relationship or team. Not the hardest thing — just one thing. Find a way to raise it this week. Notice what happens when you do.' }
+  },
+  curious: {
+    strong: { subtitle:'You bring genuine curiosity into conflict and it changes everything.', desc:'You understand that the other person in a conflict always has a reason for their position — and that understanding that reason is more important than overcoming it. You ask questions. You listen to the answers. You hold your own view lightly enough to let new information in. This makes you someone people feel genuinely safe to disagree with.', watch:'Curiosity in conflict is a discipline, not a personality trait. Watch for the situations where the stakes are highest or your certainty is strongest — those are the moments when curiosity is hardest to sustain and most needed.' },
+    developing: { subtitle:'You are developing a genuinely curious approach to conflict.', desc:'You have the intention to understand before responding, and you act on it in many situations. The pull toward certainty — particularly when you feel strongly about something or when the other person seems unreasonable — is real. The opportunity is to extend the window of curiosity a little further before you shift into making your case.', watch:'Try this: before you make your next argument in a conflict conversation, ask one more question. Not a rhetorical one — a real one. Tell me more about that. Help me understand what is driving this for you. Notice what it opens up.' },
+    early: { subtitle:'Staying curious under pressure is your most important growth edge here.', desc:'When we are in conflict, the instinct to defend our position and challenge the other person’s is almost universal. But the leaders who handle conflict best are the ones who can stay curious longest — who can treat the other person’s view as information rather than opposition. That shift, from defending to understanding, is one of the most powerful a leader can make.', watch:'In your next conflict conversation, set yourself a single rule: do not make your case until you can summarise the other person’s position in a way they would recognise as fair. If you cannot do that yet, keep asking questions.' }
+  },
+  separate: {
+    strong: { subtitle:'You challenge the issue without attacking the person and relationships hold.', desc:'You have developed one of the most valuable disciplines in leadership conflict: the ability to engage fully with a problem without making the other person feel like the problem. People feel respected by you even when they are being challenged. Difficult conversations with you tend to strengthen relationships rather than damage them.', watch:'Separating people from the problem requires ongoing attention to how you phrase things, especially under pressure. Watch for the moments when frustration creeps into your language — a shift in tone, a reference to patterns rather than this specific issue. Those are the moments that can undo the work of the whole conversation.' },
+    developing: { subtitle:'You are building the discipline of challenging ideas rather than people.', desc:'You have the intention to keep conflict about the issue and the skill to act on it much of the time. There will be moments — particularly when the same issue keeps recurring, or when you feel your good faith is not being reciprocated — where the personal starts to bleed in. The opportunity is to notice those moments early and bring the focus back to the issue.', watch:'Watch for the word ‘you’ in conflict conversations. ‘You always do this’ or ‘you never listen’ shifts the conversation from the problem to the person. Reframe: ‘When this happens, the effect is…’ keeps the focus where it belongs.' },
+    early: { subtitle:'Separating people from the problem is your most important growth edge here.', desc:'When conflict feels personal — and it often does — it is very hard to keep it about the issue. But leaders who cannot make that separation consistently damage their most important relationships, often without intending to. The skill of challenging someone’s thinking while honouring them as a person is one of the most important in leadership, and it can be learned.', watch:'Before your next difficult conversation, identify one thing you genuinely respect or value about the other person. Hold that thought as you engage with the issue. It changes how you enter the conversation — and how they receive it.' }
+  },
+  solutions: {
+    strong: { subtitle:'You treat conflict as a problem to solve together and reach better outcomes.', desc:'You are not in conflict conversations to win. You are in them to reach something that works — for both people, for the team, for the work. This orientation consistently produces better outcomes than the alternatives: not because you compromise what matters, but because you stay focused on finding something real rather than proving a point.', watch:'Collaborative resolution requires that both parties are genuinely engaging. Watch for situations where the other person is not operating in the same spirit — where they are trying to win rather than solve. You may need to name that dynamic explicitly before you can shift it.' },
+    developing: { subtitle:'You are building a genuinely collaborative approach to conflict resolution.', desc:'You have the orientation toward mutual solutions and you act on it in many situations. The pull toward winning — particularly when you feel strongly that you are right, or when the cost of the conflict has been high — is real. The opportunity is to stay with the question of what will actually work for both of you, even when that feels less satisfying than being vindicated.', watch:'Watch for the moment in a conflict when you start to lose interest in the other person’s position. That is the moment when the conversation shifts from problem-solving to winning. Notice it. Ask yourself: what does this person actually need here? And what would a solution look like that addresses that?' },
+    early: { subtitle:'Seeking solutions that work for both of you is your most important growth edge here.', desc:'Conflict that ends with a winner and a loser does not end — it continues underground. The person who lost knows it. Their commitment to any outcome they did not own is limited. Leaders who consistently seek solutions that genuinely work for both parties build a different kind of team: one where people trust that their interests will be taken seriously, and where conflict therefore feels safer to raise.', watch:'In your next conflict conversation, try asking this question out loud: ‘What would a solution look like that actually works for both of us?’ It is a simple question, but it changes the frame of the entire conversation from opposition to collaboration.' }
+  },
+  repair: {
+    strong: { subtitle:'You close the loop and relationships are stronger for how you handle what comes after.', desc:'You understand that conflict is not over when the difficult conversation ends. You check in. You follow through. When you have got something wrong, you say so. This follow-through is what turns a difficult conversation into a trust-building moment — and it is one of the most underestimated skills in leadership.', watch:'Repair requires that the other person feels the resolution is real, not just formally complete. Watch for situations where you feel the matter is closed but the other person has not fully moved on. A brief genuine check-in — ‘Are we good? Is there anything that is still sitting with you?’ — can make the difference between resolution and residue.' },
+    developing: { subtitle:'You are building the habits of follow-through and genuine repair.', desc:'You have the intention to close the loop after conflict and you act on it in many situations. The pull to move on quickly — particularly when the conversation was difficult and you would rather leave it behind — is real. The opportunity is to invest just a little more in the after, even when it feels like the matter is resolved.', watch:'Watch for the conflicts that feel resolved but are not quite. A quick follow-up message, or a moment at the start of your next interaction to acknowledge how the conversation went, costs almost nothing and means a great deal. Do not let the discomfort of revisiting it stop you from properly closing it.' },
+    early: { subtitle:'Repairing and moving forward is your most important growth edge here.', desc:'Many leaders are reasonably good at having difficult conversations but less good at what comes after. They assume that because the conversation happened, the matter is resolved. But repair is its own act. It requires checking in, following through on any commitments made, and — where you handled something poorly — acknowledging that directly. Without repair, conflicts leave residue that accumulates over time.', watch:'Think about a conflict from the recent past that ended but did not feel properly closed. What would it take to close it properly now? A conversation? An acknowledgement? A follow-up on something you said you would do? The longer it sits, the harder it gets. Do it this week.' }
+  }
+};
+
+const bringText = {
+  name: 'You raise difficult things rather than leaving them unspoken, which means the people around you do not have to carry unresolved tension or wonder whether hard truths will ever be addressed.',
+  curious: 'You bring genuine curiosity into conflict rather than certainty, which means the people you disagree with feel genuinely heard and are more likely to engage openly rather than defensively.',
+  separate: 'You challenge ideas without attacking people, which means difficult conversations with you tend to leave the relationship intact — and often stronger than before.',
+  solutions: 'You look for outcomes that work for both parties rather than outcomes that vindicate you, which means conflicts you are involved in tend to reach resolutions that stick.',
+  repair: 'You follow through after difficult conversations and repair properly when needed, which means conflicts with you genuinely close rather than leaving residue that accumulates over time.'
+};
+
+const expText = {
+  name: 'The people around you may be carrying unspoken tensions that are not being named, which over time creates a team culture where difficult things are avoided rather than addressed.',
+  curious: 'The people you disagree with may feel that your mind is already made up before the conversation begins, which makes genuine dialogue harder and entrenches positions on both sides.',
+  separate: 'The people you are in conflict with may sometimes feel that the issue has become personal, which damages trust and makes future conflicts harder to raise and resolve.',
+  solutions: 'The people on the other side of your conflicts may feel that winning matters more to you than finding something that actually works, which makes them less willing to engage openly.',
+  repair: 'The people you have had difficult conversations with may feel that things were left unresolved or unacknowledged, which means conflicts leave traces that affect future interactions.'
+};
+
+function getBand(t) { return t >= 16 ? 'strong' : t >= 10 ? 'developing' : 'early'; }
+function bandLabel(b) { return {strong:'Strong', developing:'Developing', early:'Early stage'}[b]; }
+
+function buildSummary(scores) {
+  const bands = {};
+  dims.forEach(d => { bands[d.id] = getBand(scores[d.id]); });
+  const ranked = dims.slice().sort((a,b) => scores[b.id]-scores[a.id]);
+  const top2 = ranked.slice(0,2);
+  const bottom2 = ranked.slice(-2);
+  const lowest = ranked[ranked.length-1];
+
+  const hi = id => bands[id]==='strong';
+  let headline = '';
+  if (hi('name') && hi('curious')) headline = 'The Direct and Open Leader';
+  else if (hi('curious') && hi('separate')) headline = 'The Relationship-First Conflict Leader';
+  else if (hi('separate') && hi('solutions')) headline = 'The Constructive Conflict Leader';
+  else if (hi('solutions') && hi('repair')) headline = 'The Resolution-Focused Leader';
+  else if (hi('name') && hi('repair')) headline = 'The Accountable Conflict Leader';
+  else if (hi('name')) headline = 'The Direct Leader';
+  else if (hi('curious')) headline = 'The Curious Conflict Leader';
+  else if (hi('separate')) headline = 'The Respectful Challenger';
+  else if (hi('solutions')) headline = 'The Collaborative Problem-Solver';
+  else if (hi('repair')) headline = 'The Repair-Minded Leader';
+  else if (Object.values(bands).every(b=>b==='developing')) headline = 'The Developing Conflict Leader';
+  else headline = 'The Growing Conflict Leader';
+
+  const tagline = top2.length > 0
+    ? `Your conflict handling is strongest in ${top2.map(d=>d.title.toLowerCase()).join(' and ')}. The people around you are most likely to feel the benefit of your leadership in these areas.`
+    : 'Your approach to conflict is developing across all five dimensions. Each one represents an opportunity to handle difficult conversations in a way that strengthens rather than depletes.';
+
+  const bringing = top2.map(d => bringText[d.id]).filter(Boolean);
+  const experiencing = bottom2.filter(d => bands[d.id] !== 'strong').map(d => expText[d.id]).filter(Boolean);
+
+  const focusMap = {
+    name: 'Choose one thing that is currently unspoken in a relationship or team. Not the hardest thing — just one thing. Find a way to raise it this week, early and calmly. Notice what happens when you do.',
+    curious: 'In your next conflict conversation, commit to asking one more question before making your case. Not a rhetorical one — a real one. Hold the other person’s position long enough to summarise it in a way they would recognise as fair.',
+    separate: 'Before your next difficult conversation, identify one thing you genuinely respect about the other person. Hold that thought as you engage with the issue. Notice how it changes both how you enter the conversation and how they receive it.',
+    solutions: 'In your next conflict conversation, ask this question out loud: ‘What would a solution look like that actually works for both of us?’ Let their answer genuinely shape where you go next.',
+    repair: 'Think of one conflict from the recent past that ended but did not feel properly closed. Decide what it would take to close it properly — a conversation, an acknowledgement, a follow-up. Do it this week.'
+  };
+
+  return { headline, tagline, bringing, experiencing, focusText: focusMap[lowest.id] };
+}
+
+let currentSection = 0;
+let answers = {};
+
+function getGI(si, qi) { return si * 4 + qi; }
+
+function renderSection() {
+  const dim = dims[currentSection];
+  const area = document.getElementById('questions-area');
+  area.innerHTML = '';
+
+  const chip = document.createElement('div');
+  chip.className = 'dim-chip';
+  chip.style.cssText = `background:${dim.color}20;color:${dim.color}`;
+  chip.textContent = dim.title;
+  area.appendChild(chip);
+
+  const sub = document.createElement('p');
+  sub.className = 'dim-subtitle';
+  sub.textContent = dim.subtitle;
+  area.appendChild(sub);
+
+  dim.qs.forEach((q, qi) => {
+    const gi = getGI(currentSection, qi);
+    const card = document.createElement('div');
+    card.className = 'question-card fade-up';
+    card.style.animationDelay = (0.05 + qi * 0.06) + 's';
+    const btns = [1,2,3,4,5].map(n => {
+      const sel = answers[gi] === n;
+      return `<button class="freq-btn${sel?' selected':''}" onclick="rate(${gi},${n})">
+        <span class="f-num" style="color:${sel?dim.color:FREQ_COLORS[n-1]}">${n}</span>
+        <span class="f-lbl">${FREQ_SHORT[n-1]}</span>
+        <span class="f-tooltip">${FREQ_LABELS[n-1]}</span>
+      </button>`;
+    }).join('');
+    card.innerHTML = `<div class="q-top">
+      <div class="q-num" style="background:${dim.color}20;color:${dim.color}">${gi+1}</div>
+      <div class="q-text">${q}</div>
+    </div><div class="freq-row">${btns}</div>`;
+    area.appendChild(card);
+  });
+
+  updateNav(); updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rate(gi, val) {
+  answers[gi] = val;
+  const dim = dims[currentSection];
+  const localIdx = gi - currentSection * 4;
+  const cards = document.querySelectorAll('#questions-area .question-card');
+  if (cards[localIdx]) {
+    cards[localIdx].querySelectorAll('.freq-btn').forEach((btn,i) => {
+      const v = i+1;
+      btn.classList.toggle('selected', v===val);
+      btn.querySelector('.f-num').style.color = v===val ? dim.color : FREQ_COLORS[v-1];
+    });
+  }
+  updateNav(); updateProgress();
+}
+
+function sectionDone() {
+  return dims[currentSection].qs.every((_,qi) => answers[getGI(currentSection,qi)] !== undefined);
+}
+
+function updateNav() {
+  document.getElementById('btn-back').disabled = currentSection === 0;
+  const btn = document.getElementById('btn-next');
+  const isLast = currentSection === dims.length - 1;
+  btn.disabled = !sectionDone();
+  btn.innerHTML = isLast
+    ? 'See my results <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
+    : 'Next <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+}
+
+function updateProgress() {
+  const n = Object.keys(answers).length;
+  document.getElementById('prog-fill').style.width = (n/20*100) + '%';
+  document.getElementById('prog-frac').textContent = n + ' / 20 answered';
+  document.getElementById('prog-label').textContent = dims[currentSection].title;
+}
+
+function goNext() {
+  if (currentSection < dims.length-1) { currentSection++; renderSection(); }
+  else showResults();
+}
+
+function goBack() {
+  if (currentSection > 0) { currentSection--; renderSection(); }
+}
+
+function startAssessment() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  renderSection();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('results-screen');
+  rs.style.display = 'block';
+
+  const scores = {};
+  dims.forEach((d,si) => {
+    scores[d.id] = [0,1,2,3].reduce((sum,qi) => sum+(answers[getGI(si,qi)]||0), 0);
+  });
+
+  const barsHtml = dims.map(d => {
+    const total = scores[d.id];
+    const band = getBand(total);
+    const pct = Math.round(total/20*100);
+    const bc = band==='strong'?d.color:band==='developing'?'#6B9FD4':'#9B97B2';
+    const bb = band==='strong'?d.bg:band==='developing'?'#EAF3FC':'#F5F4F9';
+    return `<div class="score-row">
+      <span class="score-label" style="color:${d.color}">${d.title}</span>
+      <div class="score-track"><div class="score-bar" data-pct="${pct}" style="width:0%;background:${d.color}"></div></div>
+      <div class="score-right">
+        <span class="score-num" style="color:${d.color}">${total}/20</span>
+        <span class="band-pill" style="background:${bb};color:${bc}">${bandLabel(band)}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const sum = buildSummary(scores);
+  const bringHtml = sum.bringing.map(t=>`<li><span class="s-dot bring"></span>${t}</li>`).join('');
+  const expHtml = sum.experiencing.map(t=>`<li><span class="s-dot exp"></span>${t}</li>`).join('');
+
+  const profilesHtml = dims.map(d => {
+    const band = getBand(scores[d.id]);
+    const p = profiles[d.id][band];
+    const bc = band==='strong'?d.color:band==='developing'?'#6B9FD4':'#9B97B2';
+    const bb = band==='strong'?d.bg:band==='developing'?'#EAF3FC':'#F5F4F9';
+    return `<div class="profile-group fade-up">
+      <div class="profile-dim-header" style="background:${d.color}">
+        <div class="profile-dim-name">${d.title}</div>
+        <div class="profile-dim-sub">${d.subtitle}</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-header">
+          <div>
+            <div class="profile-level">${bandLabel(band)} <span style="font-size:13px;font-weight:400;color:#7A7890">(${scores[d.id]}/20)</span></div>
+            <div style="font-size:13px;font-style:italic;color:#7A7890;margin-top:2px">${p.subtitle}</div>
+          </div>
+          <span class="profile-badge" style="background:${bb};color:${bc}">${bandLabel(band)}</span>
+        </div>
+        <div class="profile-body">
+          <p class="profile-desc">${p.desc}</p>
+          <div class="watch-box"><span class="watch-label">Watch for</span><span class="watch-text">${p.watch}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const nextRecs = [
+    { title:'How Do I Lead and Work with Teams?', why:'Conflict is at the heart of collective leadership. Seeing how your conflict approach connects to how you lead teams will give you a fuller picture of your impact on the people around you.', color:'#5A3EA0', bg:'#F7F5FC', href:'1__How_Do_I_Lead_Teams.html', live:true },
+    { title:'How Do I Listen?', why:'The curious dimension of conflict is fundamentally a listening skill. The listening assessment will show you how the quality of your listening shapes what becomes possible in difficult conversations.', color:'#1D7A6E', bg:'#E5F5F3', href:'1__How_Do_I_LIsten.html', live:true },
+    { title:'How Comfortable Am I with Delegation?', why:'The moments when delegated work goes wrong are often where conflict lives. These two assessments sit side by side in how they shape the trust and capability of your team.', color:'#C44B30', bg:'#FDF0ED', href:'2__How_Compforatable_am_I_WIth_Delegation.html', live:true },
+  ];
+
+  const nextHtml = nextRecs.map(r => {
+    if (!r.live) return `<div class="next-card coming-soon" style="background:${r.bg};border-color:${r.color}40">
+      <p class="next-card-flag" style="color:${r.color}">Coming soon</p>
+      <p class="next-card-title">${r.title}</p>
+      <p class="next-card-why">${r.why}</p>
+    </div>`;
+    return `<a class="next-card" href="${r.href}" style="background:${r.bg};border-color:${r.color}40">
+      <p class="next-card-flag" style="color:${r.color}">Next assessment</p>
+      <p class="next-card-title">${r.title}</p>
+      <p class="next-card-why">${r.why}</p>
+      <div class="next-card-arrow" style="color:${r.color}">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </a>`;
+  }).join('');
+
+  rs.innerHTML = `
+    <div class="results-hero fade-up">
+      <p class="results-eyebrow">Your results</p>
+      <h2 class="results-title">How Do I Handle Conflict?</h2>
+      <p class="results-sub">Your conflict handling profile across all five dimensions, with a personalised summary and full coaching notes.</p>
+    </div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Scores at a glance</h3>
+      <p class="section-sub">16–20 = Strong  •  10–15 = Developing  •  4–9 = Early stage</p>
+      ${barsHtml}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your tailored summary</h3>
+      <p class="section-sub" style="margin-bottom:20px">A combined interpretation of your conflict handling profile.</p>
+      <div class="summary-card">
+        <div class="summary-header">
+          <div class="summary-headline">${sum.headline}</div>
+          <div class="summary-tagline">${sum.tagline}</div>
+        </div>
+        <div class="summary-body">
+          ${sum.bringing.length>0?`<div class="summary-block"><p class="summary-block-label bringing">What you are bringing</p><ul class="summary-list">${bringHtml}</ul></div>`:''}
+          ${sum.experiencing.length>0?`<div class="summary-block"><p class="summary-block-label experiencing">What others may be experiencing</p><ul class="summary-list">${expHtml}</ul></div>`:''}
+          <div class="focus-box">
+            <p class="focus-label">Your one focus for now</p>
+            <p class="focus-text">${sum.focusText}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your dimension profiles</h3>
+      <p class="section-sub">Full coaching notes for each dimension based on your score.</p>
+      ${profilesHtml}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Where to go next</h3>
+      <p class="section-sub">Based on your results, these are the most useful next steps in the Metisfy suite.</p>
+      <div class="next-grid">${nextHtml}</div>
+      <div class="kb-slot">
+        <p class="kb-slot-label">From the Metisfy knowledge base</p>
+        <p class="kb-slot-text">Personalised resources from the Metisfy knowledge base matched to your conflict handling profile will appear here once the knowledge base connection is live.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="reflection-box fade-up">
+      <p class="reflection-label">Reflection prompt</p>
+      <p class="reflection-text">Think of a conflict situation you have handled recently — one where the outcome felt right, and one where it did not. What did you do well in each? What would you do differently? And looking at your scores across these five dimensions — which one, if you strengthened it, would make the biggest difference to how you lead through conflict from here?</p>
+    </div>
+
+    <div class="results-footer fade-up">
+      <p>Download your results or retake the assessment.</p>
+      <div class="footer-btns">
+        <button class="btn btn-teal" onclick="printResults()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M3 13h10"/></svg>
+          Download results
+        </button>
+        <button class="btn btn-ghost" onclick="restartAssessment()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8a6 6 0 1 0 1-3.2"/><path d="M2 2v4h4"/></svg>
+          Retake assessment
+        </button>
+      </div>
+    </div>`;
+
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar[data-pct]').forEach(b => { b.style.width = b.dataset.pct+'%'; });
+  }, 150);
+}
+
+function printResults() {
+  const rs = document.getElementById('results-screen');
+  const logoSrc = document.querySelector('.logo img').src;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<title>How Do I Handle Conflict? — Metisfy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri',sans-serif;color:#3D3B4F;line-height:1.6;padding:28px 36px;max-width:820px;margin:0 auto;font-size:13px;}
+.print-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:2px solid #5A3EA0;margin-bottom:24px;}
+.print-header img{height:34px;}
+.print-header-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A7890;}
+.results-footer,.footer-btns,.next-grid,.kb-slot{display:none!important;}
+.results-hero{text-align:center;padding:14px 0 20px;}
+.results-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#7B5EC8;margin-bottom:5px;}
+.results-title{font-size:22px;font-weight:700;color:#3B2678;margin-bottom:6px;}
+.results-sub{font-size:12px;color:#7A7890;max-width:480px;margin:0 auto;}
+.section-heading{font-size:16px;font-weight:700;color:#3B2678;margin-bottom:3px;}
+.section-sub{font-size:11px;color:#7A7890;margin-bottom:12px;}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.score-label{font-size:11px;font-weight:600;width:185px;flex-shrink:0;line-height:1.3;}
+.score-track{flex:1;height:7px;background:#D4CFF0;border-radius:3px;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.score-bar{height:100%;border-radius:3px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.score-right{width:110px;flex-shrink:0;display:flex;align-items:center;gap:4px;justify-content:flex-end;font-size:11px;font-weight:700;}
+.band-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.divider{height:1px;background:#D4CFF0;margin:18px 0;}
+.summary-card{border:1px solid #D4CFF0;border-radius:12px;overflow:hidden;margin-bottom:12px;page-break-inside:avoid;}
+.summary-header{padding:14px 18px 12px;border-bottom:1px solid #EDE8F7;background:#F7F5FC;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.summary-headline{font-size:17px;font-weight:700;color:#3B2678;margin-bottom:5px;}
+.summary-tagline{font-size:12px;color:#7A7890;line-height:1.6;}
+.summary-body{padding:14px 18px;}
+.summary-block{margin-bottom:14px;}
+.summary-block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:7px;}
+.summary-block-label.bringing{color:#1D7A6E;}.summary-block-label.experiencing{color:#B86A00;}
+.summary-list{list-style:none;}
+.summary-list li{display:flex;gap:7px;font-size:12px;line-height:1.6;margin-bottom:5px;align-items:flex-start;}
+.s-dot{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.s-dot.bring{background:#1D7A6E;}.s-dot.exp{background:#B86A00;}
+.focus-box{background:#F7F5FC;border-left:3px solid #5A3EA0;border-radius:6px;padding:12px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.focus-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A3EA0;margin-bottom:5px;}
+.focus-text{font-size:13px;font-style:italic;color:#3B2678;line-height:1.65;}
+.profile-group{margin-bottom:14px;page-break-inside:avoid;}
+.profile-dim-header{padding:10px 14px;border-radius:8px;margin-bottom:9px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.profile-dim-name{font-size:14px;font-weight:700;color:#fff;}
+.profile-dim-sub{font-size:11px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:2px;}
+.profile-card{border:1px solid #D4CFF0;border-radius:10px;overflow:hidden;}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:11px 16px 9px;border-bottom:1px solid #EDE8F7;}
+.profile-level{font-size:14px;font-weight:700;color:#3B2678;}
+.profile-badge{padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.profile-body{padding:11px 16px;}
+.profile-desc{font-size:12px;line-height:1.6;margin-bottom:9px;color:#3D3B4F;}
+.watch-box{display:flex;gap:7px;background:#FFF6E8;border-left:3px solid #B86A00;border-radius:4px;padding:8px 11px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.watch-label{font-size:10px;font-weight:700;color:#B86A00;text-transform:uppercase;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:12px;color:#4A3800;line-height:1.5;}
+.reflection-box{background:#F7F5FC;border-left:3px solid #5A3EA0;border-radius:6px;padding:12px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.reflection-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A3EA0;margin-bottom:5px;}
+.reflection-text{font-size:13px;font-style:italic;color:#3B2678;line-height:1.7;}
+.print-footer{text-align:center;padding-top:16px;margin-top:24px;border-top:1px solid #D4CFF0;font-size:11px;color:#7A7890;}
+@media print{body{padding:16px 20px;}}
+</style></head><body>
+<div class="print-header">
+  <img src="${logoSrc}" alt="Metisfy">
+  <span class="print-header-label">The Power of the Collective — How Do I Handle Conflict?</span>
+</div>
+${rs.innerHTML}
+<div class="print-footer">© Metisfy. All rights reserved.</div>
+<script>window.onload=function(){window.print();}<\/script>
+</body></html>`);
+  win.document.close();
+}
+
+function restartAssessment() {
+  answers = {}; currentSection = 0;
+  document.getElementById('results-screen').innerHTML = '';
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
