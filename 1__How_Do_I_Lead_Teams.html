@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Do I Lead and Work with Teams? — Metisfy</title>
+<style>
+:root {
+  --purple-dark:  #3B2678;
+  --purple-mid:   #5A3EA0;
+  --purple-soft:  #7B5EC8;
+  --purple-light: #EDE8F7;
+  --purple-pale:  #F7F5FC;
+  --teal:         #1D7A6E;
+  --teal-light:   #E5F5F3;
+  --amber:        #B86A00;
+  --amber-light:  #FFF6E8;
+  --coral:        #C44B30;
+  --coral-light:  #FDF0ED;
+  --slate:        #2E4A6B;
+  --slate-light:  #EAF0F7;
+  --sage:         #4A7C59;
+  --sage-light:   #EAF4EE;
+  --blue:         #6B9FD4;
+  --blue-light:   #EAF3FC;
+  --grey-dark:    #3D3B4F;
+  --grey-mid:     #7A7890;
+  --grey-border:  #D4CFF0;
+  --white:        #FFFFFF;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --shadow: 0 2px 16px rgba(58,38,120,0.08),0 1px 4px rgba(58,38,120,0.05);
+  --shadow-lg: 0 8px 32px rgba(58,38,120,0.13),0 2px 8px rgba(58,38,120,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri','Calibri Light',sans-serif;background:#fff;color:var(--grey-dark);line-height:1.6;}
+.shell{max-width:760px;margin:0 auto;padding:0 24px 100px;}
+
+.site-header{padding:28px 0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--grey-border);margin-bottom:48px;}
+.logo img{height:38px;width:auto;display:block;}
+.header-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);}
+
+.hero{margin-bottom:44px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.hero-title{font-size:clamp(24px,5vw,40px);font-weight:700;color:var(--purple-dark);line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;}
+.hero-title em{font-style:normal;font-weight:700;color:var(--purple-dark);}
+.hero-body{font-size:16px;color:var(--grey-mid);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-pill{display:flex;align-items:center;gap:6px;background:var(--purple-pale);border:1px solid var(--grey-border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--grey-dark);font-weight:500;}
+.hero-pill svg{width:13px;height:13px;color:var(--purple-mid);flex-shrink:0;}
+
+/* PHILOSOPHY */
+.philosophy-section{margin-bottom:40px;}
+.philosophy-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.principle-card{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow);}
+.principle-num{width:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--white);}
+.principle-body{flex:1;padding:16px 18px;}
+.principle-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.principle-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+
+.start-card{background:var(--white);border:1px solid var(--grey-border);border-radius:24px;padding:32px;box-shadow:var(--shadow);margin-bottom:20px;}
+.start-card-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.dims-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+.dim-start-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:var(--purple-pale);border-radius:10px;font-size:13px;font-weight:500;color:var(--purple-dark);line-height:1.35;}
+.dim-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.scale-preview{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:24px;}
+.scale-pip{text-align:center;padding:8px 4px;border-radius:8px;border:1px solid var(--grey-border);cursor:default;position:relative;}
+.scale-pip-num{font-size:20px;font-weight:700;line-height:1;margin-bottom:2px;}
+.scale-pip-lbl{font-size:11px;color:var(--grey-mid);}
+.scale-pip-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:12px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;}
+.scale-pip-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--purple-dark);}
+.scale-pip:hover .scale-pip-tooltip{display:block;}
+.start-note{font-size:14px;color:var(--grey-mid);line-height:1.65;margin-bottom:24px;}
+.start-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:var(--purple-dark);color:var(--white);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);}
+.start-btn:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.25);}
+
+.progress-wrap{margin-bottom:32px;}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:8px;}
+.progress-dim{font-size:13px;font-weight:600;color:var(--purple-mid);}
+.progress-frac{font-size:12px;color:var(--grey-mid);}
+.progress-track{height:5px;background:var(--grey-border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple-mid),var(--purple-soft));transition:width 0.4s var(--ease);width:0%;}
+
+.dim-chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:6px;}
+.dim-subtitle{font-size:14px;font-style:italic;color:var(--grey-mid);margin-bottom:20px;}
+
+.question-card{background:var(--white);border:1px solid var(--grey-border);border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);transition:box-shadow 0.2s var(--ease);}
+.question-card:hover{box-shadow:var(--shadow-lg);}
+.q-top{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 14px;border-bottom:1px solid var(--purple-pale);}
+.q-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.q-text{font-size:16px;font-weight:600;color:var(--purple-dark);line-height:1.45;}
+.freq-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 14px;}
+.freq-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--grey-border);border-radius:10px;background:var(--white);cursor:pointer;font-family:inherit;transition:all 0.18s var(--ease);position:relative;}
+.freq-btn:hover{border-color:var(--purple-mid);background:var(--purple-pale);}
+.freq-btn.selected{border-color:var(--purple-mid);background:var(--purple-light);}
+.f-num{font-size:20px;font-weight:700;color:var(--grey-mid);line-height:1;transition:color 0.18s;}
+.f-lbl{font-size:10px;color:var(--grey-mid);text-align:center;line-height:1.3;}
+.f-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;pointer-events:none;}
+.f-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--purple-dark);}
+.freq-btn:hover .f-tooltip{display:block;}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:100px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);border:none;}
+.btn-ghost{background:transparent;color:var(--grey-mid);border:1.5px solid var(--grey-border);}
+.btn-ghost:hover{border-color:var(--purple-mid);color:var(--purple-mid);}
+.btn-primary{background:var(--purple-dark);color:var(--white);}
+.btn-primary:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.22);}
+.btn-primary:disabled{background:var(--grey-border);color:var(--grey-mid);cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-teal{background:var(--teal);color:var(--white);}
+.btn-teal:hover{background:#155f55;transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,122,110,0.3);}
+.btn svg{width:15px;height:15px;}
+
+.results-hero{text-align:center;padding:44px 0 32px;}
+.results-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:8px;}
+.results-title{font-size:32px;font-weight:700;color:var(--purple-dark);margin-bottom:10px;letter-spacing:-0.3px;}
+.results-sub{font-size:15px;color:var(--grey-mid);max-width:480px;margin:0 auto;line-height:1.7;}
+.section-heading{font-size:20px;font-weight:700;color:var(--purple-dark);margin-bottom:4px;letter-spacing:-0.2px;}
+.section-sub{font-size:14px;color:var(--grey-mid);margin-bottom:20px;}
+.divider{height:1px;background:var(--grey-border);margin:36px 0;}
+
+.score-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.score-label{font-size:12px;font-weight:600;width:200px;flex-shrink:0;line-height:1.3;}
+.score-track{flex:1;height:10px;background:var(--grey-border);border-radius:5px;overflow:hidden;}
+.score-bar{height:100%;border-radius:5px;transition:width 1s var(--ease);width:0%;}
+.score-right{width:120px;flex-shrink:0;display:flex;align-items:center;gap:5px;justify-content:flex-end;}
+.score-num{font-size:13px;font-weight:700;}
+.band-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;}
+
+.summary-card{background:var(--white);border:1px solid var(--grey-border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:14px;}
+.summary-header{padding:22px 26px 18px;border-bottom:1px solid var(--purple-pale);background:linear-gradient(135deg,var(--purple-pale) 0%,var(--sage-light) 100%);}
+.summary-headline{font-size:22px;font-weight:700;color:var(--purple-dark);margin-bottom:8px;letter-spacing:-0.3px;}
+.summary-tagline{font-size:15px;color:var(--grey-dark);line-height:1.65;}
+.summary-body{padding:22px 26px;}
+.summary-block{margin-bottom:22px;}
+.summary-block-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.summary-block-label.bringing{color:var(--teal);}
+.summary-block-label.experiencing{color:var(--amber);}
+.summary-block-label.coaching{color:var(--purple-mid);}
+.summary-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.summary-list li{display:flex;gap:10px;font-size:14px;line-height:1.6;color:var(--grey-dark);align-items:flex-start;}
+.s-dot{width:7px;height:7px;border-radius:50%;margin-top:7px;flex-shrink:0;}
+.s-dot.bring{background:var(--teal);}
+.s-dot.exp{background:var(--amber);}
+.s-dot.coach{background:var(--purple-mid);}
+.focus-box{background:var(--purple-pale);border-left:3px solid var(--purple-mid);border-radius:8px;padding:16px 20px;}
+.focus-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:6px;}
+.focus-text{font-size:15px;font-style:italic;color:var(--purple-dark);line-height:1.7;}
+
+.profile-group{margin-bottom:28px;}
+.profile-dim-header{padding:14px 18px;border-radius:12px;margin-bottom:12px;}
+.profile-dim-name{font-size:16px;font-weight:700;color:var(--white);line-height:1.3;}
+.profile-dim-sub{font-size:12px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:3px;}
+.profile-card{background:var(--white);border:1px solid var(--grey-border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid var(--purple-pale);}
+.profile-level{font-size:16px;font-weight:700;color:var(--purple-dark);}
+.profile-badge{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;}
+.profile-body{padding:14px 18px;}
+.profile-subtitle{font-size:14px;font-style:italic;color:var(--grey-mid);margin-bottom:8px;line-height:1.5;}
+.profile-desc{font-size:14px;color:var(--grey-dark);line-height:1.65;margin-bottom:12px;}
+.watch-box{display:flex;gap:8px;background:var(--amber-light);border:1px solid #F0DEBC;border-left:3px solid var(--amber);border-radius:6px;padding:10px 13px;}
+.watch-label{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:13px;color:#4A3800;line-height:1.6;}
+
+.reflection-box{background:var(--purple-pale);border-left:3px solid var(--purple-mid);border-radius:8px;padding:18px 22px;margin-bottom:32px;}
+.reflection-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.reflection-text{font-size:15px;font-style:italic;color:var(--purple-dark);line-height:1.7;}
+
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.next-card{border:1px solid var(--grey-border);border-radius:14px;padding:18px;transition:all 0.2s var(--ease);text-decoration:none;display:block;}
+.next-card:hover:not(.coming-soon){box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:var(--purple-mid);}
+.next-card.coming-soon{opacity:0.6;cursor:default;}
+.next-card-flag{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+.next-card-title{font-size:15px;font-weight:700;color:var(--purple-dark);margin-bottom:5px;line-height:1.3;}
+.next-card-why{font-size:13px;color:var(--grey-mid);line-height:1.5;}
+.next-card-arrow{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;margin-top:10px;}
+.next-card-arrow svg{width:14px;height:14px;}
+
+.kb-slot{background:var(--purple-pale);border:1px dashed var(--grey-border);border-radius:14px;padding:20px 22px;margin-top:16px;}
+.kb-slot-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:6px;}
+.kb-slot-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+
+.results-footer{text-align:center;padding-top:28px;border-top:1px solid var(--grey-border);margin-top:36px;}
+.results-footer p{font-size:13px;color:var(--grey-mid);margin-bottom:14px;}
+.footer-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.38s var(--ease) both;}
+.fade-up:nth-child(1){animation-delay:0.04s;}
+.fade-up:nth-child(2){animation-delay:0.09s;}
+.fade-up:nth-child(3){animation-delay:0.14s;}
+.fade-up:nth-child(4){animation-delay:0.19s;}
+.fade-up:nth-child(5){animation-delay:0.24s;}
+
+@media(max-width:540px){
+  .dims-grid{grid-template-columns:1fr;}
+  .next-grid{grid-template-columns:1fr;}
+  .score-label{width:140px;font-size:11px;}
+  .f-lbl{display:none;}
+}
+
+@media print{
+  .site-header,.hero,.philosophy-section,#start-screen,#quiz-screen,.results-footer,.progress-wrap,.nav-row{display:none!important;}
+  body{font-size:12px;}
+  .shell{max-width:100%;padding:0 16px;}
+  .profile-card,.summary-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;}
+  .score-bar,.band-pill,.profile-badge,.s-dot,.watch-box,.focus-box,.reflection-box,.summary-header,.profile-dim-header,.principle-num{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="site-header">
+  <a href="#" class="logo"><img src="data:image/jpeg;base64,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" alt="Metisfy"></a>
+  <span class="header-label">The Power of the Collective</span>
+</header>
+
+<div id="start-screen">
+  <div class="hero fade-up">
+    <p class="eyebrow">The Power of the Collective</p>
+    <h1 class="hero-title">How Do I Lead and Work with Teams?</h1>
+    <p class="hero-body">Leadership is not a solo act. This assessment explores how you show up within and alongside teams across five dimensions that determine whether the people around you become more capable, more empowered and more genuinely collective in how they work.</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg>5–7 minutes</span>
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 7h6M5 10h4"/></svg>20 statements</span>
+      <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l2 4 4.5.5-3.2 3.1.8 4.4L8 12l-4.1 2 .8-4.4L1.5 6.5 6 6z"/></svg>5 dimensions + tailored summary</span>
+    </div>
+  </div>
+
+  <div class="philosophy-section fade-up">
+    <p class="philosophy-title">The Metisfy collective leadership philosophy</p>
+    <div id="philosophy-cards"></div>
+  </div>
+
+  <div class="start-card fade-up">
+    <p class="start-card-title">Five dimensions</p>
+    <div class="dims-grid">
+      <div class="dim-start-item"><span class="dim-dot" style="background:#5A3EA0"></span>Sharing leadership</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#1D7A6E"></span>Enabling rather than doing</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#2E4A6B"></span>Making all voices count</div>
+      <div class="dim-start-item"><span class="dim-dot" style="background:#C44B30"></span>Building collective ownership</div>
+      <div class="dim-start-item" style="grid-column:span 2"><span class="dim-dot" style="background:#4A7C59"></span>Holding the collective together</div>
+    </div>
+    <p class="start-card-title">How true is this of me?</p>
+    <div class="scale-preview">
+      <div class="scale-pip" style="background:#FDF0ED;border-color:#F0C4B8"><div class="scale-pip-num" style="color:#C44B30">1</div><div class="scale-pip-lbl">Not me</div><span class="scale-pip-tooltip">Not at all like me</span></div>
+      <div class="scale-pip" style="background:#FFF6E8;border-color:#F0DEBC"><div class="scale-pip-num" style="color:#B86A00">2</div><div class="scale-pip-lbl">A little</div><span class="scale-pip-tooltip">A little like me</span></div>
+      <div class="scale-pip" style="background:#F7F5FC;border-color:#D4CFF0"><div class="scale-pip-num" style="color:#7A7890">3</div><div class="scale-pip-lbl">Sometimes</div><span class="scale-pip-tooltip">Sometimes like me</span></div>
+      <div class="scale-pip" style="background:#E5F5F3;border-color:#B8DDD8"><div class="scale-pip-num" style="color:#1D7A6E">4</div><div class="scale-pip-lbl">Mostly</div><span class="scale-pip-tooltip">Mostly like me</span></div>
+      <div class="scale-pip" style="background:#EDE8F7;border-color:#C0B0E8"><div class="scale-pip-num" style="color:#5A3EA0">5</div><div class="scale-pip-lbl">Exactly me</div><span class="scale-pip-tooltip">This is exactly me</span></div>
+    </div>
+    <p class="start-note">Think about how you actually show up in teams right now, not how you would like to. Hover or tap any number to see the full label.</p>
+    <button class="start-btn" onclick="startAssessment()">
+      Begin assessment
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="quiz-screen" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-dim" id="prog-label">Sharing leadership</span>
+      <span class="progress-frac" id="prog-frac">0 / 20 answered</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="questions-area"></div>
+  <div class="nav-row">
+    <button class="btn btn-ghost" id="btn-back" onclick="goBack()">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 8H3M7 4L3 8l4 4"/></svg>Back
+    </button>
+    <button class="btn btn-primary" id="btn-next" onclick="goNext()" disabled>
+      Next<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="results-screen" style="display:none"></div>
+</div>
+
+<script>
+const FREQ_LABELS = ['Not at all like me','A little like me','Sometimes like me','Mostly like me','This is exactly me'];
+const FREQ_SHORT  = ['Not me','A little','Sometimes','Mostly','Exactly me'];
+const FREQ_COLORS = ['#C44B30','#B86A00','#7A7890','#1D7A6E','#5A3EA0'];
+
+const philosophy = [
+  { num:'1', title:'The strength of a team is not the sum of its individuals. It is what they create together.', text:'Leadership that centralises rather than distributes limits what is possible to what one person can do. Leadership that enables the collective unlocks what no individual could achieve alone.', color:'#5A3EA0', bg:'#F7F5FC' },
+  { num:'2', title:'Learn more than teach. Listen more than declaim. Support more than profess.', text:'Three words each. No elaboration needed. This is the collective leader’s operating instruction. Every dimension in this assessment is an expression of one of these three commitments.', color:'#1D7A6E', bg:'#E5F5F3' },
+  { num:'3', title:'Your job is not to be the most capable person in the room. It is to make the room more capable.', text:'The shift from individual performance to collective development is the defining move of leadership in the collective. Everything in this assessment flows from whether you have made that shift.', color:'#4A7C59', bg:'#EAF4EE' },
+];
+
+const pc = document.getElementById('philosophy-cards');
+philosophy.forEach(p => {
+  pc.innerHTML += `<div class="principle-card" style="background:${p.bg}">
+    <div class="principle-num" style="background:${p.color}">${p.num}</div>
+    <div class="principle-body">
+      <div class="principle-title" style="color:${p.color}">${p.title}</div>
+      <div class="principle-text">${p.text}</div>
+    </div>
+  </div>`;
+});
+
+const dims = [
+  { id:'sharing', title:'Sharing leadership', subtitle:'Creating conditions for others to lead, not just follow', color:'#5A3EA0', bg:'#F7F5FC',
+    qs:['I actively look for moments to step back and let someone else take the lead, even when I could do it myself.','The people in my team would say I am more interested in developing leaders around me than in being the leader myself.','When someone in my team shows leadership instincts, I create space for those instincts to grow rather than redirecting them back through me.','I measure my success as a leader partly by how capable and confident the people around me are becoming.'] },
+  { id:'enabling', title:'Enabling rather than doing', subtitle:'Resisting the pull to take over, solve and control', color:'#1D7A6E', bg:'#E5F5F3',
+    qs:['When I see something going wrong in a team task, my first instinct is to ask a question rather than step in and fix it.','I can watch someone doing something less efficiently than I would and not take over, because I know the development is worth more than the efficiency.','The people I lead would say I give them real ownership of their work rather than ownership in name only.','I notice when I am holding on to something I should be letting go of, and I let it go.'] },
+  { id:'voices', title:'Making all voices count', subtitle:'Ensuring the quieter and less powerful voices are genuinely heard', color:'#2E4A6B', bg:'#EAF0F7',
+    qs:['I actively notice who is not speaking in a group and find ways to draw them in rather than letting the most confident voices dominate.','Before closing a group discussion, I check whether everyone has had a genuine opportunity to contribute, not just a formal one.','The people in my team who are least likely to challenge me would say they feel genuinely safe to do so.','I pay as much attention to what is not being said in a group as to what is.'] },
+  { id:'ownership', title:'Building collective ownership', subtitle:'Creating genuine shared ownership of direction and decisions', color:'#C44B30', bg:'#FDF0ED',
+    qs:['The people in my team can explain why we are doing what we are doing in their own words, not just mine.','When a significant decision needs to be made, I involve the people most affected in making it, even when I could make it more quickly alone.','I know the difference between consulting people and genuinely including them, and I choose the latter for the decisions that matter most.','When things go wrong, the team owns it together rather than looking for who to blame, including me.'] },
+  { id:'holding', title:'Holding the collective together', subtitle:'Maintaining the trust, cohesion and shared purpose that makes a group a team', color:'#4A7C59', bg:'#EAF4EE',
+    qs:['I invest time in the relationships within my team, not just the tasks, because I know the quality of the relationships determines the quality of the work.','When there is tension or conflict in the team, I address it rather than hoping it will resolve itself.','The people in my team would say they feel they belong to something meaningful, not just a group of people doing tasks.','When I am under pressure, I still show up for my team in a way that gives them confidence rather than anxiety.'] },
+];
+
+const profiles = {
+  sharing: {
+    strong: { subtitle:'You create a team where leadership is shared, not centralised.', desc:'The people around you are becoming more capable, more confident and more willing to take the lead because of how you show up. You understand that your job is not to be the most capable person in the room but to make the room more capable. This is one of the most significant shifts in leadership and one of the hardest to sustain.', watch:'Sharing leadership requires clarity about who is responsible for what. Make sure the distribution of leadership in your team is deliberate rather than informal, and that accountability is clear even when authority is shared.' },
+    developing: { subtitle:'You are moving toward a genuinely shared approach to leadership.', desc:'You have the instinct to develop others and you create opportunities for people to step up. There will be moments, particularly under pressure, where the pull to take back control is strong. The opportunity is to notice those moments and hold the line, even when stepping in would feel more efficient.', watch:'Watch for the gap between intention and experience. You may believe you are sharing leadership more than the people around you actually experience it. Ask someone you trust: do you feel you have real leadership space in this team?' },
+    early: { subtitle:'Learning to share leadership is your most important growth edge here.', desc:'A team where all leadership flows through one person is only as capable as that one person. The shift from leading to enabling others to lead is one of the most significant a leader can make, and it begins with a single deliberate act of stepping back.', watch:'Identify one person in your team who has leadership instincts that are not yet being fully used. Create one specific opportunity this month for them to lead something. Then get out of the way.' }
+  },
+  enabling: {
+    strong: { subtitle:'You enable rather than do, and your team grows because of it.', desc:'You have developed one of the hardest disciplines in leadership: the ability to watch something being done less well than you could do it and stay out of the way. This is not passivity. It is a deliberate investment in the long-term capability of the people around you. The team you lead is becoming more capable over time, not more dependent.', watch:'Enabling others requires that the standards are clear and the support is real. Make sure that stepping back does not mean withdrawing. The best enablers stay close enough to support without being close enough to take over.' },
+    developing: { subtitle:'You are building the discipline of enabling over doing.', desc:'You have the intention to enable and you act on it in many situations. The pull to step in is still strong, particularly when you can see how to fix something quickly or when standards feel at risk. The opportunity is to extend your tolerance for watching others work things through.', watch:'Notice how often the ownership you give is real versus nominal. People who feel they own something in name only will not bring the same energy as people who own it genuinely. Ask yourself: what would I need to do differently for this person to feel true ownership?' },
+    early: { subtitle:'Letting go is your most important growth edge here.', desc:'Leaders who take over when things go wrong, or who hold on to work they should release, create teams that stop trying. Over time people learn that their effort will be superseded, their judgment overridden and their ownership reclaimed. The most capable leaders are often the ones who have learned to do less so that others can do more.', watch:'Think about the last time you stepped in to fix something that someone else was handling. What would have happened if you had stayed out? What did your stepping in cost the other person in terms of ownership, confidence and learning?' }
+  },
+  voices: {
+    strong: { subtitle:'You create a collective where every voice genuinely counts.', desc:'You understand that the most important perspectives in a group are often the ones least likely to be heard. You actively work to change that. The quieter members of your team feel genuinely included and genuinely safe to speak. This is where group intelligence actually lives, and you are one of the few leaders who consistently reaches it.', watch:'Making all voices count requires ongoing attention, not just good intentions in the moment. Watch for the patterns that re-emerge when you are busy or under pressure. Those are the moments when the quieter voices are most likely to disappear again.' },
+    developing: { subtitle:'You are developing a genuine instinct for inclusion.', desc:'You notice when voices are missing and you often act on it. There will be situations, particularly when time is short or when the dominant voices are saying useful things, where the pull to accept the surface conversation is strong. The opportunity is to make the check for missing voices more automatic rather than occasional.', watch:'The formal opportunity to contribute and the genuine opportunity to contribute are not the same thing. Asking around the room does not guarantee that people feel safe to say what they actually think. Watch for the gap between what is said and what is held back.' },
+    early: { subtitle:'Actively including all voices is your most important growth edge here.', desc:'Groups left to their natural dynamics will consistently amplify the most confident and most powerful voices and marginalise the quieter ones. That is the default logic of group dynamics. Leaders who understand this and actively work against it create groups that are genuinely more intelligent than any individual within them.', watch:'In your next group conversation, give yourself one specific job: notice who is not speaking and find one genuine way to create space for them. Not a formal invitation around the room. A real moment of genuine interest in what they think.' }
+  },
+  ownership: {
+    strong: { subtitle:'The people in your team genuinely own the work, not just the tasks.', desc:'There is a significant difference between a team that delivers what it is told to deliver and a team that owns what it is trying to build. You have created the second kind. The people around you understand why they are doing what they are doing. They were part of deciding it. They feel accountable for it in the way that only genuine ownership produces.', watch:'Collective ownership requires that the boundaries of that ownership are clear. People need to know which decisions are genuinely theirs and which are not. Be explicit about where the ownership is real and where it is bounded.' },
+    developing: { subtitle:'You are building genuine ownership in your team.', desc:'You involve people in decisions and you work to connect them to the purpose behind the work. There will be moments where time pressure or confidence in your own judgment leads you to decide alone and inform after. The opportunity is to notice those moments and ask whether the cost of involving people is actually as high as it feels.', watch:'Watch for the distinction between consulting people and genuinely including them. Consulting means you ask and then decide. Including means the decision is genuinely shaped by what you hear. People know the difference and they disengage from consultations that feel performative.' },
+    early: { subtitle:'Building genuine collective ownership is your most important growth edge here.', desc:'Teams that do not own their direction deliver compliance rather than commitment. They do what is required and not much more. The energy that comes from genuine ownership, from a team that feels it is building something it chose to build, is one of the most powerful forces in any collective endeavour.', watch:'Start with one decision that you would normally make alone and involve your team in making it. Not to ratify what you have already decided. To genuinely let their thinking shape the outcome. Notice what happens to their energy when the decision is implemented.' }
+  },
+  holding: {
+    strong: { subtitle:'You hold your team together when it matters most.', desc:'You understand that the work is only as good as the relationships that surround it. You invest in those relationships. You address tension rather than avoiding it. You show up consistently, especially under pressure, in a way that gives people confidence rather than anxiety. The team you lead is a genuine collective with a sense of shared identity and shared purpose.', watch:'Holding the collective together is ongoing work, not a state that can be achieved and maintained without effort. Watch for the slow erosions that are easy to miss: the small tensions left unaddressed, the relationships given less attention when things are busy.' },
+    developing: { subtitle:'You invest in your team as a collective and it shows.', desc:'You care about the relationships in your team and you notice when things are not right. There will be moments, particularly when tension is low-level or when addressing it feels risky, where the temptation is to let it pass and hope it resolves. The opportunity is to build a lower threshold for addressing small tensions before they become larger ones.', watch:'Notice how you show up when you are under pressure. That is when the people around you are watching most closely. The leader who maintains their composure, their care and their clarity when things are difficult gives their team a quality of confidence that cannot be replicated by any structural or strategic intervention.' },
+    early: { subtitle:'Holding the collective together is your most important growth edge here.', desc:'Groups do not naturally become teams. They become teams because someone invests in the relationships, addresses the tensions and maintains the sense of shared purpose that keeps people connected to something larger than their individual tasks. That is leadership work, and it is often the first thing to be deprioritised when leaders are busy.', watch:'Think about the current state of your team as a collective. Is there a tension that has been allowed to persist? A relationship that has been neglected? Choose one and address it this week. Not with a programme or a process. With a direct, honest conversation.' }
+  }
+};
+
+const bringText = {
+  sharing: 'You actively create space for others to lead, which means the people around you are growing in confidence and capability rather than depending on you.',
+  enabling: 'You resist the pull to take over and fix, which means the people you lead develop real ownership and real capability rather than learned dependence.',
+  voices: 'You actively include the voices that would otherwise go unheard, which means your team’s collective intelligence is genuinely richer than what the dominant voices alone would produce.',
+  ownership: 'You create genuine shared ownership of direction and decisions, which means people bring commitment and energy rather than compliance.',
+  holding: 'You invest in the relationships and cohesion that make a group a team, which means people around you feel they belong to something meaningful rather than just executing tasks.'
+};
+
+const expText = {
+  sharing: 'The people around you may feel they are followers rather than co-leaders, which limits what the team can become and what each individual can grow into.',
+  enabling: 'The people you work with may feel their ownership is nominal rather than real, which over time reduces initiative, investment and the willingness to bring their best thinking.',
+  voices: 'The quieter and less powerful voices in your team may be going consistently unheard, which means the group is operating with less intelligence than it has available to it.',
+  ownership: 'Your team may be delivering compliance rather than commitment, doing what is required without the energy and investment that genuine ownership produces.',
+  holding: 'Your team may be functioning as a group of individuals doing tasks rather than a genuine collective, which limits resilience, cohesion and the quality of what can be achieved together.'
+};
+
+function getBand(t) { return t >= 16 ? 'strong' : t >= 10 ? 'developing' : 'early'; }
+function bandLabel(b) { return {strong:'Strong', developing:'Developing', early:'Early stage'}[b]; }
+
+function buildSummary(scores) {
+  const bands = {};
+  dims.forEach(d => { bands[d.id] = getBand(scores[d.id]); });
+  const ranked = dims.slice().sort((a,b) => scores[b.id]-scores[a.id]);
+  const top2 = ranked.slice(0,2);
+  const bottom2 = ranked.slice(-2);
+  const lowest = ranked[ranked.length-1];
+
+  const hi = id => bands[id]==='strong';
+  let headline = '';
+  if (hi('sharing') && hi('enabling')) headline = 'The Enabling Leader';
+  else if (hi('voices') && hi('ownership')) headline = 'The Inclusive Builder';
+  else if (hi('holding') && hi('sharing')) headline = 'The Collective Champion';
+  else if (hi('enabling') && hi('voices')) headline = 'The Space-Maker';
+  else if (hi('ownership') && hi('holding')) headline = 'The Purpose-Builder';
+  else if (hi('sharing')) headline = 'The Leadership Developer';
+  else if (hi('enabling')) headline = 'The Empowering Leader';
+  else if (hi('voices')) headline = 'The Inclusive Leader';
+  else if (hi('ownership')) headline = 'The Ownership Builder';
+  else if (hi('holding')) headline = 'The Team Anchor';
+  else if (Object.values(bands).every(b=>b==='developing')) headline = 'The Developing Collective Leader';
+  else headline = 'The Growing Team Leader';
+
+  const tagline = top2.length > 0
+    ? `Your collective leadership is strongest in ${top2.map(d=>d.title.toLowerCase()).join(' and ')}. The people around you are most likely to feel the benefit of your leadership in these areas.`
+    : 'Your collective leadership is developing across all five dimensions. Each one represents an opportunity to create a team that is genuinely more capable together than apart.';
+
+  const bringing = top2.map(d => bringText[d.id]).filter(Boolean);
+  const experiencing = bottom2.filter(d => bands[d.id] !== 'strong').map(d => expText[d.id]).filter(Boolean);
+
+  const focusMap = {
+    sharing: 'Identify one person in your team this week who has leadership instincts that are not yet being fully used. Create one specific opportunity for them to lead something real. Then genuinely step back.',
+    enabling: 'Find one piece of work you are currently holding that someone else could do. Give it to them with real ownership, not nominal ownership. Then leave it with them.',
+    voices: 'In your next group situation, give yourself one job: notice who is not speaking and find one genuine way to create space for them before the conversation closes.',
+    ownership: 'Find one significant decision coming up that you would normally make alone. Involve the people most affected in making it. Let their thinking genuinely shape the outcome.',
+    holding: 'Identify one tension or relationship in your team that has been allowed to drift. Address it this week with a direct, honest conversation, not a programme or a process.'
+  };
+
+  return { headline, tagline, bringing, experiencing, focusText: focusMap[lowest.id] };
+}
+
+let currentSection = 0;
+let answers = {};
+
+function getGI(si, qi) { return si * 4 + qi; }
+
+function renderSection() {
+  const dim = dims[currentSection];
+  const area = document.getElementById('questions-area');
+  area.innerHTML = '';
+
+  const chip = document.createElement('div');
+  chip.className = 'dim-chip';
+  chip.style.cssText = `background:${dim.color}20;color:${dim.color}`;
+  chip.textContent = dim.title;
+  area.appendChild(chip);
+
+  const sub = document.createElement('p');
+  sub.className = 'dim-subtitle';
+  sub.textContent = dim.subtitle;
+  area.appendChild(sub);
+
+  dim.qs.forEach((q, qi) => {
+    const gi = getGI(currentSection, qi);
+    const card = document.createElement('div');
+    card.className = 'question-card fade-up';
+    card.style.animationDelay = (0.05 + qi * 0.06) + 's';
+    const btns = [1,2,3,4,5].map(n => {
+      const sel = answers[gi] === n;
+      return `<button class="freq-btn${sel?' selected':''}" onclick="rate(${gi},${n})">
+        <span class="f-num" style="color:${sel?dim.color:FREQ_COLORS[n-1]}">${n}</span>
+        <span class="f-lbl">${FREQ_SHORT[n-1]}</span>
+        <span class="f-tooltip">${FREQ_LABELS[n-1]}</span>
+      </button>`;
+    }).join('');
+    card.innerHTML = `<div class="q-top">
+      <div class="q-num" style="background:${dim.color}20;color:${dim.color}">${gi+1}</div>
+      <div class="q-text">${q}</div>
+    </div><div class="freq-row">${btns}</div>`;
+    area.appendChild(card);
+  });
+
+  updateNav(); updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function rate(gi, val) {
+  answers[gi] = val;
+  const dim = dims[currentSection];
+  const localIdx = gi - currentSection * 4;
+  const cards = document.querySelectorAll('#questions-area .question-card');
+  if (cards[localIdx]) {
+    cards[localIdx].querySelectorAll('.freq-btn').forEach((btn,i) => {
+      const v = i+1;
+      btn.classList.toggle('selected', v===val);
+      btn.querySelector('.f-num').style.color = v===val ? dim.color : FREQ_COLORS[v-1];
+    });
+  }
+  updateNav(); updateProgress();
+}
+
+function sectionDone() {
+  return dims[currentSection].qs.every((_,qi) => answers[getGI(currentSection,qi)] !== undefined);
+}
+
+function updateNav() {
+  document.getElementById('btn-back').disabled = currentSection === 0;
+  const btn = document.getElementById('btn-next');
+  const isLast = currentSection === dims.length - 1;
+  btn.disabled = !sectionDone();
+  btn.innerHTML = isLast
+    ? 'See my results <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
+    : 'Next <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+}
+
+function updateProgress() {
+  const n = Object.keys(answers).length;
+  document.getElementById('prog-fill').style.width = (n/20*100) + '%';
+  document.getElementById('prog-frac').textContent = n + ' / 20 answered';
+  document.getElementById('prog-label').textContent = dims[currentSection].title;
+}
+
+function goNext() {
+  if (currentSection < dims.length-1) { currentSection++; renderSection(); }
+  else showResults();
+}
+
+function goBack() {
+  if (currentSection > 0) { currentSection--; renderSection(); }
+}
+
+function startAssessment() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  renderSection();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('results-screen');
+  rs.style.display = 'block';
+
+  const scores = {};
+  dims.forEach((d,si) => {
+    scores[d.id] = [0,1,2,3].reduce((sum,qi) => sum+(answers[getGI(si,qi)]||0), 0);
+  });
+
+  const barsHtml = dims.map(d => {
+    const total = scores[d.id];
+    const band = getBand(total);
+    const pct = Math.round(total/20*100);
+    const bc = band==='strong'?d.color:band==='developing'?'#6B9FD4':'#9B97B2';
+    const bb = band==='strong'?d.bg:band==='developing'?'#EAF3FC':'#F5F4F9';
+    return `<div class="score-row">
+      <span class="score-label" style="color:${d.color}">${d.title}</span>
+      <div class="score-track"><div class="score-bar" data-pct="${pct}" style="width:0%;background:${d.color}"></div></div>
+      <div class="score-right">
+        <span class="score-num" style="color:${d.color}">${total}/20</span>
+        <span class="band-pill" style="background:${bb};color:${bc}">${bandLabel(band)}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const sum = buildSummary(scores);
+  const bringHtml = sum.bringing.map(t=>`<li><span class="s-dot bring"></span>${t}</li>`).join('');
+  const expHtml = sum.experiencing.map(t=>`<li><span class="s-dot exp"></span>${t}</li>`).join('');
+
+  const profilesHtml = dims.map(d => {
+    const band = getBand(scores[d.id]);
+    const p = profiles[d.id][band];
+    const bc = band==='strong'?d.color:band==='developing'?'#6B9FD4':'#9B97B2';
+    const bb = band==='strong'?d.bg:band==='developing'?'#EAF3FC':'#F5F4F9';
+    return `<div class="profile-group fade-up">
+      <div class="profile-dim-header" style="background:${d.color}">
+        <div class="profile-dim-name">${d.title}</div>
+        <div class="profile-dim-sub">${d.subtitle}</div>
+      </div>
+      <div class="profile-card">
+        <div class="profile-header">
+          <div>
+            <div class="profile-level">${bandLabel(band)} <span style="font-size:13px;font-weight:400;color:#7A7890">(${scores[d.id]}/20)</span></div>
+            <div style="font-size:13px;font-style:italic;color:#7A7890;margin-top:2px">${p.subtitle}</div>
+          </div>
+          <span class="profile-badge" style="background:${bb};color:${bc}">${bandLabel(band)}</span>
+        </div>
+        <div class="profile-body">
+          <p class="profile-desc">${p.desc}</p>
+          <div class="watch-box"><span class="watch-label">Watch for</span><span class="watch-text">${p.watch}</span></div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const nextRecs = [
+    { title:'How Comfortable Am I with Delegation?', why:'Delegation is the practical mechanism of collective leadership. This assessment deepens everything you have discovered here.', color:'#1D7A6E', bg:'#E5F5F3', href:'2__How_Compforatable_am_I_WIth_Delegation.html', live:true },
+    { title:'What Is My Leadership Style?', why:'The Democratic, Servant and Coaching styles connect directly to the five dimensions in this assessment. Seeing them together gives you a richer picture.', color:'#5A3EA0', bg:'#F7F5FC', href:'4__My_Leadership_Style.html', live:true },
+    { title:'How Do I Listen?', why:'Making all voices count is fundamentally a listening skill. The listening assessment will show you how your listening quality shapes what your collective can become.', color:'#2E4A6B', bg:'#EAF0F7', href:'1__How_Do_I_LIsten.html', live:true },
+  ];
+
+  const nextHtml = nextRecs.map(r => {
+    if (!r.live) return `<div class="next-card coming-soon" style="background:${r.bg};border-color:${r.color}40">
+      <p class="next-card-flag" style="color:${r.color}">Coming soon</p>
+      <p class="next-card-title">${r.title}</p>
+      <p class="next-card-why">${r.why}</p>
+    </div>`;
+    return `<a class="next-card" href="${r.href}" style="background:${r.bg};border-color:${r.color}40">
+      <p class="next-card-flag" style="color:${r.color}">Next assessment</p>
+      <p class="next-card-title">${r.title}</p>
+      <p class="next-card-why">${r.why}</p>
+      <div class="next-card-arrow" style="color:${r.color}">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
+    </a>`;
+  }).join('');
+
+  rs.innerHTML = `
+    <div class="results-hero fade-up">
+      <p class="results-eyebrow">Your results</p>
+      <h2 class="results-title">How Do I Lead and Work with Teams?</h2>
+      <p class="results-sub">Your collective leadership profile across all five dimensions, with a personalised summary and full coaching notes.</p>
+    </div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Scores at a glance</h3>
+      <p class="section-sub">16–20 = Strong &nbsp;•&nbsp; 10–15 = Developing &nbsp;•&nbsp; 4–9 = Early stage</p>
+      ${barsHtml}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your tailored summary</h3>
+      <p class="section-sub" style="margin-bottom:20px">A combined interpretation of your collective leadership profile.</p>
+      <div class="summary-card">
+        <div class="summary-header">
+          <div class="summary-headline">${sum.headline}</div>
+          <div class="summary-tagline">${sum.tagline}</div>
+        </div>
+        <div class="summary-body">
+          ${sum.bringing.length>0?`<div class="summary-block"><p class="summary-block-label bringing">What you are bringing</p><ul class="summary-list">${bringHtml}</ul></div>`:''}
+          ${sum.experiencing.length>0?`<div class="summary-block"><p class="summary-block-label experiencing">What others may be experiencing</p><ul class="summary-list">${expHtml}</ul></div>`:''}
+          <div class="focus-box">
+            <p class="focus-label">Your one focus for now</p>
+            <p class="focus-text">${sum.focusText}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Your dimension profiles</h3>
+      <p class="section-sub">Full coaching notes for each dimension based on your score.</p>
+      ${profilesHtml}
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="fade-up" style="margin-bottom:40px">
+      <h3 class="section-heading">Where to go next</h3>
+      <p class="section-sub">Based on your results, these are the most useful next steps in the Metisfy suite.</p>
+      <div class="next-grid">${nextHtml}</div>
+      <div class="kb-slot">
+        <p class="kb-slot-label">From the Metisfy knowledge base</p>
+        <p class="kb-slot-text">Personalised resources from the Metisfy knowledge base matched to your collective leadership profile will appear here once the knowledge base connection is live.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="reflection-box fade-up">
+      <p class="reflection-label">Reflection prompt</p>
+      <p class="reflection-text">Think of a recent team project or group situation. How much did you lead by guiding versus controlling? Who did most of the talking? Whose voice was least heard? What would the people in your team say about how much genuine ownership they felt? And what is one thing you could do differently in the next month that would make the collective stronger?</p>
+    </div>
+
+    <div class="results-footer fade-up">
+      <p>Download your results or retake the assessment.</p>
+      <div class="footer-btns">
+        <button class="btn btn-teal" onclick="printResults()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M3 13h10"/></svg>
+          Download results
+        </button>
+        <button class="btn btn-ghost" onclick="restartAssessment()">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8a6 6 0 1 0 1-3.2"/><path d="M2 2v4h4"/></svg>
+          Retake assessment
+        </button>
+      </div>
+    </div>`;
+
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(() => {
+    document.querySelectorAll('.score-bar[data-pct]').forEach(b => { b.style.width = b.dataset.pct+'%'; });
+  }, 150);
+}
+
+function printResults() {
+  const rs = document.getElementById('results-screen');
+  const logoSrc = document.querySelector('.logo img').src;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<title>How Do I Lead and Work with Teams? — Metisfy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri',sans-serif;color:#3D3B4F;line-height:1.6;padding:28px 36px;max-width:820px;margin:0 auto;font-size:13px;}
+.print-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:2px solid #5A3EA0;margin-bottom:24px;}
+.print-header img{height:34px;}
+.print-header-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7A7890;}
+.results-footer,.footer-btns,.next-grid,.kb-slot,.fade-up{animation:none!important;}
+.results-footer{display:none!important;}
+.results-hero{text-align:center;padding:14px 0 20px;}
+.results-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#7B5EC8;margin-bottom:5px;}
+.results-title{font-size:22px;font-weight:700;color:#3B2678;margin-bottom:6px;}
+.results-sub{font-size:12px;color:#7A7890;max-width:480px;margin:0 auto;}
+.section-heading{font-size:16px;font-weight:700;color:#3B2678;margin-bottom:3px;}
+.section-sub{font-size:11px;color:#7A7890;margin-bottom:12px;}
+.score-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+.score-label{font-size:11px;font-weight:600;width:185px;flex-shrink:0;line-height:1.3;}
+.score-track{flex:1;height:7px;background:#D4CFF0;border-radius:3px;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.score-bar{height:100%;border-radius:3px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.score-right{width:110px;flex-shrink:0;display:flex;align-items:center;gap:4px;justify-content:flex-end;font-size:11px;font-weight:700;}
+.band-pill{font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.divider{height:1px;background:#D4CFF0;margin:18px 0;}
+.summary-card{border:1px solid #D4CFF0;border-radius:12px;overflow:hidden;margin-bottom:12px;page-break-inside:avoid;}
+.summary-header{padding:14px 18px 12px;border-bottom:1px solid #EDE8F7;background:#F7F5FC;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.summary-headline{font-size:17px;font-weight:700;color:#3B2678;margin-bottom:5px;}
+.summary-tagline{font-size:12px;color:#7A7890;line-height:1.6;}
+.summary-body{padding:14px 18px;}
+.summary-block{margin-bottom:14px;}
+.summary-block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:7px;}
+.summary-block-label.bringing{color:#1D7A6E;}
+.summary-block-label.experiencing{color:#B86A00;}
+.summary-list{list-style:none;}
+.summary-list li{display:flex;gap:7px;font-size:12px;line-height:1.6;margin-bottom:5px;align-items:flex-start;}
+.s-dot{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.s-dot.bring{background:#1D7A6E;}.s-dot.exp{background:#B86A00;}
+.focus-box{background:#F7F5FC;border-left:3px solid #5A3EA0;border-radius:6px;padding:12px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.focus-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A3EA0;margin-bottom:5px;}
+.focus-text{font-size:13px;font-style:italic;color:#3B2678;line-height:1.65;}
+.profile-group{margin-bottom:14px;page-break-inside:avoid;}
+.profile-dim-header{padding:10px 14px;border-radius:8px;margin-bottom:9px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.profile-dim-name{font-size:14px;font-weight:700;color:#fff;}
+.profile-dim-sub{font-size:11px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:2px;}
+.profile-card{border:1px solid #D4CFF0;border-radius:10px;overflow:hidden;}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:11px 16px 9px;border-bottom:1px solid #EDE8F7;}
+.profile-level{font-size:14px;font-weight:700;color:#3B2678;}
+.profile-badge{padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.profile-body{padding:11px 16px;}
+.profile-desc{font-size:12px;line-height:1.6;margin-bottom:9px;color:#3D3B4F;}
+.watch-box{display:flex;gap:7px;background:#FFF6E8;border-left:3px solid #B86A00;border-radius:4px;padding:8px 11px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.watch-label{font-size:10px;font-weight:700;color:#B86A00;text-transform:uppercase;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:12px;color:#4A3800;line-height:1.5;}
+.next-grid,.kb-slot{display:none;}
+.reflection-box{background:#F7F5FC;border-left:3px solid #5A3EA0;border-radius:6px;padding:12px 16px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.reflection-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A3EA0;margin-bottom:5px;}
+.reflection-text{font-size:13px;font-style:italic;color:#3B2678;line-height:1.7;}
+.print-footer{text-align:center;padding-top:16px;margin-top:24px;border-top:1px solid #D4CFF0;font-size:11px;color:#7A7890;}
+@media print{body{padding:16px 20px;}}
+</style></head><body>
+<div class="print-header">
+  <img src="${logoSrc}" alt="Metisfy">
+  <span class="print-header-label">The Power of the Collective — How Do I Lead and Work with Teams?</span>
+</div>
+${rs.innerHTML}
+<div class="print-footer">© Metisfy. All rights reserved.</div>
+<script>window.onload=function(){window.print();}<\/script>
+</body></html>`);
+  win.document.close();
+}
+
+function restartAssessment() {
+  answers = {}; currentSection = 0;
+  document.getElementById('results-screen').innerHTML = '';
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
