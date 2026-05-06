@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Curious Am I? | Metisfy</title>
+<style>
+:root {
+  --purple-dark:#3B2678;--purple-mid:#5A3EA0;--purple-soft:#7B5EC8;--purple-light:#EDE8F7;--purple-pale:#F7F5FC;
+  --teal:#1D7A6E;--teal-light:#E5F5F3;--amber:#B86A00;--amber-light:#FFF6E8;--coral:#C44B30;--coral-light:#FDF0ED;
+  --slate:#2E4A6B;--slate-light:#EAF0F7;--sage:#4A7C59;--sage-light:#EAF4EE;
+  --grey-dark:#3D3B4F;--grey-mid:#7A7890;--grey-border:#D4CFF0;--white:#FFFFFF;
+  --ease:cubic-bezier(0.4,0,0.2,1);
+  --shadow:0 2px 16px rgba(58,38,120,0.08),0 1px 4px rgba(58,38,120,0.05);
+  --shadow-lg:0 8px 32px rgba(58,38,120,0.13),0 2px 8px rgba(58,38,120,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Calibri','Calibri Light',sans-serif;background:#fff;color:var(--grey-dark);line-height:1.6;}
+.shell{max-width:760px;margin:0 auto;padding:0 24px 100px;}
+.site-header{padding:28px 0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--grey-border);margin-bottom:48px;}
+.logo img{height:38px;width:auto;display:block;}
+.header-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);}
+.hero{margin-bottom:44px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.hero-title{font-size:clamp(24px,5vw,40px);font-weight:700;color:var(--purple-dark);line-height:1.15;letter-spacing:-0.5px;margin-bottom:16px;}
+.hero-title em{font-style:italic;font-weight:300;color:var(--purple-soft);}
+.hero-body{font-size:16px;color:var(--grey-mid);line-height:1.7;max-width:560px;margin-bottom:22px;}
+.hero-pills{display:flex;gap:10px;flex-wrap:wrap;}
+.hero-pill{display:flex;align-items:center;gap:6px;background:var(--purple-pale);border:1px solid var(--grey-border);border-radius:100px;padding:5px 14px;font-size:13px;color:var(--grey-dark);font-weight:500;}
+.hero-pill svg{width:13px;height:13px;color:var(--purple-mid);flex-shrink:0;}
+.philosophy-section{margin-bottom:40px;}
+.philosophy-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.principle-card{display:flex;align-items:stretch;border-radius:12px;overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow);}
+.principle-num{width:54px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--white);}
+.principle-body{flex:1;padding:16px 18px;}
+.principle-title{font-size:15px;font-weight:700;margin-bottom:4px;}
+.principle-text{font-size:13px;color:var(--grey-mid);line-height:1.6;}
+.start-card{background:var(--white);border:1px solid var(--grey-border);border-radius:24px;padding:32px;box-shadow:var(--shadow);margin-bottom:20px;}
+.start-card-title{font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:14px;}
+.dims-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;}
+.dim-start-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:var(--purple-pale);border-radius:10px;font-size:13px;font-weight:500;color:var(--purple-dark);line-height:1.35;}
+.dim-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.scale-preview{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:24px;}
+.scale-pip{text-align:center;padding:8px 4px;border-radius:8px;border:1px solid var(--grey-border);cursor:default;position:relative;}
+.scale-pip-num{font-size:20px;font-weight:700;line-height:1;margin-bottom:2px;}
+.scale-pip-lbl{font-size:11px;color:var(--grey-mid);}
+.scale-pip-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:12px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;}
+.scale-pip-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--purple-dark);}
+.scale-pip:hover .scale-pip-tooltip{display:block;}
+.start-note{font-size:14px;color:var(--grey-mid);line-height:1.65;margin-bottom:24px;}
+.start-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:var(--purple-dark);color:var(--white);border:none;border-radius:10px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);}
+.start-btn:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.25);}
+.progress-wrap{margin-bottom:32px;}
+.progress-top{display:flex;justify-content:space-between;margin-bottom:8px;}
+.progress-dim{font-size:13px;font-weight:600;color:var(--purple-mid);}
+.progress-frac{font-size:12px;color:var(--grey-mid);}
+.progress-track{height:5px;background:var(--grey-border);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple-mid),var(--purple-soft));transition:width 0.4s var(--ease);width:0%;}
+.dim-chip{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:6px;}
+.dim-subtitle{font-size:14px;font-style:italic;color:var(--grey-mid);margin-bottom:20px;}
+.question-card{background:var(--white);border:1px solid var(--grey-border);border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);transition:box-shadow 0.2s var(--ease);}
+.question-card:hover{box-shadow:var(--shadow-lg);}
+.q-top{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 14px;border-bottom:1px solid var(--purple-pale);}
+.q-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.q-text{font-size:16px;font-weight:600;color:var(--purple-dark);line-height:1.45;}
+.freq-row{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:12px 14px;}
+.freq-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--grey-border);border-radius:10px;background:var(--white);cursor:pointer;font-family:inherit;transition:all 0.18s var(--ease);position:relative;}
+.freq-btn:hover{border-color:var(--purple-mid);background:var(--purple-pale);}
+.freq-btn.selected{border-color:var(--purple-mid);background:var(--purple-light);}
+.f-num{font-size:20px;font-weight:700;color:var(--grey-mid);line-height:1;transition:color 0.18s;}
+.f-lbl{font-size:10px;color:var(--grey-mid);text-align:center;line-height:1.3;}
+.f-tooltip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--purple-dark);color:white;font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:10;pointer-events:none;}
+.f-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--purple-dark);}
+.freq-btn:hover .f-tooltip{display:block;}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:100px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s var(--ease);border:none;}
+.btn-ghost{background:transparent;color:var(--grey-mid);border:1.5px solid var(--grey-border);}
+.btn-ghost:hover{border-color:var(--purple-mid);color:var(--purple-mid);}
+.btn-primary{background:var(--purple-dark);color:var(--white);}
+.btn-primary:hover{background:var(--purple-mid);transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,38,120,0.22);}
+.btn-teal{background:var(--teal);color:var(--white);}
+.btn-teal:hover{background:#155f55;transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,122,110,0.3);}
+.btn svg{width:15px;height:15px;}
+.results-hero{text-align:center;padding:44px 0 32px;}
+.results-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-soft);margin-bottom:8px;}
+.results-title{font-size:32px;font-weight:700;color:var(--purple-dark);margin-bottom:10px;letter-spacing:-0.3px;}
+.results-sub{font-size:15px;color:var(--grey-mid);max-width:480px;margin:0 auto;line-height:1.7;}
+.section-heading{font-size:20px;font-weight:700;color:var(--purple-dark);margin-bottom:4px;letter-spacing:-0.2px;}
+.section-sub{font-size:14px;color:var(--grey-mid);margin-bottom:20px;}
+.divider{height:1px;background:var(--grey-border);margin:36px 0;}
+.score-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.score-label{font-size:12px;font-weight:600;width:220px;flex-shrink:0;line-height:1.3;}
+.score-track{flex:1;height:10px;background:var(--grey-border);border-radius:5px;overflow:hidden;}
+.score-bar{height:100%;border-radius:5px;transition:width 1s var(--ease);width:0%;}
+.score-right{width:120px;flex-shrink:0;display:flex;align-items:center;gap:5px;justify-content:flex-end;}
+.score-num{font-size:13px;font-weight:700;}
+.band-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;white-space:nowrap;}
+.summary-card{background:var(--white);border:1px solid var(--grey-border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:14px;}
+.summary-header{padding:22px 26px 18px;border-bottom:1px solid var(--purple-pale);background:linear-gradient(135deg,var(--purple-pale) 0%,var(--sage-light) 100%);}
+.summary-headline{font-size:22px;font-weight:700;color:var(--purple-dark);margin-bottom:8px;letter-spacing:-0.3px;}
+.summary-tagline{font-size:15px;color:var(--grey-dark);line-height:1.65;}
+.summary-body{padding:22px 26px;}
+.summary-block{margin-bottom:22px;}
+.summary-block-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.summary-block-label.strengths{color:var(--teal);}
+.summary-block-label.gaps{color:var(--amber);}
+.summary-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.summary-list li{display:flex;gap:10px;font-size:14px;line-height:1.6;color:var(--grey-dark);align-items:flex-start;}
+.s-dot{width:7px;height:7px;border-radius:50%;margin-top:7px;flex-shrink:0;}
+.s-dot.str{background:var(--teal);}
+.s-dot.gap{background:var(--amber);}
+.profile-group{margin-bottom:28px;}
+.profile-dim-header{padding:14px 18px;border-radius:12px;margin-bottom:12px;}
+.profile-dim-name{font-size:16px;font-weight:700;color:var(--white);line-height:1.3;}
+.profile-dim-sub{font-size:12px;color:rgba(255,255,255,0.82);font-style:italic;margin-top:3px;}
+.profile-card{background:var(--white);border:1px solid var(--grey-border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid var(--purple-pale);}
+.profile-level{font-size:16px;font-weight:700;color:var(--purple-dark);}
+.profile-badge{padding:4px 12px;border-radius:100px;font-size:12px;font-weight:700;}
+.profile-body{padding:14px 18px;}
+.profile-tagline{font-size:14px;font-style:italic;color:var(--grey-mid);margin-bottom:10px;line-height:1.55;}
+.profile-desc{font-size:14px;color:var(--grey-dark);line-height:1.65;margin-bottom:12px;}
+.coaching-box{background:var(--teal-light);border-left:3px solid var(--teal);border-radius:6px;padding:12px 14px;margin-bottom:12px;}
+.coaching-label{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;}
+.coaching-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.coaching-list li{font-size:13px;color:#0A2E28;line-height:1.55;padding-left:14px;position:relative;}
+.coaching-list li::before{content:'\2192';position:absolute;left:0;color:var(--teal);font-size:12px;}
+.watch-box{display:flex;gap:8px;background:var(--amber-light);border:1px solid #F0DEBC;border-left:3px solid var(--amber);border-radius:6px;padding:10px 13px;}
+.watch-label{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;white-space:nowrap;padding-top:2px;}
+.watch-text{font-size:13px;color:#4A3800;line-height:1.6;}
+.reflection-box{background:var(--purple-pale);border-left:3px solid var(--purple-mid);border-radius:8px;padding:18px 22px;margin-bottom:32px;}
+.reflection-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple-mid);margin-bottom:8px;}
+.reflection-text{font-size:15px;font-style:italic;color:var(--purple-dark);line-height:1.7;}
+.next-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.next-card{border:1px solid var(--grey-border);border-radius:14px;padding:18px;transition:all 0.2s var(--ease);text-decoration:none;display:block;}
+.next-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px);border-color:var(--purple-mid);}
+.next-card-flag{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:5px;}
+.next-card-title{font-size:15px;font-weight:700;color:var(--purple-dark);margin-bottom:5px;line-height:1.3;}
+.next-card-why{font-size:13px;color:var(--grey-mid);line-height:1.5;}
+.next-card-arrow{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;margin-top:10px;}
+.next-card-arrow svg{width:14px;height:14px;}
+.results-footer{text-align:center;padding-top:28px;border-top:1px solid var(--grey-border);margin-top:36px;}
+.results-footer p{font-size:13px;color:var(--grey-mid);margin-bottom:14px;}
+.footer-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.fade-up{animation:fadeUp 0.38s var(--ease) both;}
+.fade-up:nth-child(1){animation-delay:0.04s;}
+.fade-up:nth-child(2){animation-delay:0.09s;}
+.fade-up:nth-child(3){animation-delay:0.14s;}
+.fade-up:nth-child(4){animation-delay:0.19s;}
+.fade-up:nth-child(5){animation-delay:0.24s;}
+@media(max-width:540px){
+  .dims-grid{grid-template-columns:1fr;}
+  .next-grid{grid-template-columns:1fr;}
+  .score-label{width:140px;font-size:11px;}
+  .f-lbl{display:none;}
+}
+@media print{
+  .site-header,.hero,.philosophy-section,#start-screen,#quiz-screen,.results-footer,.progress-wrap,.nav-row{display:none!important;}
+  body{font-size:12px;}
+  .shell{max-width:100%;padding:0 16px;}
+  .profile-card,.summary-card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;}
+  .score-bar,.band-pill,.profile-badge,.s-dot,.watch-box,.coaching-box,.reflection-box,.summary-header,.profile-dim-header,.principle-num{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <header class="site-header">
+    <a href="#" class="logo"><img src="data:image/jpeg;base64,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" alt="Metisfy"></a>
+    <span class="header-label">Curiosity</span>
+  </header>
+
+  <div id="start-screen">
+    <div class="hero fade-up">
+      <p class="eyebrow">Curiosity</p>
+      <h1 class="hero-title">How <em>Curious</em> Am I?</h1>
+      <p class="hero-body">Curiosity is not a personality trait you either have or do not have. It is a leadership discipline: the choice to approach situations with genuine openness rather than pre-formed judgement, to stay interested in what you do not yet know, and to treat not knowing as a starting point rather than a weakness. This assessment explores five dimensions of curiosity that together determine whether you are leading from genuine inquiry or from the comfort of conclusions you have already reached.</p>
+      <div class="hero-pills">
+        <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg>5&#8211;7 minutes</span>
+        <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M5 7h6M5 10h4"/></svg>20 statements</span>
+        <span class="hero-pill"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l2 4 4.5.5-3.2 3.1.8 4.4L8 12l-4.1 2 .8-4.4L1.5 6.5 6 6z"/></svg>5 dimensions + coaching points</span>
+      </div>
+    </div>
+
+    <div class="philosophy-section fade-up">
+      <p class="philosophy-title">The philosophy behind this assessment</p>
+      <div id="philosophy-cards"></div>
+    </div>
+
+    <div class="start-card fade-up">
+      <p class="start-card-title">Five dimensions</p>
+      <div class="dims-grid">
+        <div class="dim-start-item"><span class="dim-dot" style="background:#5A3EA0"></span>Do I approach situations with genuine openness?</div>
+        <div class="dim-start-item"><span class="dim-dot" style="background:#1D7A6E"></span>Do I question my own assumptions?</div>
+        <div class="dim-start-item"><span class="dim-dot" style="background:#C44B30"></span>Do I stay curious under pressure?</div>
+        <div class="dim-start-item"><span class="dim-dot" style="background:#2E4A6B"></span>Do I seek out perspectives beyond my own?</div>
+        <div class="dim-start-item"><span class="dim-dot" style="background:#4A7C59"></span>Do I treat not knowing as a starting point?</div>
+      </div>
+      <p class="start-card-title">How frequently is this true of me?</p>
+      <div class="scale-preview">
+        <div class="scale-pip"><div class="scale-pip-num" style="color:#C44B30">1</div><div class="scale-pip-lbl">Never</div><div class="scale-pip-tooltip">Never</div></div>
+        <div class="scale-pip"><div class="scale-pip-num" style="color:#B86A00">2</div><div class="scale-pip-lbl">Rarely</div><div class="scale-pip-tooltip">Rarely</div></div>
+        <div class="scale-pip"><div class="scale-pip-num" style="color:#7A7890">3</div><div class="scale-pip-lbl">Sometimes</div><div class="scale-pip-tooltip">Sometimes</div></div>
+        <div class="scale-pip"><div class="scale-pip-num" style="color:#1D7A6E">4</div><div class="scale-pip-lbl">Often</div><div class="scale-pip-tooltip">Often</div></div>
+        <div class="scale-pip"><div class="scale-pip-num" style="color:#5A3EA0">5</div><div class="scale-pip-lbl">Always</div><div class="scale-pip-tooltip">Always</div></div>
+      </div>
+      <p class="start-note">Think about how you actually show up as a leader right now, not how you would like to. Your honest first response gives the most useful result. Hover or tap any number to see the full label.</p>
+      <button class="start-btn" onclick="startAssessment()">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l6 5-6 5V3z"/></svg>
+        Begin assessment
+      </button>
+    </div>
+  </div>
+
+  <div id="quiz-screen" style="display:none;">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-dim" id="prog-label"></span>
+        <span class="progress-frac" id="prog-frac"></span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+    </div>
+    <div id="quiz-content"></div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="btn-back" onclick="navSection(-1)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3L5 8l5 5"/></svg>Back
+      </button>
+      <button class="btn btn-primary" id="btn-next" onclick="navSection(1)">
+        Next<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="results-screen" style="display:none;"></div>
+
+</div>
+<script>
+const FL=['Never','Rarely','Sometimes','Often','Always'];
+const FC=['#C44B30','#B86A00','#7A7890','#1D7A6E','#5A3EA0'];
+
+const philosophy=[
+  {num:'1',title:'Curiosity is not the absence of judgement. It is the discipline of delaying it.',text:'Most leaders form a view quickly. That speed is often an asset. But it becomes a liability when the view is formed before enough information has come in, when it closes down exploration that would have produced a better answer, or when it signals to the people around you that their contribution is not really needed. Curiosity is not naivety. It is the discipline of staying genuinely open long enough for better thinking to be possible.',color:'#5A3EA0',bg:'#F7F5FC'},
+  {num:'2',title:'The leader who already knows the answer stops learning the moment they walk in.',text:'Experience is a genuine asset in leadership. It builds judgement, pattern recognition and the confidence to act under uncertainty. But it also creates a risk: the more experienced a leader becomes, the easier it is to treat every new situation as a version of one they have already encountered. The leaders who continue to grow throughout their careers are the ones who have learned to keep the question open even when experience is already suggesting an answer.',color:'#1D7A6E',bg:'#E5F5F3'},
+  {num:'3',title:'Pressure kills curiosity faster than almost anything else.',text:'Under pressure, the instinct is to close down options, apply what worked before, and move. That instinct is not wrong. But leaders who only operate from that instinct miss what the pressure itself is telling them: about what is actually happening, about why the familiar approach might not fit, about what the people around them are experiencing. Staying curious under pressure is not easy. It is one of the most valuable and underused leadership skills there is.',color:'#C44B30',bg:'#FDF0ED'},
+  {num:'4',title:'Not knowing is a leadership position, not a leadership failure.',text:'Most leadership cultures reward certainty and penalise doubt. Leaders learn early that appearing confident is part of the role. The problem is that performed certainty and genuine understanding are not the same thing, and the people you lead can usually tell the difference. The leaders who earn the deepest trust are not the ones who always know the answer. They are the ones who are honest about what they do not yet know and curious enough to find out.',color:'#2E4A6B',bg:'#EAF0F7'},
+];
+
+const dims=[
+  {id:'openness',title:'Do I approach situations with genuine openness?',subtitle:'Openness: entering conversations and situations with genuine interest rather than pre-formed conclusions.',color:'#5A3EA0',bg:'#F7F5FC',
+    qs:['When I enter an important conversation or meeting, I am genuinely open to changing my view rather than just going through the motions of listening.','I regularly find that conversations change how I see a situation, not just how I communicate about it.','When someone disagrees with me, my first instinct is to be interested in their reasoning rather than to defend my own position.','The people I work with would say I am genuinely open to being persuaded, not just to hearing other views.'],
+    strong:{tagline:'You approach situations with genuine openness and people bring you their best thinking because of it.',desc:'Most leaders believe they are open-minded. Fewer actually are. The difference shows not in what they say about openness but in what happens when someone disagrees with them. You have developed the genuine capacity to enter situations with an open position: not certainty performing openness, but actual willingness to be changed by what you encounter. This makes you a more accurate thinker, a more trustworthy colleague, and a leader that people bring their honest views to rather than the views they think you want to hear.',coaching:['Before entering an important conversation, ask yourself: what would change my view here? Name it explicitly, even just to yourself.','Notice the difference between listening to respond and listening to understand. The former is performing openness; the latter is practising it.','When someone disagrees with you, try saying: "Help me understand your thinking." Then listen without building your counter-argument while they speak.','After significant conversations, ask: did anything genuinely change how I see this? If nothing ever does, your openness may be more performative than real.'],watch:'Genuine openness does not mean the absence of a position. You can have a strong view and still be genuinely open to revising it. The question is whether your view is held tentatively, as your best current thinking, or rigidly, as a conclusion already reached.'},
+    developing:{tagline:'You are genuinely open in most situations, though some conversations arrive with your position already formed.',desc:'You have real openness and it shapes how you engage with ideas and people. There will be topics, people or types of challenge where the openness is thinner than usual, where the view is already formed before the conversation starts. The opportunity is to notice those patterns specifically, because the situations where openness is hardest are usually the ones where it matters most.',coaching:['Identify one topic or type of conversation where you find it hardest to stay open. What is the pattern? Is it a particular person, a specific kind of challenge, a domain where you feel most certain?','Build a pre-conversation habit: before entering a discussion where you feel confident, pause and ask what you might be missing.','Notice the physical and emotional signals that tell you your position has already closed. That signal is the moment to consciously reopen.','Seek out the person most likely to disagree with your view on an important question and genuinely engage with their reasoning.'],watch:'It is easy to mistake familiarity with a topic for certainty about it. The more experience you have in an area, the more vigilant you need to be about checking whether your confidence reflects accurate understanding or accumulated assumption.'},
+    early:{tagline:'Building the habit of genuine openness is your most important growth edge here.',desc:'Most leaders form views quickly and defend them well. That capacity is useful in many situations. The cost is that it can make learning harder: when conclusions arrive before enough evidence has come in, the mind filters subsequent information to fit the conclusion rather than updating the conclusion to fit the information. Developing genuine openness does not mean becoming uncertain or indecisive. It means holding your views as your current best thinking rather than as settled conclusions, and staying genuinely interested in what might change them.',coaching:['For the next week, after each significant conversation, note one thing you heard that you did not already know. If you cannot find one, you may not have been genuinely open.','Practise the simplest openness question: "What am I missing here?" Ask it honestly, not rhetorically.','When you notice yourself building a counter-argument while someone is still speaking, stop. Return your attention to what they are actually saying.','Ask someone you trust: "Is there a topic where you have noticed I tend to arrive with my mind already made up?" Then listen to the answer without defending yourself.'],watch:'Openness is not the same as agreeableness. You can be genuinely open and still reach a different conclusion from the one being offered. The goal is not to agree more often. It is to understand more accurately.'}
+  },
+  {id:'assumptions',title:'Do I question my own assumptions?',subtitle:'Assumption awareness: noticing when your default thinking is shaping what you see.',color:'#1D7A6E',bg:'#E5F5F3',
+    qs:['I regularly pause to examine the assumptions behind my interpretation of a situation before acting on it.','When something does not go as expected, my first instinct is to examine what I assumed rather than to explain the outcome in other ways.','I can identify specific recent occasions when examining an assumption changed how I understood a situation.','The people I work with would say I am genuinely interested in challenging my own thinking, not just the thinking of others.'],
+    strong:{tagline:'You examine your own assumptions and your judgement is more reliable because of it.',desc:'Assumptions are invisible until something goes wrong and reveals them. Most leaders only examine their assumptions in retrospect, once the cost of not examining them has already been paid. You have developed the habit of surfacing and checking your assumptions before acting on them. That habit makes your judgement more accurate, your decisions more grounded, and your leadership more trustworthy. The people around you benefit from it even when they cannot name what it is they value in how you think.',coaching:['Build a regular assumption-checking question into your thinking: "What am I taking as given here that might be worth questioning?"','When you notice you are interpreting someone\'s behaviour, pause: are you reading facts or assumptions? Name the assumption explicitly before acting on it.','After decisions that did not produce the expected outcome, ask: what did I assume that turned out to be wrong? Use the answer to improve next time.','Seek input from someone who sees the situation differently before making significant calls. Their different assumptions are information.'],watch:'The assumptions that are hardest to examine are the ones that feel most like facts. The deeper a belief sits, the more it feels like reality rather than interpretation. Watch for the moments when something feels obviously true. That obviousness is often an unexamined assumption doing its work most effectively.'},
+    developing:{tagline:'You examine your assumptions in important moments, though not consistently across all situations.',desc:'You have genuine capacity for assumption-checking and you use it in significant situations. There will be moments where assumptions operate below the level of your awareness, particularly when you are under pressure, when you feel strongly, or when the situation feels familiar. The opportunity is to make assumption-checking more of a reflex than a deliberate act reserved for high-stakes moments.',coaching:['Build a simple daily practice: at the end of each working day, identify one assumption you acted on that you did not stop to examine. What was it? Was it accurate?','Notice when you use words like "obviously", "clearly" or "of course". These are often signals that an assumption is doing the work of evidence.','When you find yourself frustrated by someone\'s behaviour, pause and ask: what am I assuming about why they are doing this? Test that assumption directly.','Keep a short running list of assumptions you have examined and found to be wrong. It will sharpen your assumption-detection instinct over time.'],watch:'Questioning your assumptions is not the same as doubting yourself or becoming indecisive. The goal is to hold your interpretations lightly and update them readily, not to be paralysed by uncertainty. Checked assumptions lead to better decisions, not slower ones.'},
+    early:{tagline:'Building the habit of questioning your own assumptions is your most important growth edge here.',desc:'Assumptions make fast thinking possible. Without them, every situation would have to be analysed from scratch and nothing would ever get done. The problem is that unexamined assumptions do not stay neutral. They filter perception, narrow options and reinforce themselves. A leader who does not question their assumptions makes the same errors repeatedly without understanding why, interprets other people\'s behaviour through a lens that may not be accurate, and builds strategies on foundations that have never been tested.',coaching:['Start with one assumption this week. Pick a situation where something is not working as you expected. Write down what you assumed about it when it started. Then check each assumption against what you actually know.','Practise separating observation from interpretation. "They did not respond to my message" is an observation. "They are avoiding me" is an assumption. Notice how often the two are blurred.','Ask a trusted colleague: "What do you think I am assuming about this situation that I might not be aware of?" Then listen without defending.','Build the habit of finishing this sentence before acting on a significant judgement: "I am assuming that..."'],watch:'The purpose of questioning your assumptions is not to become uncertain about everything. It is to become more accurate about the things that matter. Start with the assumptions that are doing the most work in your current thinking, not the least.'}
+  },
+  {id:'pressure',title:'Do I stay curious under pressure?',subtitle:'Resilient curiosity: maintaining genuine inquiry when urgency or difficulty is pulling toward closure.',color:'#C44B30',bg:'#FDF0ED',
+    qs:['When I am under significant pressure, I still make time to understand what is really happening rather than defaulting to familiar responses.','In difficult or high-stakes situations, I ask questions rather than immediately asserting what needs to happen.','When something goes wrong, I approach the situation with genuine curiosity about what happened rather than moving quickly to fix or assign blame.','The people I lead would say that my approach in difficult moments is to understand first and act second.'],
+    strong:{tagline:'You stay curious even when pressure is pushing toward closure and your responses are better for it.',desc:'Pressure is the enemy of curiosity. When urgency is high and stakes are real, the instinct is to close down options, apply what worked before and move. That instinct is not wrong. But leaders who can maintain genuine inquiry under pressure have access to something others do not: an accurate picture of what is actually happening rather than a version shaped by their reaction to the pressure. Your decisions in high-stakes situations are better because you have learned to resist the pull toward premature closure.',coaching:['Build a pressure habit: before responding to any urgent situation, take thirty seconds to ask "what do I actually know here, as distinct from what I am assuming?"','In high-pressure conversations, lead with a question rather than a position. "Help me understand what has happened" is more useful than asserting what you think has happened.','When something goes wrong, treat the first ten minutes as information-gathering time rather than response time. You will make a better call with a more accurate picture.','After difficult situations, review: did I stay curious or did I default? What would I have learned if I had asked one more question before acting?'],watch:'Staying curious under pressure does not mean delaying action indefinitely. There are genuine moments that require decisive response without full information. The goal is not to eliminate the instinct to act. It is to ensure that the instinct does not consistently substitute for understanding.'},
+    developing:{tagline:'You stay reasonably curious under pressure, though sustained difficulty can pull you toward familiar responses.',desc:'You generally maintain genuine inquiry in demanding situations and you ask questions before acting in most cases. There will be specific pressure patterns, certain kinds of urgency or difficulty, where the pull to close down and respond overrides the instinct to understand first. The opportunity is to identify those specific triggers and build a deliberate practice for maintaining curiosity in precisely those moments.',coaching:['Identify the type of pressure that most pulls you toward premature closure. Is it time pressure, conflict, uncertainty, or something else? Name it specifically.','Build a personalised pressure check: when you notice that specific pressure, pause and ask one genuine question before you respond.','After a high-pressure situation, ask: what did I not stop to understand that I later wished I had? Use that answer as your guide for next time.','Practise staying curious in lower-stakes situations so the habit is available when pressure is highest.'],watch:'Resilient curiosity requires that you have the physiological composure to stay open when your body is signalling urgency. The two are connected. If pressure consistently narrows your thinking, examining how you manage your own state under pressure may be the foundation for building more resilient curiosity.'},
+    early:{tagline:'Building your ability to stay curious under pressure is your most important growth edge here.',desc:'Pressure and curiosity are in direct competition. The more urgent a situation feels, the stronger the pull toward what worked before, toward asserting rather than exploring, toward managing the situation rather than understanding it. Leaders who have not developed the capacity to stay curious under pressure make predictable errors: they solve the presenting problem rather than the actual one, they reassert familiar approaches that are no longer working, and they miss the information that the difficult situation is trying to provide. Developing resilient curiosity starts not with being curious in easy situations but with practising it deliberately in hard ones.',coaching:['For the next difficult situation you face, commit to asking one genuine question before you respond. Just one. "What is actually going on here?" is enough to start.','Notice the physical signal that tells you pressure is pulling you toward closure. When you feel it, use it as a cue to ask rather than assert.','After high-pressure moments, review your responses. How many were driven by genuine understanding of the situation versus by the urgency of the pressure?','Build a simple habit: in the first minute of any difficult situation, ask one question. In the second minute, listen. In the third, decide how to respond.'],watch:'Staying curious under pressure is a physical as much as a cognitive skill. When the stress response is activated, the brain narrows its focus. Learning to stay curious under pressure means learning to manage that narrowing, which involves working on how you regulate your own state as much as on how you think.'}
+  },
+  {id:'perspectives',title:'Do I seek out perspectives beyond my own?',subtitle:'Perspective seeking: actively looking for views, experiences and knowledge that differ from your own.',color:'#2E4A6B',bg:'#EAF0F7',
+    qs:['I regularly seek input from people whose experience or perspective is significantly different from my own, not just from people who are likely to agree with me.','When I am forming a view on something important, I actively look for the perspective that most challenges my current thinking.','I am genuinely interested in how people outside my immediate field or context approach similar problems.','The people I work with would say I actively bring in perspectives they would not have considered without me.'],
+    strong:{tagline:'You actively seek perspectives beyond your own and your thinking is richer and more accurate because of it.',desc:'Most leaders seek input from people who are likely to confirm their thinking. You do something different: you actively look for perspectives that challenge your current view, that come from different contexts and experiences, and that surface what your own vantage point cannot see. The result is a quality of thinking that is genuinely harder to achieve by any other means: thinking that has been tested against real diversity of experience before it becomes a decision or a direction.',coaching:['Build a deliberate network of people whose perspectives differ significantly from your own. Actively consult them on important questions.','When forming a significant view, ask: whose perspective am I missing? Then find a way to get it before deciding.','Seek expertise from contexts outside your own field. Problems that appear unique are often familiar in other sectors and the solutions transfer.','Use your network for genuine sensemaking, not just validation. Share unresolved challenges, not just polished views.'],watch:'Seeking diverse perspectives is most valuable when it genuinely changes your thinking rather than simply informing it. Watch for the pattern of consulting widely but deciding as if you had not. Diverse input that does not influence outcomes is not diversity of thought. It is theatre.'},
+    developing:{tagline:'You seek perspectives beyond your own in important situations, though your default network may still be too familiar.',desc:'You have genuine interest in perspectives that differ from your own and you actively seek them in significant situations. The opportunity is to make this more systematic and more consistent, particularly in the moments where your thinking feels most settled, which is precisely when diverse perspective would add the most value.',coaching:['Map your current consultation network for an important topic. How diverse is it really? Who is missing who would genuinely challenge your current thinking?','Build a habit of asking one question before important decisions: whose perspective am I not hearing that I should be?','Seek input from at least one person with significantly different experience before finalising any major call.','When you encounter a problem, ask: which other field or sector deals with something similar? Then look at how they approach it.'],watch:'It is easy to build a diverse-seeming network that is actually homogeneous in the ways that matter. People from different backgrounds who nonetheless share your professional assumptions, your organisational culture or your status level are not providing the diversity of perspective that genuinely challenges thinking. Look for genuine difference, not just visible difference.'},
+    early:{tagline:'Building the habit of seeking perspectives beyond your own is your most important growth edge here.',desc:'Every leader has a blind spot shaped by the specificity of their experience. The longer you have been successful in a particular domain, the more your thinking is shaped by the assumptions of that domain. The perspectives that would most improve your thinking are almost by definition the ones least likely to appear in your existing network, because your network reflects the world as your experience has shaped it. Actively seeking perspectives beyond your own is not just good practice. It is the only reliable way to see what your current vantage point cannot.',coaching:['This week, deliberately seek input on an important question from someone whose context is significantly different from your own. Notice what they surface that your usual sources would not.','Identify one assumption that is central to how you currently see your main challenge. Then find someone whose experience would give them a different view of that assumption and ask for it.','Build a sensemaking network of two or three people outside your immediate context who you consult regularly on significant questions.','When you read or engage with ideas, deliberately seek out sources that come from different disciplines, sectors or cultural contexts.'],watch:'Seeking diverse perspectives requires genuine openness to being changed by them. It is possible to consult widely and remain unchanged. The goal is not to gather more input. It is to become more accurate. Let what you hear genuinely update how you think.'}
+  },
+  {id:'notknowing',title:'Do I treat not knowing as a starting point?',subtitle:'Intellectual humility: being genuinely comfortable with uncertainty and honest about the limits of your knowledge.',color:'#4A7C59',bg:'#EAF4EE',
+    qs:['I am comfortable saying "I don\'t know" when I genuinely don\'t, without feeling the need to perform certainty I do not have.','I treat uncertainty as useful information rather than as a problem to be resolved as quickly as possible.','When I am in a situation I do not fully understand, I use that as a starting point for genuine exploration rather than applying a familiar framework to it.','The people I lead would say I create an environment where it is safe to say "I don\'t know" rather than one where certainty is always expected.'],
+    strong:{tagline:'You treat not knowing as a starting point and that honesty makes you a more trustworthy and effective leader.',desc:'Most leadership cultures reward certainty and penalise doubt. Leaders who perform confidence they do not have earn short-term credibility and long-term trust deficits. You have developed the intellectual honesty to be genuinely comfortable with not knowing, to name uncertainty rather than paper over it, and to treat the starting point of genuine inquiry as more valuable than the appearance of ready-made answers. The people around you benefit from this in ways that compound over time: they bring you honest assessments rather than managed ones, they tell you what they do not know rather than what they think you want to hear, and they trust your judgement more because they have seen it ground itself in reality rather than performance.',coaching:['Build the habit of naming uncertainty explicitly: "I don\'t know yet, but here is how I am thinking about it" is more trustworthy than a confident assertion you cannot fully back.','Model intellectual humility in front of your team. Say "I don\'t know" out loud when you don\'t. It gives others permission to do the same.','Treat unexplained outcomes as data rather than anomalies. "I don\'t understand why that happened" is a starting point, not a failure.','Create explicit space for not-knowing in team conversations: "What don\'t we know yet that we should find out before we decide?"'],watch:'Intellectual humility is not the same as indecision. You can be genuinely uncertain and still make clear, timely calls. The goal is to be honest about the level of certainty behind your decisions, not to defer all decisions until you have full certainty. Full certainty is rarely available. Honest calibration of what you know and do not know is always possible.'},
+    developing:{tagline:'You are generally comfortable with uncertainty, though the pressure to project confidence sometimes overrides it.',desc:'You have genuine intellectual humility and it shows in how you engage with complex and uncertain situations. There will be moments, particularly in front of senior stakeholders, in public forums, or when your credibility feels at stake, where the pull to project certainty is stronger than the discipline of honest uncertainty. The opportunity is to notice those moments and make a deliberate choice about whether the projected certainty is serving you and the people around you.',coaching:['Notice the situations where you feel most pulled to perform certainty you do not have. What is at stake? What do you fear will happen if you admit not knowing?','Practise naming uncertainty proportionally: "I am fairly confident about X, less certain about Y, and genuinely don\'t know about Z" is more useful than a blanket confidence that papers over all three.','Create the conditions for others to admit not knowing by modelling it yourself in team settings. The norm you set is the norm they will follow.','After significant decisions, review honestly: how much of my stated confidence was genuine and how much was performed? What would have been different if I had named the uncertainty?'],watch:'There is a difference between genuine uncertainty and performed uncertainty. Just as performing confidence can be misleading, performing uncertainty as a leadership style can equally be a way of avoiding accountability or ducking difficult calls. Intellectual humility means being honest about what you know and what you do not, not reflexively disclaiming certainty about everything.'},
+    early:{tagline:'Building your comfort with not knowing is your most important growth edge here.',desc:'The expectation that leaders should always know the answer is one of the most damaging myths in leadership. It creates a pressure toward performed certainty that distorts the quality of information flowing into decisions, trains teams to manage up rather than inform honestly, and makes leaders progressively less able to engage with genuine complexity. Developing comfort with not knowing is not about lowering your standards or becoming less decisive. It is about grounding your decisions and your leadership in honest engagement with reality rather than in the maintenance of an appearance of certainty that nobody actually believes.',coaching:['This week, say "I don\'t know" out loud at least once in a leadership setting. Notice what actually happens. It is almost certainly less damaging than you fear.','When you catch yourself about to assert a certainty you do not fully have, stop and replace it with a more honest statement: "My current thinking is... but I want to examine that further."','Create an explicit "what don\'t we know?" question in your next team meeting before moving to decisions. The answers will improve the quality of what follows.','Ask someone you trust to reflect back to you the moments when they think you project more certainty than you actually have. Listen without defending.'],watch:'Building comfort with not knowing starts with noticing how much energy you currently spend managing the appearance of certainty. That energy is not neutral. It is energy not available for genuine inquiry, for listening to what you do not yet understand, and for making decisions that are honestly calibrated to what you know rather than to what you want to appear to know.'}}
+];
+
+const answers={};
+let currentSection=0;
+
+function getBand(s){return s>=16?'strong':s>=10?'developing':'early';}
+function getBandLabel(s){return s>=16?'Strong':s>=10?'Developing':'Early stage';}
+function getBandColor(s){return s>=16?'#1D7A6E':s>=10?'#B86A00':'#C44B30';}
+function getBandBg(s){return s>=16?'#E5F5F3':s>=10?'#FFF6E8':'#FDF0ED';}
+
+function startAssessment(){
+  document.getElementById('start-screen').style.display='none';
+  document.getElementById('quiz-screen').style.display='block';
+  renderSection();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderSection(){
+  const dim=dims[currentSection];
+  document.getElementById('prog-label').textContent=dim.title;
+  document.getElementById('prog-frac').textContent=(currentSection+1)+' of '+dims.length;
+  document.getElementById('prog-fill').style.width=((currentSection+1)/dims.length*100)+'%';
+  document.getElementById('btn-back').style.visibility=currentSection===0?'hidden':'visible';
+  const isLast=currentSection===dims.length-1;
+  const btn=document.getElementById('btn-next');
+  btn.innerHTML=isLast
+    ?'See my results <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>'
+    :'Next <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>';
+  const qOffset=currentSection*4;
+  let html=`<div class="dim-chip" style="background:${dim.color}20;color:${dim.color}">${dim.title}</div><p class="dim-subtitle">${dim.subtitle}</p>`;
+  dim.qs.forEach((q,qi)=>{
+    const qn=qOffset+qi+1;
+    const sel=answers[qn];
+    html+=`<div class="question-card"><div class="q-top"><div class="q-num" style="background:${dim.color}20;color:${dim.color}">${qn}</div><div class="q-text">${q}</div></div><div class="freq-row">${[1,2,3,4,5].map(n=>`<button class="freq-btn${sel===n?' selected':''}" onclick="selectAnswer(${qn},${n})" style="${sel===n?'border-color:'+dim.color+';background:'+dim.color+'15':''}"><span class="f-num" style="color:${sel===n?dim.color:FC[n-1]}">${n}</span><span class="f-lbl">${FL[n-1]}</span><span class="f-tooltip">${FL[n-1]}</span></button>`).join('')}</div></div>`;
+  });
+  document.getElementById('quiz-content').innerHTML=html;
+}
+
+function selectAnswer(qn,val){answers[qn]=val;renderSection();}
+
+function navSection(dir){
+  if(dir===1){
+    const qOffset=currentSection*4;
+    if([1,2,3,4].some(i=>!answers[qOffset+i])){alert('Please answer all four questions before continuing.');return;}
+    if(currentSection===dims.length-1){showResults();return;}
+  }
+  currentSection=Math.max(0,Math.min(dims.length-1,currentSection+dir));
+  renderSection();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function calcScores(){
+  return dims.map((_,di)=>{let s=0;for(let i=1;i<=4;i++)s+=(answers[di*4+i]||0);return s;});
+}
+
+function showResults(){
+  document.getElementById('quiz-screen').style.display='none';
+  const scores=calcScores();
+  const rs=document.getElementById('results-screen');
+  rs.style.display='block';
+
+  let barsHtml='';
+  dims.forEach((dim,i)=>{
+    const score=scores[i],pct=Math.round((score/20)*100);
+    barsHtml+=`<div class="score-row"><div class="score-label">${dim.title}</div><div class="score-track"><div class="score-bar" style="background:${dim.color};width:0%" data-pct="${pct}"></div></div><div class="score-right"><span class="score-num" style="color:${dim.color}">${score}/20</span><span class="band-pill" style="background:${getBandBg(score)};color:${getBandColor(score)}">${getBandLabel(score)}</span></div></div>`;
+  });
+
+  const sorted=scores.map((s,i)=>({s,i})).sort((a,b)=>b.s-a.s);
+  const strengthItems=sorted.slice(0,2).map(({i})=>`<li><span class="s-dot str"></span>${dims[i].title}: ${dims[i][getBand(scores[i])].tagline}</li>`).join('');
+  const gapItems=sorted.slice(-2).reverse().map(({i})=>`<li><span class="s-dot gap"></span>${dims[i].title}: ${dims[i][getBand(scores[i])].tagline}</li>`).join('');
+
+  let profilesHtml='';
+  dims.forEach((dim,i)=>{
+    const score=scores[i],band=getBand(score),profile=dim[band];
+    const coachingItems=profile.coaching.map(c=>`<li>${c}</li>`).join('');
+    profilesHtml+=`<div class="profile-group"><div class="profile-dim-header" style="background:${dim.color}"><div class="profile-dim-name">${dim.title}</div><div class="profile-dim-sub">${dim.subtitle}</div></div><div class="profile-card"><div class="profile-header"><div class="profile-level">${getBandLabel(score)}</div><span class="profile-badge" style="background:${getBandBg(score)};color:${getBandColor(score)}">${score} / 20</span></div><div class="profile-body"><p class="profile-tagline">${profile.tagline}</p><p class="profile-desc">${profile.desc}</p><div class="coaching-box"><div class="coaching-label">Coaching points</div><ul class="coaching-list">${coachingItems}</ul></div><div class="watch-box"><span class="watch-label">Watch&nbsp;out</span><span class="watch-text">${profile.watch}</span></div></div></div></div>`;
+  });
+
+  rs.innerHTML=`
+    <div class="results-hero fade-up"><p class="results-eyebrow">Curiosity</p><h2 class="results-title">How Curious Am I?</h2><p class="results-sub">Here is a picture of your curiosity across five dimensions. Where you are strong, you are leading from genuine inquiry. Where you have room to develop, building your curiosity will change the quality of your thinking and the quality of your leadership.</p></div>
+    <div class="fade-up" style="margin-bottom:40px;"><h3 class="section-heading">Your scores at a glance</h3><p class="section-sub">16&#8211;20 = Strong &nbsp;&#8226;&nbsp; 10&#8211;15 = Developing &nbsp;&#8226;&nbsp; 4&#8211;9 = Early stage</p>${barsHtml}</div>
+    <div class="divider"></div>
+    <div class="summary-card fade-up"><div class="summary-header"><div class="summary-headline">Your curiosity summary</div><div class="summary-tagline">The pattern across your five scores shows you where your curiosity is already one of your leadership strengths, and where developing it further will most improve the quality of how you think and decide.</div></div><div class="summary-body"><div class="summary-block"><div class="summary-block-label strengths">Where you are strongest</div><ul class="summary-list">${strengthItems}</ul></div><div class="summary-block"><div class="summary-block-label gaps">Your biggest growth opportunities</div><ul class="summary-list">${gapItems}</ul></div></div></div>
+    <div class="divider"></div>
+    <div class="fade-up"><h3 class="section-heading" style="margin-bottom:6px;">Your dimension profiles</h3><p class="section-sub">A personalised coaching read with specific actions for each of your five scores.</p>${profilesHtml}</div>
+    <div class="divider"></div>
+    <div class="reflection-box fade-up"><div class="reflection-label">Reflection prompt</div><div class="reflection-text">Think of a recent decision or situation where you later realised you did not have an accurate enough picture of what was happening. Looking at your five scores: which dimension was most at play? Did you approach it with a position already formed, act on an assumption you had not examined, close down your thinking under the pressure to act, fail to seek a perspective that would have changed your read, or project more certainty than you actually had? What would you do differently? And what is one specific thing you could do this week to lead with more genuine curiosity?</div></div>
+    <div class="fade-up" style="margin-bottom:32px;"><h3 class="section-heading" style="margin-bottom:16px;">Where to next?</h3><div class="next-grid">
+      <a href="1__How_Do_I_Question.html" class="next-card" style="background:#F7F5FC;border-color:#5A3EA040;"><p class="next-card-flag" style="color:#5A3EA0">Related assessment</p><p class="next-card-title">How Do I Question?</p><p class="next-card-why">Curiosity and questioning are two sides of the same discipline. If your openness or assumption dimensions scored lower, the questioning assessment will give you specific skills for expressing curiosity through better questions.</p><div class="next-card-arrow" style="color:#5A3EA0">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div></a>
+      <a href="6__What_is_My_Strategic_Thinking.html" class="next-card" style="background:#E5F5F3;border-color:#1D7A6E40;"><p class="next-card-flag" style="color:#1D7A6E">Related assessment</p><p class="next-card-title">How Do I Think Differently?</p><p class="next-card-why">Curiosity and perspective-shifting are closely related. If your perspectives or assumptions dimensions scored lower, The Wider Lens will explore the same territory from a thinking-skills angle.</p><div class="next-card-arrow" style="color:#1D7A6E">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div></a>
+      <a href="5__Why_Do_I_Lead.html" class="next-card" style="background:#FDF0ED;border-color:#C44B3040;"><p class="next-card-flag" style="color:#C44B30">Related assessment</p><p class="next-card-title">What Is My Emotional Intelligence?</p><p class="next-card-why">Staying curious under pressure draws directly on self-regulation. If that dimension scored lower, the Inner Compass will show you how your emotional state affects the quality of your thinking in difficult moments.</p><div class="next-card-arrow" style="color:#C44B30">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div></a>
+      <a href="5__My_Decision_Making_Style.html" class="next-card" style="background:#EAF4EE;border-color:#4A7C5940;"><p class="next-card-flag" style="color:#4A7C59">Related assessment</p><p class="next-card-title">What Is My Decision-Making Style?</p><p class="next-card-why">Curiosity shapes the quality of decisions before they are made. If your not-knowing or pressure dimensions scored lower, the decision-making assessment will show you how those gaps affect the quality of your calls.</p><div class="next-card-arrow" style="color:#4A7C59">Go to assessment <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div></a>
+    </div></div>
+    <div class="results-footer fade-up"><p>Download your results or retake the assessment.</p><div class="footer-btns"><button class="btn btn-teal" onclick="window.print()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6V2h8v4M4 12H2V7h12v5h-2M4 10h8v4H4v-4z"/></svg>Download results</button><button class="btn btn-ghost" onclick="restartAssessment()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8a6 6 0 1 0 1-3.2"/><path d="M2 2v4h4"/></svg>Retake assessment</button></div></div>
+  `;
+
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(()=>{document.querySelectorAll('.score-bar[data-pct]').forEach(b=>{b.style.width=b.dataset.pct+'%';});},120);
+}
+
+function restartAssessment(){
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  currentSection=0;
+  document.getElementById('results-screen').style.display='none';
+  document.getElementById('results-screen').innerHTML='';
+  document.getElementById('start-screen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+const philEl=document.getElementById('philosophy-cards');
+philosophy.forEach(p=>{
+  philEl.innerHTML+=`<div class="principle-card"><div class="principle-num" style="background:${p.color}">${p.num}</div><div class="principle-body" style="background:${p.bg}"><div class="principle-title" style="color:${p.color}">${p.title}</div><div class="principle-text">${p.text}</div></div></div>`;
+});
+</script>
+</body>
+</html>
