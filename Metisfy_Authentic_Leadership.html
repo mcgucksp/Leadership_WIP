@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Authentic Leadership with a Collective Conscience - Metisfy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script>
+function downloadPDF() {
+  window.print();
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple-dark:  #2D1D5E;
+  --purple-mid:   #5A3EA0;
+  --purple-soft:  #7B5EC8;
+  --purple-tint:  #F2EFFC;
+  --purple-pale:  #F8F7FD;
+  --teal:         #1A6E63;
+  --teal-light:   #E5F4F2;
+  --amber:        #A85F00;
+  --amber-light:  #FDF4E7;
+  --coral:        #B84030;
+  --coral-light:  #FBECEA;
+  --slate:        #2A4260;
+  --sage:         #3D6B4A;
+  --grey-dark:    #1E1C2E;
+  --grey-mid:     #6B6880;
+  --grey-light:   #9896AA;
+  --grey-border:  #E2DDEF;
+  --white:        #FFFFFF;
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --shadow-sm: 0 1px 4px rgba(45,29,94,0.06), 0 1px 2px rgba(45,29,94,0.04);
+  --shadow-md: 0 4px 16px rgba(45,29,94,0.10), 0 2px 4px rgba(45,29,94,0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "DM Sans", sans-serif; background: var(--purple-pale); color: var(--grey-dark); min-height: 100vh; }
+
+.shell { max-width: 780px; margin: 0 auto; padding: 0 20px 80px; }
+
+/* HEADER */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 16px; border-bottom: 2px solid var(--purple-mid); margin-bottom: 0;
+}
+.site-header img { height: 36px; }
+.header-label { font-size: 12px; color: var(--grey-mid); letter-spacing: 0.8px; text-transform: uppercase; font-weight: 500; }
+
+/* SCREENS */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* START SCREEN */
+.hero { padding: 48px 0 0; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--purple-soft); margin-bottom: 14px; }
+.hero-title { font-family: "DM Serif Display", serif; font-size: 40px; color: var(--purple-dark); line-height: 1.15; margin-bottom: 18px; }
+.hero-body { font-size: 15px; line-height: 1.75; color: var(--grey-mid); margin-bottom: 0; max-width: 640px; }
+
+.divider { height: 2px; background: linear-gradient(90deg, var(--purple-mid), var(--purple-soft), transparent); border-radius: 2px; margin: 32px 0; }
+
+/* HONESTY BOX */
+.honesty-box {
+  background: var(--white); border-radius: 12px; padding: 28px 32px;
+  border-left: 4px solid var(--purple-mid); margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+}
+.honesty-box h3 { font-family: "DM Serif Display", serif; font-size: 18px; color: var(--purple-dark); margin-bottom: 14px; }
+.honesty-box p { font-size: 14px; line-height: 1.75; color: var(--grey-mid); margin-bottom: 10px; }
+.honesty-box p:last-child { margin-bottom: 0; }
+.honesty-box strong { color: var(--grey-dark); font-weight: 600; }
+
+/* COMPONENTS GRID */
+.section-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 18px; font-weight: 700; color: var(--purple-dark);
+  letter-spacing: 0; text-transform: none; margin-bottom: 6px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid var(--coral);
+  display: inline-block;
+}
+.section-label-wrap { margin-bottom: 20px; }
+.section-label-sub { font-size: 13px; color: var(--grey-mid); margin-top: 4px; }
+.comp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 36px; }
+@media(max-width:580px){ .comp-grid { grid-template-columns: repeat(2,1fr); } }
+.comp-pill {
+  background: var(--coral-light); border: 1px solid #E8C4BB;
+  border-top: 3px solid var(--coral); border-radius: 8px;
+  padding: 14px 13px; font-size: 12px; font-weight: 600;
+  color: #8C2E20; text-align: center;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  position: relative; cursor: default;
+}
+.comp-pill .pill-tip {
+  visibility: hidden; opacity: 0;
+  position: absolute; bottom: calc(100% + 10px); left: 50%;
+  transform: translateX(-50%);
+  background: #8C2E20; color: #fff;
+  font-size: 12px; font-weight: 400; line-height: 1.55;
+  padding: 9px 13px; border-radius: 8px; width: 190px;
+  text-align: center; z-index: 200; pointer-events: none;
+  transition: opacity 0.18s, visibility 0.18s;
+  white-space: normal;
+}
+.comp-pill .pill-tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #8C2E20;
+}
+.comp-pill:hover .pill-tip,
+.comp-pill:focus-within .pill-tip { visibility: visible; opacity: 1; }
+.comp-pill { outline: none; }
+.comp-pill:focus-visible { box-shadow: 0 0 0 2px var(--coral); }
+.comp-pill .num { font-size: 11px; color: var(--coral); opacity: 0.6; font-weight: 400; }
+.comp-pill .pill-icon { color: var(--coral); display: flex; align-items: center; justify-content: center; }
+
+/* SCALE INFO */
+.scale-box {
+  background: var(--purple-tint); border-radius: 10px; padding: 18px 24px;
+  margin-bottom: 32px; border: 1px solid var(--grey-border);
+}
+.scale-box h3 { font-size: 13px; font-weight: 600; color: var(--purple-dark); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
+.scale-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.scale-pip { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.scale-pip .dot { width: 28px; height: 28px; border-radius: 50%; background: var(--white); border: 2px solid var(--purple-mid); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--purple-mid); }
+.scale-pip .lbl { font-size: 10px; color: var(--grey-mid); text-align: center; max-width: 58px; }
+
+/* START BTN */
+.btn-start {
+  display: inline-block; background: var(--purple-mid); color: var(--white);
+  font-family: "DM Sans", sans-serif; font-size: 15px; font-weight: 600;
+  padding: 14px 36px; border-radius: 8px; border: none; cursor: pointer;
+  box-shadow: var(--shadow-md); transition: background 0.2s var(--ease), transform 0.15s var(--ease);
+  margin-top: 4px;
+}
+.btn-start:hover { background: var(--purple-dark); transform: translateY(-1px); }
+
+/* QUIZ SCREEN */
+.quiz-header { padding: 28px 0 20px; }
+.progress-wrap { margin-bottom: 6px; }
+.progress-bar-bg { height: 5px; background: var(--grey-border); border-radius: 3px; }
+.progress-bar-fill { height: 5px; background: var(--purple-mid); border-radius: 3px; transition: width 0.4s var(--ease); }
+.progress-label { font-size: 12px; color: var(--grey-mid); margin-top: 6px; }
+
+.section-header {
+  background: var(--white); border-radius: 12px; padding: 20px 24px;
+  margin-bottom: 20px; border-left: 4px solid var(--purple-mid);
+  box-shadow: var(--shadow-sm);
+}
+.section-header .comp-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--purple-soft); margin-bottom: 5px; }
+.section-header .comp-name { font-family: "DM Serif Display", serif; font-size: 22px; color: var(--purple-dark); }
+.section-header .comp-title-row { display: flex; align-items: center; gap: 10px; }
+.section-header .comp-icon { color: var(--purple-mid); display: flex; align-items: center; flex-shrink: 0; }
+
+.question-card {
+  background: var(--white); border-radius: 12px; padding: 22px 24px;
+  margin-bottom: 14px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--grey-border);
+  transition: border-color 0.2s var(--ease);
+}
+.question-card.answered { border-color: var(--purple-soft); }
+.question-text { font-size: 15px; line-height: 1.6; color: var(--grey-dark); margin-bottom: 16px; font-weight: 400; }
+.q-num { font-size: 11px; color: var(--grey-light); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 8px; text-transform: uppercase; }
+
+.options-row { display: flex; gap: 8px; align-items: center; }
+.opt-btn {
+  flex: 1; height: 40px; border-radius: 6px; border: 2px solid var(--grey-border);
+  background: var(--white); cursor: pointer; font-size: 14px; font-weight: 600;
+  color: var(--grey-mid); transition: all 0.15s var(--ease);
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+}
+.opt-btn:hover,
+.opt-btn:focus-visible { border-color: var(--purple-soft); color: var(--purple-mid); outline: none; }
+.opt-btn:focus-visible { box-shadow: 0 0 0 3px rgba(123,94,200,0.25); }
+.opt-btn.selected { background: var(--purple-mid); border-color: var(--purple-mid); color: var(--white); }
+.opt-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+.opt-labels span { font-size: 10px; color: var(--grey-light); }
+.opt-btn { position: relative; }
+.opt-btn::after {
+  content: attr(data-tooltip);
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  background: var(--grey-dark); color: var(--white);
+  font-size: 11px; font-weight: 400; white-space: nowrap;
+  padding: 5px 9px; border-radius: 5px; pointer-events: none;
+  opacity: 0; transition: opacity 0.15s var(--ease);
+  z-index: 10;
+}
+.opt-btn::before {
+  content: ''; position: absolute; bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--grey-dark);
+  pointer-events: none; opacity: 0; transition: opacity 0.15s var(--ease);
+}
+.opt-btn:hover::after, .opt-btn:hover::before { opacity: 1; }
+
+
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+.btn-nav {
+  padding: 11px 28px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 600;
+  transition: all 0.2s var(--ease);
+}
+.btn-back { background: var(--white); color: var(--grey-mid); border: 1px solid var(--grey-border); }
+.btn-back:hover { border-color: var(--purple-soft); color: var(--purple-mid); }
+.btn-next { background: var(--purple-mid); color: var(--white); box-shadow: var(--shadow-sm); }
+.btn-next:hover { background: var(--purple-dark); }
+.btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* RESULTS SCREEN */
+.results-hero { padding: 40px 0 0; }
+.results-title { font-family: "DM Serif Display", serif; font-size: 34px; color: var(--purple-dark); margin-bottom: 8px; line-height: 1.2; }
+.results-tagline { font-size: 15px; color: var(--grey-mid); line-height: 1.65; margin-bottom: 0; max-width: 580px; }
+
+/* PROFILE CARD */
+.profile-card {
+  border-radius: 14px; padding: 28px 30px; margin: 28px 0;
+  box-shadow: var(--shadow-md);
+}
+.profile-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.75; }
+.profile-name { font-family: "DM Serif Display", serif; font-size: 28px; margin-bottom: 10px; }
+.profile-desc { font-size: 14px; line-height: 1.75; opacity: 0.85; }
+
+.profile-authentic { background: var(--purple-dark); color: var(--white); }
+.profile-grounded { background: var(--teal); color: var(--white); }
+.profile-collective { background: var(--slate); color: var(--white); }
+.profile-emerging { background: var(--grey-dark); color: var(--white); }
+
+/* LAYER SUMMARY */
+.layer-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 4px; }
+@media (max-width: 580px) { .layer-summary { grid-template-columns: 1fr; } }
+.layer-summary-tile {
+  background: var(--white); border-radius: 12px; padding: 20px 22px;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--grey-border);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.layer-summary-tile.individual { border-top: 4px solid var(--coral); }
+.layer-summary-tile.collective { border-top: 4px solid var(--slate); }
+.layer-summary-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--grey-mid);
+}
+.layer-summary-tile.individual .layer-summary-eyebrow { color: var(--coral); }
+.layer-summary-tile.collective .layer-summary-eyebrow { color: var(--slate); }
+.layer-summary-score {
+  display: flex; align-items: baseline; gap: 10px;
+}
+.layer-summary-score .num {
+  font-family: "DM Serif Display", serif; font-size: 28px; color: var(--purple-dark);
+}
+.layer-summary-score .max { font-size: 14px; color: var(--grey-light); }
+.layer-summary-score .band { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 10px; }
+.layer-summary-desc { font-size: 13px; line-height: 1.65; color: var(--grey-mid); }
+.layer-title-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; padding-bottom: 8px; border-bottom: 1px solid var(--grey-border); }
+.layer-title-main { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--grey-mid); }
+.layer-title-avg { font-size: 12px; color: var(--grey-mid); }
+.layer-title-avg strong { color: var(--purple-dark); font-weight: 700; }
+.layer-title-interp { font-size: 12px; color: var(--grey-mid); margin-bottom: 14px; font-style: italic; }
+
+/* SCORES */
+.scores-section { margin: 32px 0; }
+.scores-title { font-family: "DM Serif Display", serif; font-size: 20px; color: var(--purple-dark); margin-bottom: 20px; }
+
+.layer-block { margin-bottom: 28px; }
+.layer-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--grey-mid); margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--grey-border);
+}
+
+.score-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.score-label { font-size: 13px; font-weight: 500; color: var(--grey-dark); min-width: 170px; }
+.score-bar-bg { flex: 1; height: 8px; background: var(--grey-border); border-radius: 4px; overflow: hidden; }
+.score-bar-fill { height: 8px; border-radius: 4px; transition: width 1s var(--ease); }
+.score-val { font-size: 13px; font-weight: 700; color: var(--purple-mid); min-width: 28px; text-align: right; }
+.band-pill { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+
+/* NARRATIVE */
+.narrative-section { margin: 32px 0; }
+.narrative-block {
+  background: var(--white); border-radius: 12px; padding: 22px 26px;
+  margin-bottom: 14px; box-shadow: var(--shadow-sm); border: 1px solid var(--grey-border);
+}
+.narrative-block.strength { border-left: 4px solid var(--teal); }
+.narrative-block.growth { border-left: 4px solid var(--amber); }
+.narrative-block h4 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+.narrative-block.strength h4 { color: var(--teal); }
+.narrative-block.growth h4 { color: var(--amber); }
+.narrative-block p { font-size: 14px; line-height: 1.75; color: var(--grey-mid); }
+
+/* RECOMMENDATIONS */
+.recs-section { margin: 32px 0; }
+.mentor-section { margin: 28px 0; }
+.mentor-title { font-family: "DM Serif Display", serif; font-size: 20px; color: var(--purple-dark); margin-bottom: 6px; }
+.mentor-intro { font-size: 14px; color: var(--grey-mid); margin-bottom: 18px; line-height: 1.6; }
+.mentor-card {
+  background: var(--white); border-radius: 12px; padding: 20px 24px;
+  margin-bottom: 12px; box-shadow: var(--shadow-sm);
+  border: 1px solid var(--grey-border); border-left: 4px solid var(--amber);
+}
+.mentor-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.mentor-card-icon { color: var(--amber); display: flex; align-items: center; flex-shrink: 0; }
+.mentor-card-name { font-family: "DM Serif Display", serif; font-size: 17px; color: var(--purple-dark); }
+.mentor-card-advice { font-size: 14px; line-height: 1.75; color: var(--grey-mid); }
+
+.recs-title { font-family: "DM Serif Display", serif; font-size: 20px; color: var(--purple-dark); margin-bottom: 6px; }
+.recs-sub { font-size: 14px; color: var(--grey-mid); margin-bottom: 20px; }
+.rec-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--white); border-radius: 10px; padding: 16px 18px;
+  margin-bottom: 10px; text-decoration: none; color: inherit;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--grey-border);
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.rec-card:hover { border-color: var(--purple-soft); box-shadow: var(--shadow-md); }
+.rec-icon {
+  width: 36px; height: 36px; border-radius: 8px; background: var(--purple-tint);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rec-icon svg { color: var(--purple-mid); }
+.rec-text { flex: 1; }
+.rec-name { font-size: 14px; font-weight: 600; color: var(--purple-dark); margin-bottom: 3px; }
+.rec-why { font-size: 12px; color: var(--grey-mid); line-height: 1.5; }
+.rec-arrow { color: var(--grey-light); align-self: center; flex-shrink: 0; transition: transform 0.2s var(--ease), color 0.2s var(--ease); }
+.rec-card:hover .rec-arrow { transform: translateX(3px); color: var(--purple-mid); }
+
+/* REFLECTION */
+.reflection-box {
+  background: var(--purple-tint); border-radius: 12px; padding: 24px 28px;
+  margin: 28px 0; border: 1px solid var(--grey-border);
+}
+.reflection-box h4 { font-family: "DM Serif Display", serif; font-size: 17px; color: var(--purple-dark); margin-bottom: 10px; }
+.reflection-box p { font-size: 14px; line-height: 1.75; color: var(--grey-mid); }
+
+/* FOOTER ACTIONS */
+.footer-actions { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+.btn-secondary {
+  padding: 11px 24px; border-radius: 8px; font-family: "DM Sans", sans-serif;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s var(--ease);
+  background: var(--white); color: var(--purple-mid); border: 2px solid var(--purple-mid);
+}
+.btn-secondary:hover { background: var(--purple-tint); }
+.btn-download {
+  padding: 11px 24px; border-radius: 8px; font-family: "DM Sans", sans-serif;
+  font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s var(--ease);
+  background: var(--purple-mid); color: var(--white); border: 2px solid var(--purple-mid);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-download:hover { background: var(--purple-dark); border-color: var(--purple-dark); }
+.btn-download:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.footer-text {
+  text-align: center; font-size: 12px; color: var(--grey-light);
+  margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--grey-border);
+}
+
+/* PRINT — Download PDF uses window.print() */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: var(--white); color: var(--grey-dark); }
+  .shell { max-width: none; padding: 0; }
+  .site-header, .footer-actions, #btn-download, #screen-start, #screen-quiz { display: none !important; }
+  .screen { display: block !important; }
+  .profile-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; page-break-inside: avoid; }
+  .narrative-block, .mentor-card, .rec-card, .reflection-box, .score-row { page-break-inside: avoid; }
+  .scores-section, .narrative-section, .recs-section, .mentor-section { page-break-inside: avoid; }
+  .results-title { font-size: 28px; }
+  .score-bar-fill, .profile-card { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+.layer-label {
+  font-size: 14px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase; margin-bottom: 10px; margin-top: 4px;
+  display: flex; align-items: center; gap: 10px;
+}
+.layer-label.individual { color: var(--coral); }
+.layer-label.collective { color: var(--slate); margin-top: 24px; }
+.layer-label::after { content: ''; flex: 1; height: 1px; opacity: 0.25; }
+.layer-label.individual::after { background: var(--coral); }
+.layer-label.collective::after { background: var(--slate); }
+.layer-label-sub { font-size: 12px; font-weight: 400; letter-spacing: 0; text-transform: none; opacity: 0.65; margin-left: 6px; }
+
+.comp-pill.collective {
+  background: #EEF0F4;
+  border-top-color: var(--slate);
+  border-color: #C8CDD8;
+  color: var(--slate);
+}
+.comp-pill.collective .num { color: var(--slate); opacity: 0.55; }
+.comp-pill.collective .pill-icon { color: var(--slate); }
+.comp-pill.collective .pill-tip { background: var(--slate); }
+.comp-pill.collective .pill-tip::after { border-top-color: var(--slate); }
+.comp-pill.collective:focus-visible { box-shadow: 0 0 0 2px var(--slate); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<header class="site-header">
+  <a href="index.html"><img src="data:image/png;base64,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" alt="Metisfy"></a>
+  <span class="header-label">Leadership Self-Assessment</span>
+</header>
+
+<!-- START SCREEN -->
+<div id="screen-start" class="screen active">
+  <div class="hero">
+    <p class="eyebrow">My Leadership Shift</p>
+    <h1 class="hero-title">Authentic Leadership with<br>a Collective Conscience</h1>
+    <p class="hero-body">This assessment maps where you stand across the 11 components of authentic leadership. It will show you your strengths, your growth areas, and where to focus next.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="honesty-box">
+    <h3>A note before you start</h3>
+    <p>This assessment works best when you answer based on what is actually true for you right now, not what you aspire to be or what you think a good leader should say.</p>
+    <p><strong>There are no right answers here. The value is in the honest ones.</strong></p>
+    <p>If you find yourself wanting to score highly on everything, pause. The most useful thing this assessment can do is show you where you genuinely are, not where you would like to be. A low score on any component is not a judgement. It is a starting point.</p>
+    <p>Think about your actual behaviour in the last few weeks. Think about specific moments and real situations. <strong>Score what you do, not what you intend to do.</strong></p>
+    <p>The leaders who get the most from this are the ones who are willing to be honest with themselves. That honesty is the first act of authentic leadership.</p>
+  </div>
+
+  <div class="section-label-wrap">
+    <div class="section-label">The 11 Components of Authentic Leadership with a Collective Conscience</div>
+    <div class="section-label-sub">Hover over any component to see what it means. The first seven build the leader. The final four are what that leader does with what they have built.</div>
+  </div>
+  <div class="layer-label individual">Individual Layer<span class="layer-label-sub">How you show up as a leader</span></div>
+  <div class="comp-grid">
+    <div class="comp-pill"><span class="num">01</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2l2.5 6.5H20l-5.5 4 2 6.5L11 15l-5.5 4 2-6.5L2 8.5h6.5z"/></svg></span><span class="pill-tip">Your values show up in your decisions, especially when it would be easier to look the other way.</span>Integrity</div>
+    <div class="comp-pill"><span class="num">02</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="6" r="3"/><path d="M5 19a6 6 0 0 1 12 0"/><path d="M17 10l2 2-2 2"/></svg></span><span class="pill-tip">What you do carries more weight than what you say. Your behaviour sets the standard.</span>Lead by Example</div>
+    <div class="comp-pill"><span class="num">03</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 2a7 7 0 0 1 4 12.8V17H7v-2.2A7 7 0 0 1 11 2z"/><path d="M8 17h6M8.5 20h5"/></svg></span><span class="pill-tip">You connect people to a purpose bigger than the task, and they move because they believe, not because they were told.</span>Inspire and Influence</div>
+    <div class="comp-pill"><span class="num">04</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 19S3 14 3 8a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 6-8 11-8 11z"/></svg></span><span class="pill-tip">You invest in real relationships with your people, not just professional ones.</span>Model Connection</div>
+    <div class="comp-pill"><span class="num">05</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="9"/><circle cx="11" cy="11" r="4"/><circle cx="11" cy="11" r="1" fill="currentColor" stroke="none"/></svg></span><span class="pill-tip">When things are uncertain, you help people find their footing rather than pretending you have all the answers.</span>Clarity in Complexity</div>
+    <div class="comp-pill"><span class="num">06</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a7 7 0 0 1 13-3.5"/><path d="M18 11a7 7 0 0 1-13 3.5"/><path d="M17 4l1 3.5-3.5 1M5 18l-1-3.5 3.5-1"/></svg></span><span class="pill-tip">You stay genuinely open to changing how you lead, not just what you do.</span>Adapt and Evolve</div>
+    <div class="comp-pill"><span class="num">07</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="5" r="2.5"/><circle cx="5" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M11 7.5v4l-4.5 4M11 11.5l4.5 4"/></svg></span><span class="pill-tip">You develop people to make decisions and grow without needing you as the bottleneck.</span>Empower Others</div>
+  </div>
+  <div class="layer-label collective">Collective Layer<span class="layer-label-sub">How you lead beyond yourself</span></div>
+  <div class="comp-grid">
+    <div class="comp-pill collective"><span class="num">08</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M11 3v16M3 11h16"/><circle cx="11" cy="11" r="8"/></svg></span><span class="pill-tip">Your team knows what they are building together and why it matters beyond the immediate task.</span>Shared Purpose</div>
+    <div class="comp-pill collective"><span class="num">09</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17L9 9l4 5 3-4 3 7"/><circle cx="11" cy="5" r="2"/><path d="M11 7v2"/></svg></span><span class="pill-tip">Your sense of direction is visible in the decisions and priorities you set every week.</span>Vision into Action</div>
+    <div class="comp-pill collective"><span class="num">10</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="6" r="2.5"/><circle cx="15" cy="6" r="2.5"/><circle cx="11" cy="16" r="2.5"/><path d="M7 8.5a5 5 0 0 0 4 7.5M15 8.5a5 5 0 0 1-4 7.5M9.5 8.5h3"/></svg></span><span class="pill-tip">You bring people together across boundaries and share credit generously.</span>Collaborate</div>
+    <div class="comp-pill collective"><span class="num">11</span><span class="pill-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 3C6.5 3 3 6.5 3 11s3.5 8 8 8 8-3.5 8-8"/><path d="M15 3l2 2-2 2M17 5H11"/><path d="M8 11l2 2 4-4"/></svg></span><span class="pill-tip">You lead in a way that creates value beyond your team, your targets, and yourself.</span>Serve the Greater Good</div>
+  </div>
+
+  <div class="scale-box">
+    <h3>How the scale works</h3>
+    <div class="scale-row">
+      <div class="scale-pip"><div class="dot">1</div><div class="lbl">Not at all like me</div></div>
+      <div class="scale-pip"><div class="dot">2</div><div class="lbl">Rarely like me</div></div>
+      <div class="scale-pip"><div class="dot">3</div><div class="lbl">Sometimes like me</div></div>
+      <div class="scale-pip"><div class="dot">4</div><div class="lbl">Often like me</div></div>
+      <div class="scale-pip"><div class="dot">5</div><div class="lbl">This is exactly me</div></div>
+    </div>
+  </div>
+
+  <button class="btn-start" onclick="startQuiz()">Begin the Assessment</button>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-header">
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-label" id="progress-label" aria-live="polite">Component 1 of 11</div>
+    </div>
+  </div>
+  <div id="quiz-body"></div>
+  <div class="nav-row">
+    <button class="btn-nav btn-back" id="btn-back" onclick="goBack()">Back</button>
+    <button class="btn-nav btn-next" id="btn-next" onclick="goNext()">Next</button>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div id="screen-results" class="screen">
+  <div id="results-body"></div>
+</div>
+
+</div>
+
+<script>
+
+const MENTOR_ADVICE = {
+  integrity: `Build routines to openly acknowledge challenges alongside progress. Demonstrate observable behaviour by validating concerns before problem solving. Make decisions that balance encouragement with realism.`,
+  example: `State your role in the decision clearly. Explain the criteria and constraints that shaped the outcome. Avoid attributing responsibility to unnamed others.`,
+  inspire: `Build a routine of briefly acknowledging difficult events at the start of relevant meetings, using neutral and respectful language. Make your behaviour observable by naming the event and its potential impact without asking people to share personal reactions. Decide deliberately not to invite discussion unless employees indicate they want space to talk.`,
+  connection: `Check in regularly to understand team morale. Acknowledge emotions openly without minimising them. Provide access to support resources where appropriate.`,
+  clarity: `Build routines to reflect on authority levels required. Demonstrate observable behaviour by flexing decisiveness. Make decisions about when to consult and when to direct.`,
+  adapt: `Establish a regular routine where you explicitly review what has changed and what remains stable each month. Make change visible by naming it openly rather than allowing it to sit unspoken in the background. Decide to stop presenting change as temporary when evidence suggests it is ongoing.`,
+  empower: `Distinguish low from high risk situations. Pause before intervening. Use questions instead of answers.`,
+  purpose: `Establish a regular routine for gathering input from employees or stakeholders before major strategic decisions. Make participation visible by clearly showing how contributions have influenced strategic direction. Decide in advance which aspects of strategy are open for input and which are non-negotiable.`,
+  vision: `Block protected time monthly for future focused work. Observe whether innovation time is regularly overridden by urgent tasks. Decide to rotate staff through innovation projects.`,
+  collaborate: `Create decision routines that actively involve relevant stakeholders. Observe whose voices are missing from important conversations. Make conscious decisions to share ownership of outcomes.`,
+  greater: `Build a routine of preparing to represent your team’s work and context before senior or cross-functional meetings. Make your behaviour visible by speaking up when employees are discussed without full or fair information. Decide deliberately when silence would be interpreted as agreement and choose to intervene instead.`,
+};
+const COMP_ICONS = {
+  integrity: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M11 2l2.5 6.5H20l-5.5 4 2 6.5L11 15l-5.5 4 2-6.5L2 8.5h6.5z'/></svg>`,
+  example: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><circle cx='11' cy='6' r='3'/><path d='M5 19a6 6 0 0 1 12 0'/><path d='M17 10l2 2-2 2'/></svg>`,
+  inspire: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><path d='M11 2a7 7 0 0 1 4 12.8V17H7v-2.2A7 7 0 0 1 11 2z'/><path d='M8 17h6M8.5 20h5'/></svg>`,
+  connection: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><path d='M11 19S3 14 3 8a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 6-8 11-8 11z'/></svg>`,
+  clarity: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><circle cx='11' cy='11' r='9'/><circle cx='11' cy='11' r='4'/><circle cx='11' cy='11' r='1' fill='currentColor' stroke='none'/></svg>`,
+  adapt: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M4 11a7 7 0 0 1 13-3.5'/><path d='M18 11a7 7 0 0 1-13 3.5'/><path d='M17 4l1 3.5-3.5 1M5 18l-1-3.5 3.5-1'/></svg>`,
+  empower: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><circle cx='11' cy='5' r='2.5'/><circle cx='5' cy='17' r='2.5'/><circle cx='17' cy='17' r='2.5'/><path d='M11 7.5v4l-4.5 4M11 11.5l4.5 4'/></svg>`,
+  purpose: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><path d='M11 3v16M3 11h16'/><circle cx='11' cy='11' r='8'/></svg>`,
+  vision: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M4 17L9 9l4 5 3-4 3 7'/><circle cx='11' cy='5' r='2'/><path d='M11 7v2'/></svg>`,
+  collaborate: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round'><circle cx='7' cy='6' r='2.5'/><circle cx='15' cy='6' r='2.5'/><circle cx='11' cy='16' r='2.5'/><path d='M7 8.5a5 5 0 0 0 4 7.5M15 8.5a5 5 0 0 1-4 7.5M9.5 8.5h3'/></svg>`,
+  greater: `<svg width='20' height='20' viewBox='0 0 22 22' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M11 3C6.5 3 3 6.5 3 11s3.5 8 8 8 8-3.5 8-8'/><path d='M15 3l2 2-2 2M17 5H11'/><path d='M8 11l2 2 4-4'/></svg>`,
+};
+const COMPONENTS = [
+  {
+    id: "integrity", name: "Integrity", layer: "individual",
+    questions: [
+      "When a decision has gone badly, my first instinct is to understand what happened rather than manage how it looks.",
+      "I have had conversations recently that were uncomfortable because I said what I believed rather than what was easy.",
+      "The people closest to me at work would recognise my values in the decisions I make under pressure."
+    ]
+  },
+  {
+    id: "example", name: "Lead by Example", layer: "individual",
+    questions: [
+      "I notice when I am asking something of my team that I am not doing myself.",
+      "In tough moments, my team takes its lead from how I am behaving, not just what I am saying.",
+      "I hold myself to the same standards I hold my team to, even when no one would notice if I did not."
+    ]
+  },
+  {
+    id: "inspire", name: "Inspire and Influence", layer: "individual",
+    questions: [
+      "When I communicate a decision, I make sure people understand not just what is happening but why it matters to them personally.",
+      "I can think of specific moments recently where someone went beyond what was asked because they believed in what we were doing.",
+      "I adjust how I communicate depending on what I know motivates each person, not just the group."
+    ]
+  },
+  {
+    id: "connection", name: "Model Connection", layer: "individual",
+    questions: [
+      "I know what is going on in the lives of my people beyond what directly affects their work.",
+      "When someone on my team is struggling, they are likely to tell me before it becomes a problem.",
+      "I can recall a recent conversation with someone on my team that had nothing to do with tasks or performance."
+    ]
+  },
+  {
+    id: "clarity", name: "Clarity in Complexity", layer: "individual",
+    questions: [
+      "When things are uncertain, I say so openly rather than filling the gap with false confidence.",
+      "My team knows what to focus on even when things feel chaotic around them.",
+      "When my team faces a difficult situation, I help them see it differently rather than just reassure them."
+    ]
+  },
+  {
+    id: "adapt", name: "Adapt and Evolve", layer: "individual",
+    questions: [
+      "I have changed how I lead in a meaningful way in the last twelve months based on something I learned.",
+      "I actively seek out people and perspectives that challenge my current thinking.",
+      "When something I have always done stops working, I let it go rather than defending it."
+    ]
+  },
+  {
+    id: "empower", name: "Empower Others", layer: "individual",
+    questions: [
+      "There are decisions being made in my team right now that do not need to come through me.",
+      "When someone on my team makes a decision I would have made differently, my first instinct is to let it stand and learn from what happens.",
+      "The people I lead are growing in capability because of how I work with them, not in spite of it."
+    ]
+  },
+  {
+    id: "purpose", name: "Shared Purpose", layer: "collective",
+    questions: [
+      "My team could articulate what we are building together beyond the immediate targets in front of us.",
+      "I revisit our sense of purpose regularly rather than assuming people already know what it is.",
+      "When people join my team, understanding the why comes before understanding the what."
+    ]
+  },
+  {
+    id: "vision", name: "Vision into Action", layer: "collective",
+    questions: [
+      "The vision I describe to my team is visible in the decisions and priorities we set week to week.",
+      "I can point to specific things that have changed in the last three months because of where we are trying to go.",
+      "I regularly connect the work my team is doing right now to the longer term direction we are heading."
+    ]
+  },
+  {
+    id: "collaborate", name: "Collaborate", layer: "collective",
+    questions: [
+      "I regularly notice whose voice is missing from an important conversation and do something about it.",
+      "When things go well, my instinct is to make the contribution of others visible rather than my own.",
+      "I actively challenge the invisible boundaries that stop people working together, even when it is uncomfortable to do so."
+    ]
+  },
+  {
+    id: "greater", name: "Serve the Greater Good", layer: "collective",
+    questions: [
+      "I can describe a specific decision I have made recently that was shaped by something beyond my team's immediate interests.",
+      "I have said no to something that would have benefited me or my team because it was not the right thing for the wider organisation or community.",
+      "The way I lead would still feel right to me if none of it was ever recognised or rewarded."
+    ]
+  }
+];
+
+const RECS = {
+  integrity:   { title: "Why Do I Lead?",                         href: "5__Why_Do_I_Lead.html",                             why: "The motivations behind your leadership are the foundation of integrity." },
+  example:     { title: "How Do I Rate as a Leader?",             href: "2__How_Do_I_Rate_as_a_Leader.html",                 why: "Honest self-rating requires the kind of accountability your scores suggest you are developing." },
+  inspire:     { title: "What Drives Me as a Leader?",            href: "1__What_Drives_me_as_a_Leader.html",                why: "Understanding what drives you is the engine behind genuine inspiration." },
+  connection:  { title: "How Do I Listen?",                       href: "1__How_Do_I_LIsten.html",                           why: "Deep connection starts with the quality of your listening." },
+  clarity:     { title: "How Do I Frame Problems?",               href: "1__How_Do_I_Frame_Problems.html",                   why: "Framing problems well is how you give your team clarity when things are complex." },
+  adapt:       { title: "How Do I Think Differently?",            href: "2__How_Do_I_think_Differently.html",                why: "Evolving as a leader requires the ability to think in new ways." },
+  empower:     { title: "How Comfortable Am I with Delegation?",  href: "2__How_Compforatable_am_I_WIth_Delegation.html",    why: "Empowerment and delegation are two sides of the same coin." },
+  purpose:     { title: "My Leadership Style",                    href: "4__My_Leadership_Style.html",                       why: "Purpose is the core of transformational leadership." },
+  vision:      { title: "What Is My Strategic Thinking?",         href: "6__What_is_My_Strategic_Thinking.html",             why: "Turning vision into action requires strategic clarity." },
+  collaborate: { title: "How Do I Lead and Work with Teams?",     href: "1__How_Do_I_Lead_Teams.html",                       why: "Collaboration as a value shows up most powerfully in how you lead collectively." },
+  greater:     { title: "Leadership Values Questionnaire",        href: "Metisfy_Values.html",                               why: "Service to the greater good is rooted in how clearly you live your values." }
+};
+
+const PROFILES = {
+  authentic: {
+    name: "Authentic Leader with a Collective Conscience",
+    cls: "profile-authentic",
+    desc: "You show up with integrity and self-awareness, and you extend that outward into how you build purpose, collaborate, and serve something beyond yourself. This is the fullest expression of the framework. Your focus now is on sustaining and deepening what you have built."
+  },
+  grounded: {
+    name: "The Grounded Leader",
+    cls: "profile-grounded",
+    desc: "You are strong in who you are as a person and a leader. Your values, your example, and your connection to people are real and consistent. The opportunity for growth lies in extending that outward. Purpose, collaboration, and service to something beyond yourself are where your next chapter of leadership lives."
+  },
+  collective: {
+    name: "The Collective Leader",
+    cls: "profile-collective",
+    desc: "You think and lead beyond yourself. You understand shared purpose, you invest in collaboration, and you care about impact that outlasts any individual. The invitation now is to ground all of that more deeply in your own personal foundation. The stronger your inner core, the more sustainable your collective leadership becomes."
+  },
+  emerging: {
+    name: "The Emerging Leader",
+    cls: "profile-emerging",
+    desc: "This is the most valuable result you could have received. The honesty it took to arrive here is itself the first and hardest act of authentic leadership. You now have a clear map of where to focus, without the noise of inflated strengths. The assessments below are your starting points. Take one area at a time. Authentic leadership is built slowly, through honest reflection and consistent action."
+  }
+};
+
+let current = 0;
+let answers = {};
+
+function startQuiz() {
+  document.getElementById("screen-start").classList.remove("active");
+  document.getElementById("screen-quiz").classList.add("active");
+  document.getElementById("quiz-body").addEventListener("click", function(e) {
+    var btn = e.target.closest(".opt-btn");
+    if (btn) { selectAnswer(btn.getAttribute("data-key"), parseInt(btn.getAttribute("data-val"))); }
+  });
+  renderSection();
+}
+
+function renderSection() {
+  const comp = COMPONENTS[current];
+  const pct = Math.round((current / COMPONENTS.length) * 100);
+  document.getElementById("progress-fill").style.width = pct + "%";
+  document.getElementById("progress-label").textContent = "Component " + (current + 1) + " of " + COMPONENTS.length;
+  document.getElementById("btn-back").style.visibility = current === 0 ? "hidden" : "visible";
+  document.getElementById("btn-next").textContent = current === COMPONENTS.length - 1 ? "See My Results" : "Next";
+
+  let html = '<div class="section-header">';
+
+  html += '<div class="comp-eyebrow">Component ' + String(current + 1).padStart(2, "0") + ' of 11</div>';
+  html += '<div class="comp-title-row"><div class="comp-icon">' + (COMP_ICONS[comp.id] || '') + '</div><div class="comp-name">' + comp.name + '</div></div>';
+  html += '</div>';
+
+  comp.questions.forEach(function(q, qi) {
+    const key = comp.id + "_" + qi;
+    const saved = answers[key] || 0;
+    html += '<div class="question-card' + (saved ? " answered" : "") + '" id="card_' + key + '">';
+    html += '<div class="q-num">Question ' + (current * 3 + qi + 1) + ' of 33</div>';
+    html += '<div class="question-text">' + q + '</div>';
+    html += '<div class="options-row" role="radiogroup" aria-label="Rate this statement from 1 to 5">';
+    for (let v = 1; v <= 5; v++) {
+      var tooltips = {1:"Not at all like me",2:"Rarely like me",3:"Sometimes like me",4:"Often like me",5:"This is exactly me"};
+      html += '<button class="opt-btn' + (saved === v ? ' selected' : '') + '" role="radio" aria-checked="' + (saved === v) + '" aria-label="' + v + ' - ' + tooltips[v] + '" data-key="' + key + '" data-val="' + v + '" data-tooltip="' + v + ' - ' + tooltips[v] + '">' + v + '</button>';
+    }
+    html += '</div>';
+    html += '<div class="opt-labels"><span>Not at all like me</span><span>This is exactly me</span></div>';
+    html += '</div>';
+  });
+
+  document.getElementById("quiz-body").innerHTML = html;
+  updateNextBtn();
+  window.scrollTo(0, 0);
+}
+
+function selectAnswer(key, val) {
+  answers[key] = val;
+  const comp = COMPONENTS[current];
+  comp.questions.forEach(function(q, qi) {
+    const k = comp.id + "_" + qi;
+    const card = document.getElementById("card_" + k);
+    if (card) {
+      if (answers[k]) card.classList.add("answered"); else card.classList.remove("answered");
+    }
+  });
+  document.querySelectorAll("#card_" + key + " .opt-btn").forEach(function(btn, i) {
+    if (i + 1 === val) { btn.classList.add("selected"); btn.setAttribute("aria-checked", "true"); }
+    else { btn.classList.remove("selected"); btn.setAttribute("aria-checked", "false"); }
+  });
+  updateNextBtn();
+}
+
+function updateNextBtn() {
+  const comp = COMPONENTS[current];
+  const allAnswered = comp.questions.every(function(q, qi) { return answers[comp.id + "_" + qi]; });
+  document.getElementById("btn-next").disabled = !allAnswered;
+}
+
+function goNext() {
+  if (current < COMPONENTS.length - 1) { current++; renderSection(); }
+  else { showResults(); }
+}
+
+function goBack() {
+  if (current > 0) { current--; renderSection(); }
+}
+
+function getScore(id) {
+  const comp = COMPONENTS.find(function(c) { return c.id === id; });
+  let total = 0;
+  comp.questions.forEach(function(q, qi) { total += answers[id + "_" + qi] || 0; });
+  return total;
+}
+
+function getBand(score) {
+  if (score >= 13) return { label: "Strong", color: "#1A6E63", bg: "#E5F4F2" };
+  if (score >= 10) return { label: "Developing", color: "#A85F00", bg: "#FDF4E7" };
+  return { label: "Growth Area", color: "#B84030", bg: "#FBECEA" };
+}
+
+function getBarColor(score) {
+  if (score >= 13) return "#1A6E63";
+  if (score >= 10) return "#5A3EA0";
+  return "#B84030";
+}
+
+function showResults() {
+  document.getElementById("screen-quiz").classList.remove("active");
+  document.getElementById("screen-results").classList.add("active");
+
+  const scores = {};
+  COMPONENTS.forEach(function(c) { scores[c.id] = getScore(c.id); });
+
+  const indScores = COMPONENTS.filter(function(c) { return c.layer === "individual"; }).map(function(c) { return scores[c.id]; });
+  const colScores = COMPONENTS.filter(function(c) { return c.layer === "collective"; }).map(function(c) { return scores[c.id]; });
+  const indAvg = indScores.reduce(function(a,b){return a+b;},0) / indScores.length;
+  const colAvg = colScores.reduce(function(a,b){return a+b;},0) / colScores.length;
+
+  let profileKey;
+  if (indAvg >= 11 && colAvg >= 11) profileKey = "authentic";
+  else if (indAvg >= 11 && colAvg < 11) profileKey = "grounded";
+  else if (indAvg < 11 && colAvg >= 11) profileKey = "collective";
+  else profileKey = "emerging";
+
+  const profile = PROFILES[profileKey];
+
+  const sorted = COMPONENTS.slice().sort(function(a,b){ return scores[b.id] - scores[a.id]; });
+  const topThree = sorted.slice(0, 3);
+  const bottomThree = sorted.slice(-3).reverse();
+
+  const recSet = {};
+  bottomThree.forEach(function(c) {
+    if (RECS[c.id]) recSet[c.id] = RECS[c.id];
+  });
+  const recKeys = Object.keys(recSet).slice(0, 3);
+
+  let html = '';
+
+  html += '<div class="results-hero">';
+  html += '<p class="eyebrow">Your Results</p>';
+  html += '<h1 class="results-title">Your Leadership Profile</h1>';
+  html += '<p class="results-tagline">Based on your responses across all 11 components of Authentic Leadership with a Collective Conscience.</p>';
+  html += '</div>';
+
+  html += '<div class="profile-card ' + profile.cls + '">';
+  html += '<div class="profile-label">Your Profile</div>';
+  html += '<div class="profile-name">' + profile.name + '</div>';
+  html += '<div class="profile-desc">' + profile.desc + '</div>';
+  html += '</div>';
+
+  // Layer summary tiles
+  function layerInterp(avg, layer) {
+    if (avg >= 13) {
+      return layer === 'individual'
+        ? 'Your inner core as a leader is well established. You lead from a real place.'
+        : 'You extend your leadership outward with intention. Purpose and collaboration are visible in how you work.';
+    }
+    if (avg >= 10) {
+      return layer === 'individual'
+        ? 'The foundations are in place. There are specific components worth deliberate attention.'
+        : 'You think beyond yourself, and there is room to make that more consistent in practice.';
+    }
+    return layer === 'individual'
+      ? 'This is where your most important work begins. Strengthening the inner foundation will unlock everything else.'
+      : 'There is room to extend your leadership beyond your own practice. The components below show where to start.';
+  }
+  function layerBand(avg) {
+    if (avg >= 13) return { label: 'Strong', bg: '#E5F4F2', color: '#1A6E63' };
+    if (avg >= 10) return { label: 'Developing', bg: '#FDF4E7', color: '#A85F00' };
+    return { label: 'Growth Area', bg: '#FBECEA', color: '#B84030' };
+  }
+  const indBand = layerBand(indAvg);
+  const colBand = layerBand(colAvg);
+  html += '<div class="layer-summary">';
+  html += '<div class="layer-summary-tile individual">';
+  html += '<div class="layer-summary-eyebrow">Individual Layer</div>';
+  html += '<div class="layer-summary-score"><span class="num">' + indAvg.toFixed(1) + '</span><span class="max">/ 15 avg</span><span class="band" style="background:' + indBand.bg + ';color:' + indBand.color + ';">' + indBand.label + '</span></div>';
+  html += '<div class="layer-summary-desc">' + layerInterp(indAvg, 'individual') + '</div>';
+  html += '</div>';
+  html += '<div class="layer-summary-tile collective">';
+  html += '<div class="layer-summary-eyebrow">Collective Layer</div>';
+  html += '<div class="layer-summary-score"><span class="num">' + colAvg.toFixed(1) + '</span><span class="max">/ 15 avg</span><span class="band" style="background:' + colBand.bg + ';color:' + colBand.color + ';">' + colBand.label + '</span></div>';
+  html += '<div class="layer-summary-desc">' + layerInterp(colAvg, 'collective') + '</div>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="scores-section">';
+  html += '<div class="scores-title">Your Scores by Component</div>';
+
+  html += '<div class="layer-block">';
+  html += '<div class="layer-title-row"><div class="layer-title-main">Individual Layer · How you show up as a leader</div><div class="layer-title-avg">Avg <strong>' + indAvg.toFixed(1) + '</strong> / 15</div></div>';
+  COMPONENTS.filter(function(c){return c.layer==="individual";}).forEach(function(c) {
+    const s = scores[c.id];
+    const band = getBand(s);
+    const pct = Math.round((s / 15) * 100);
+    html += '<div class="score-row">';
+    html += '<div class="score-label">' + c.name + '</div>';
+    html += '<div class="score-bar-bg"><div class="score-bar-fill" style="width:' + pct + '%;background:' + getBarColor(s) + ';"></div></div>';
+    html += '<div class="score-val">' + s + '/15</div>';
+    html += '<span class="band-pill" style="background:' + band.bg + ';color:' + band.color + ';">' + band.label + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  html += '<div class="layer-block">';
+  html += '<div class="layer-title-row"><div class="layer-title-main">Collective Layer · How you lead beyond yourself</div><div class="layer-title-avg">Avg <strong>' + colAvg.toFixed(1) + '</strong> / 15</div></div>';
+  COMPONENTS.filter(function(c){return c.layer==="collective";}).forEach(function(c) {
+    const s = scores[c.id];
+    const band = getBand(s);
+    const pct = Math.round((s / 15) * 100);
+    html += '<div class="score-row">';
+    html += '<div class="score-label">' + c.name + '</div>';
+    html += '<div class="score-bar-bg"><div class="score-bar-fill" style="width:' + pct + '%;background:' + getBarColor(s) + ';"></div></div>';
+    html += '<div class="score-val">' + s + '/15</div>';
+    html += '<span class="band-pill" style="background:' + band.bg + ';color:' + band.color + ';">' + band.label + '</span>';
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="narrative-section">';
+  html += '<div class="narrative-block strength">';
+  html += '<h4>Where you are strongest</h4>';
+  html += '<p>Your highest scoring areas are <strong>' + topThree.map(function(c){return c.name;}).join(", ") + '</strong>. These are the foundations you lead from. They are visible to the people around you and worth continuing to build on deliberately.</p>';
+  html += '</div>';
+  html += '<div class="narrative-block growth">';
+  html += '<h4>Where the growth is</h4>';
+  html += '<p>Your lowest scoring areas are <strong>' + bottomThree.map(function(c){return c.name;}).join(", ") + '</strong>. These are not weaknesses. They are the areas where honest reflection has the most to offer you right now. The assessments below are your next steps.</p>';
+  html += '</div>';
+
+  // Mentor advice cards for bottom 3 components
+  html += '<div class="mentor-section">';
+  html += '<div class="mentor-title">Mentor Advice for Your Growth Areas</div>';
+  html += '<p class="mentor-intro">From the Metisfy knowledge base, practical advice for each of your three lowest scoring components.</p>';
+  bottomThree.forEach(function(c) {
+    var advice = MENTOR_ADVICE[c.id] || "Reflect on what this component means in your day-to-day leadership and identify one small change you could make this week.";
+    html += '<div class="mentor-card">';
+    html += '<div class="mentor-card-header">';
+    html += '<div class="mentor-card-icon">' + (COMP_ICONS[c.id] || '') + '</div>';
+    html += '<div class="mentor-card-name">' + c.name + '</div>';
+    html += '</div>';
+    html += '<p class="mentor-card-advice">' + advice + '</p>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  html += '</div>';
+
+  if (recKeys.length > 0) {
+    html += '<div class="recs-section">';
+    html += '<div class="recs-title">Recommended Next Steps</div>';
+    html += '<p class="recs-sub">Based on your lowest scoring components, these Metisfy assessments will help you go deeper.</p>';
+    recKeys.forEach(function(k) {
+      const r = recSet[k];
+      html += '<a class="rec-card" href="' + r.href + '">';
+      html += '<div class="rec-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 9h12M9 4l5 5-5 5"/></svg></div>';
+      html += '<div class="rec-text"><div class="rec-name">' + r.title + '</div><div class="rec-why">' + r.why + '</div></div>';
+      html += '<svg class="rec-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+      html += '</a>';
+    });
+    html += '</div>';
+  }
+
+  html += '<div class="reflection-box">';
+  html += '<h4>A question to sit with</h4>';
+  html += '<p>Looking at your results, what is the one thing you could do differently in the next two weeks that would reflect a more authentic version of your leadership? Not a programme, not a plan. One thing.</p>';
+  html += '</div>';
+
+  html += '<div class="footer-actions">';
+  html += '<button class="btn-download" id="btn-download" onclick="downloadPDF()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v8M5 7l3 3 3-3"/><path d="M2 12v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-1"/></svg>Download PDF</button>';
+  html += '<button class="btn-secondary" onclick="location.reload()">Retake Assessment</button>';
+  html += '</div>';
+
+  html += '<p class="footer-text">Metisfy | Authentic Leadership with a Collective Conscience | &copy; 2026 Metisfy. All rights reserved.</p>';
+
+  document.getElementById("results-body").innerHTML = html;
+  window.scrollTo(0, 0);
+
+  setTimeout(function() {
+    document.querySelectorAll(".score-bar-fill").forEach(function(bar) {
+      const w = bar.style.width;
+      bar.style.width = "0%";
+      setTimeout(function(){ bar.style.width = w; }, 100);
+    });
+  }, 200);
+}
+</script>
+</body>
+</html>
